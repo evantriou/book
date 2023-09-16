@@ -6,11 +6,11 @@ import { TabCardProps } from './TabCard';
 import TabCard from './TabCard'; // Import the TabCard component
 import Header from './Header';
 import SimulationPopup from './simulations/SimulationPopup';
-import boidsImg from './boids.png'; // relative path to image
-import sortImg from './sort.png'; // relative path to image
-import pathImg from './path.png'; // relative path to image
-import tspImg from './tsp.png'; // relative path to image
-import golImg from './gol.png'; // relative path to image
+import boidsImg from './pictures/boids.png'; // relative path to image
+import sortImg from './pictures/sort.png'; // relative path to image
+import pathImg from './pictures/path.png'; // relative path to image
+import tspImg from './pictures/tsp.png'; // relative path to image
+import golImg from './pictures/gol.png'; // relative path to image
 import { SimuEngine } from './simulations/SimuEngine';
 
 
@@ -69,11 +69,11 @@ function App() {
     },
   ];
   return (
-    <div className="App">
-      <Header/>
+    <div className="App" data-bs-theme="dark" style={{background: '#2b3035',}}>
+    <Header/>
       <main className="App-main">
         <Container>
-          <Row  xs={1} md={4}>
+          <Row xs={1} md={4}>
             {tabsProps.map((tab, index) => (
               <Col key={index}  style={{ margin: '1rem 0' }}>
                 <TabCard 

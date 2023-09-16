@@ -119,7 +119,7 @@ function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: Simulat
             </Modal.Header>
             <Modal.Body id="CanvasContainer">
                 {/* Render the simulation canvas */}
-                <canvas ref={canvasRef} style={{flex: '1', objectPosition: 'center'}} ></canvas>
+                <canvas ref={canvasRef} style={{flex: '1', objectPosition: 'center'}}></canvas>
             </Modal.Body>
             <Modal.Footer>
                 {/* Render the toolbar */}
