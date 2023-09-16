@@ -9,6 +9,8 @@ import { SimuEngineSort } from './sort/SimuEngineSort';
 import { ToolbarSort } from './sort/ToolbarSort';
 import { SimuEnginePaths as SimuEnginePaths } from './paths/SimuEnginePaths';
 import { ToolbarPaths } from './paths/ToolbarPaths';
+import { SimuEngineTSP } from './tsp/SimuEngineTSP';
+import { ToolbarTSP } from './tsp/ToolbarTSP';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
@@ -78,10 +80,14 @@ function SimulationPopup({ selectedSimulation, onClose }: SimulationPopupProps) 
             // Create an instance of the Paths simulation toolbar class
             setToolbar(new ToolbarPaths(newSimulationCanvas));
         }
+        else if (selectedSimulation === 'TSP') {
+            // Create an instance of the TSP simulation canvas class
+            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
+            // Create an instance of the TSP simulation toolbar class
+            setToolbar(new ToolbarTSP(newSimulationCanvas));
+        }
         else{
-            // Create an instance of the Boids simulation canvas class
-            newSimulationCanvas = new SimuEngineBoids(canvas, ctx, canvasRef);
-            // Create an instance of the Boids simulation toolbar class
+            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
         }
         // Add more simulation logic here for other types
 

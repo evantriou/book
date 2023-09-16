@@ -6,6 +6,12 @@ import { TabCardProps } from './TabCard';
 import TabCard from './TabCard'; // Import the TabCard component
 import Header from './Header';
 import SimulationPopup from './simulations/SimulationPopup';
+import boidsImg from './boids.png'; // relative path to image
+import sortImg from './sort.png'; // relative path to image
+import pathImg from './path.png'; // relative path to image
+import tspImg from './tsp.png'; // relative path to image
+
+
 function App() {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -25,22 +31,26 @@ function App() {
     {
       tabName: "Boids Simulation",
       description: "Simulates birds flight or fishes moves in 2D Canvas.",
-      onTryClick: () => handleTryClick("Boids Simulation")
+      onTryClick: () => handleTryClick("Boids Simulation"),
+      pathImg: boidsImg
     },
     {
       tabName: "Sorting algorithms",
       description: "Different sorting algorithms visualization 2D Canvas.",
-      onTryClick: () => handleTryClick("Sorting algorithms")
+      onTryClick: () => handleTryClick("Sorting algorithms"),
+      pathImg: sortImg
     },
     {
       tabName: "Shortest Paths",
       description: "Simulates different shortest paths algorithms in 2D Canvas.",
-      onTryClick: () => handleTryClick("Shortest Paths")
+      onTryClick: () => handleTryClick("Shortest Paths"),
+      pathImg: pathImg
     },
     {
       tabName: "TSP",
       description: "Travelling salesman problem simulation in 2D Canvas.",
-      onTryClick: () => handleTryClick("TSP")
+      onTryClick: () => handleTryClick("TSP"),
+      pathImg: tspImg
     }
   ];
   return (
@@ -55,6 +65,7 @@ function App() {
                 tabName={tab.tabName} 
                 description={tab.description}
                 onTryClick={() => handleTryClick(tab.tabName)}
+                pathImg = {tab.pathImg}
                 />
               </Col>
             ))}
