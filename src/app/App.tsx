@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import './App.css';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -10,12 +10,17 @@ import boidsImg from './boids.png'; // relative path to image
 import sortImg from './sort.png'; // relative path to image
 import pathImg from './path.png'; // relative path to image
 import tspImg from './tsp.png'; // relative path to image
+import golImg from './gol.png'; // relative path to image
+import { SimuEngine } from './simulations/SimuEngine';
 
 
 function App() {
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedSimulation, setSelectedSimulation] = useState<string | null>(null);
+
+  // Create a ref to hold the simulation engine instance
+  const simuEngineRef = useRef<SimuEngine | null>(null);
 
   const handleTryClick = (tabName: string) => {
     setSelectedSimulation(tabName);
@@ -25,6 +30,10 @@ function App() {
   const closePopup = () => {
     setSelectedSimulation(null);
     setIsPopupVisible(false);
+    // Stop the simulation when the pop-up is closed
+    if (simuEngineRef.current) {
+      simuEngineRef.current.stopLoop();
+    }
   };
 
   const tabsProps: TabCardProps[] = [
@@ -51,7 +60,13 @@ function App() {
       description: "Travelling salesman problem simulation in 2D Canvas.",
       onTryClick: () => handleTryClick("TSP"),
       pathImg: tspImg
-    }
+    },
+    {
+      tabName: "Conway's Game of Life",
+      description: "Simulation of Conway's Game of Life.",
+      onTryClick: () => handleTryClick("Conway's Game of Life"),
+      pathImg: golImg
+    },
   ];
   return (
     <div className="App">
@@ -60,7 +75,7 @@ function App() {
         <Container>
           <Row  xs={1} md={4}>
             {tabsProps.map((tab, index) => (
-              <Col key={index}>
+              <Col key={index}  style={{ margin: '1rem 0' }}>
                 <TabCard 
                 tabName={tab.tabName} 
                 description={tab.description}
@@ -77,6 +92,7 @@ function App() {
           <SimulationPopup
             onClose={closePopup}
             selectedSimulation={selectedSimulation}
+            simuEngineRef={simuEngineRef}
           />
         )}
     </div>

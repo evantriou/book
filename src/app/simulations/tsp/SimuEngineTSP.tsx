@@ -323,7 +323,9 @@ export class SimuEngineTSP extends SimuEngine {
     }
 
     stop(): void {
+        if (!this.ctx) return;
         this.stopLoop();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
     updateSettings(settings: any): void {
     }

@@ -11,17 +11,20 @@ import { SimuEnginePaths as SimuEnginePaths } from './paths/SimuEnginePaths';
 import { ToolbarPaths } from './paths/ToolbarPaths';
 import { SimuEngineTSP } from './tsp/SimuEngineTSP';
 import { ToolbarTSP } from './tsp/ToolbarTSP';
+import { SimuEngineGOL } from './gol/SimuEngineGOL';
+import { ToolbarGOL } from './gol/ToolbarGOL';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
     onClose: () => void;
+    simuEngineRef:  RefObject<SimuEngine | null>;
 }
 
 // Define types for state variables
 type SimulationCanvasType = SimuEngine | null;
 type ToolbarType = Toolbar | null;
 
-function SimulationPopup({ selectedSimulation, onClose }: SimulationPopupProps) {
+function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: SimulationPopupProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     // Define a local state to hold the simulation canvas and toolbar instances
     const [simulationCanvas, setSimulationCanvas] = useState<SimulationCanvasType | null>(null);
@@ -86,6 +89,12 @@ function SimulationPopup({ selectedSimulation, onClose }: SimulationPopupProps) 
             // Create an instance of the TSP simulation toolbar class
             setToolbar(new ToolbarTSP(newSimulationCanvas));
         }
+        else if (selectedSimulation === "Conway's Game of Life") {
+            // Create an instance of the TSP simulation canvas class
+            newSimulationCanvas = new SimuEngineGOL(canvas, ctx, canvasRef);
+            // Create an instance of the TSP simulation toolbar class
+            setToolbar(new ToolbarGOL(newSimulationCanvas));
+        }
         else{
             newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
         }
@@ -98,9 +107,10 @@ function SimulationPopup({ selectedSimulation, onClose }: SimulationPopupProps) 
             // Clean up the simulation when the popup is closed
             if (newSimulationCanvas) {
                 // Dispose of resources, stop ongoing processes, etc.
+                newSimulationCanvas.stop();
             }
         };
-    }, [selectedSimulation]);
+    }, [selectedSimulation, simuEngineRef]);
 
     return (
         <Modal show={!!selectedSimulation} centered className="modal-xl">

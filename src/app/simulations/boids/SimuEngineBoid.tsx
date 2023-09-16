@@ -118,13 +118,12 @@ export class SimuEngineBoids extends SimuEngine {
         this.ctx.fill();
 
         this.ctx.restore();
-
-        console.log(boid.heading)
     }
 
     stop(): void {
-        // Implement stop logic for Boids Simulation
+        if (!this.ctx) return;
         this.stopLoop();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     updateSettings(settings: any): void {

@@ -17,7 +17,7 @@ export class SimuEnginePaths extends SimuEngine {
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
         super(canvas, ctx, canvasRef);
 
-        this.cellSideLength = 10;
+        this.cellSideLength = 23;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
         this.numCols = Math.floor(this.canvas.width / this.cellSideLength);
         this.cells = [];
@@ -42,11 +42,7 @@ export class SimuEnginePaths extends SimuEngine {
 
     start(): void {
         if (!this.ctx) return;
-        this.init();
-    }
-
-    init(): void {
-
+        
         for (let i = 0; i < this.numRows; i++) {
             const row = [];
             for (let j = 0; j < this.numCols; j++) {
@@ -66,7 +62,6 @@ export class SimuEnginePaths extends SimuEngine {
             this.cells.push(row);
         }
     }
-
 
     do(): void {
         if (!this.ctx) return;
@@ -226,6 +221,7 @@ export class SimuEnginePaths extends SimuEngine {
 
     stop(): void {
         if (!this.ctx) return;
+        this.stopLoop();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 

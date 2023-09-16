@@ -36,7 +36,8 @@ export class Boid {
         const rndDirY = (Math.random() > 0.5)?(-1):(1);
         const rndMoveY = rndDirY * Math.random(); 
 
-        const totalHeadingX = alignment.x / 20 + cohesion.x / 40 + separation.x / 20 + rndMoveX*0.5 - this.x / 1000;
+        // Found coefs after different tries
+        const totalHeadingX = alignment.x / 20 + cohesion.x / 40 + separation.x / 20 + rndMoveX*0.5;
         const totalHeadingY = alignment.y / 20 + cohesion.y / 40 + separation.y / 20 + rndMoveY*0.5;
 
         // Update the boid's velocity based on the combined heading.
@@ -52,10 +53,10 @@ export class Boid {
             this.velocityY = (this.velocityY / speed) * maxVelocity;
         }
 
-        this.heading = Math.atan2(this.velocityY, this.velocityX); // Calculate initial heading.
+        this.heading = Math.atan2(this.velocityY, this.velocityX); // updates heading.
     
         // Update the position based on the velocity.
-        this.x += this.velocityX;
+        this.x += this.velocityX - this.x / 1000;
         this.y += this.velocityY;
     
         // Implement wrapping or boundary checking (as before) to keep boids within the canvas.
@@ -196,7 +197,7 @@ export class Boid {
     
             if (distance <= radius) {
                 // Neighbor is too close, adjust the separation vector to move away.
-                const scaleFactor = 1 / (distance ** 10 + 1); // Adjust the exponent as needed.
+                const scaleFactor = (1 / (distance ** 100) + 1); // Adjust the exponent as needed.
                 separationX += (this.x - neighbor.x) * (1 + scaleFactor);
                 separationY += (this.y - neighbor.y) * (1 + scaleFactor);
             }
