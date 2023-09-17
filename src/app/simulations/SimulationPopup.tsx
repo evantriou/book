@@ -17,6 +17,8 @@ import { SimuEngineFractal } from './fractal/SimuEngineFractal';
 import { ToolbarFractal } from './fractal/ToolbarFractal';
 import { SimuEnginePerlin } from './perlin/SimuEnginePerlin';
 import { ToolbarPerlin } from './perlin/ToolbarPerlin';
+import { SimuEngineDLA } from './dla/SimuEngineDLA';
+import { ToolbarDLA } from './dla/ToolbarDLA';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
@@ -105,11 +107,17 @@ function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: Simulat
             // Create an instance of the TSP simulation toolbar class
             setToolbar(new ToolbarFractal(newSimulationCanvas));
         }
-        else if (selectedSimulation === "Terrain generation") {
+        else if (selectedSimulation === "Perlin Noise") {
             // Create an instance of the TSP simulation canvas class
             newSimulationCanvas = new SimuEnginePerlin(canvas, ctx, canvasRef);
             // Create an instance of the TSP simulation toolbar class
             setToolbar(new ToolbarPerlin(newSimulationCanvas));
+        }
+        else if (selectedSimulation === "Blob Simulation") {
+            // Create an instance of the TSP simulation canvas class
+            newSimulationCanvas = new SimuEngineDLA(canvas, ctx, canvasRef);
+            // Create an instance of the TSP simulation toolbar class
+            setToolbar(new ToolbarDLA(newSimulationCanvas));
         }
         else{
             newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
