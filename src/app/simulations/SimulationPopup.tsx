@@ -13,6 +13,10 @@ import { SimuEngineTSP } from './tsp/SimuEngineTSP';
 import { ToolbarTSP } from './tsp/ToolbarTSP';
 import { SimuEngineGOL } from './gol/SimuEngineGOL';
 import { ToolbarGOL } from './gol/ToolbarGOL';
+import { SimuEngineFractal } from './fractal/SimuEngineFractal';
+import { ToolbarFractal } from './fractal/ToolbarFractal';
+import { SimuEnginePerlin } from './perlin/SimuEnginePerlin';
+import { ToolbarPerlin } from './perlin/ToolbarPerlin';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
@@ -94,6 +98,18 @@ function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: Simulat
             newSimulationCanvas = new SimuEngineGOL(canvas, ctx, canvasRef);
             // Create an instance of the TSP simulation toolbar class
             setToolbar(new ToolbarGOL(newSimulationCanvas));
+        }
+        else if (selectedSimulation === "Fractal Simulation") {
+            // Create an instance of the TSP simulation canvas class
+            newSimulationCanvas = new SimuEngineFractal(canvas, ctx, canvasRef);
+            // Create an instance of the TSP simulation toolbar class
+            setToolbar(new ToolbarFractal(newSimulationCanvas));
+        }
+        else if (selectedSimulation === "Terrain generation") {
+            // Create an instance of the TSP simulation canvas class
+            newSimulationCanvas = new SimuEnginePerlin(canvas, ctx, canvasRef);
+            // Create an instance of the TSP simulation toolbar class
+            setToolbar(new ToolbarPerlin(newSimulationCanvas));
         }
         else{
             newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);

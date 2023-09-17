@@ -11,6 +11,9 @@ import sortImg from './pictures/sort.png'; // relative path to image
 import pathImg from './pictures/path.png'; // relative path to image
 import tspImg from './pictures/tsp.png'; // relative path to image
 import golImg from './pictures/gol.png'; // relative path to image
+import fractalImg from './pictures/fractal.png'; // relative path to image
+import perlinImg from './pictures/perlin.png'; // relative path to image
+import todoImg from './pictures/todo.png'; // relative path to image
 import { SimuEngine } from './simulations/SimuEngine';
 
 
@@ -63,13 +66,31 @@ function App() {
     },
     {
       tabName: "Conway's Game of Life",
-      description: "Simulation of Conway's Game of Life.",
+      description: "Simulation of Conway's Game of Life in 2D canvas.",
       onTryClick: () => handleTryClick("Conway's Game of Life"),
       pathImg: golImg
     },
+    {
+      tabName: "Fractal Simulation",
+      description: "Sierpinsky triangle simulation in 2D canvas.",
+      onTryClick: () => handleTryClick("Fractal Simulation"),
+      pathImg: fractalImg // Replace 'fractalImg' with the path to your fractal image
+    },
+    {
+      tabName: "Terrain generation",
+      description: "Perlin noise simulation in 2D canvas (work in progress).",
+      onTryClick: () => handleTryClick("Terrain generation"),
+      pathImg: perlinImg // Replace 'fractalImg' with the path to your fractal image
+    } ,
+    {
+      tabName: "Comming soon",
+      description: "No precise idea yet, maybe evolution simulation (work in progress).",
+      onTryClick: () => handleTryClick("Fractal Simulation"),
+      pathImg: todoImg // Replace 'fractalImg' with the path to your fractal image
+    }
   ];
   return (
-    <div className="App" data-bs-theme="dark" style={{background: '#2b3035',}}>
+    <div className="App">
     <Header/>
       <main className="App-main">
         <Container>
