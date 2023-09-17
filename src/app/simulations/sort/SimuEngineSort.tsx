@@ -1,5 +1,6 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
+import { interpolateRgbBasisClosed } from "d3-interpolate";
 
 // Paths Simulation engine
 
@@ -44,18 +45,37 @@ export class SimuEngineSort extends SimuEngine {
     renderBar(bar: Bar): void {
         if (!this.ctx) return;
         const x = bar.index * this.barWidth;
-        const y = 0;
+        const y = this.canvas.height;
         const width = this.barWidth;
-        const height = bar.value * this.valueToHeightRatio;
-        const borderWidth = 2;
+        const height = - bar.value * this.valueToHeightRatio;
+        // const borderWidth = 2;
 
-        this.ctx.fillStyle = 'blue';
+        // this.ctx.fillStyle = 'white';
+        // this.ctx.fillRect(x - borderWidth, y - borderWidth, width + 2 * borderWidth, height + 2 * borderWidth);
 
-        this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(x - borderWidth, y - borderWidth, width + 2 * borderWidth, height + 2 * borderWidth);
-
-        this.ctx.fillStyle = 'blue';
+        this.ctx.fillStyle = this.getColorBasedOnDistance(bar.value, 0, this.maxBarValue);
         this.ctx.fillRect(x, y, width, height);
+    }
+
+    // Function to calculate the circle color based on this.r
+    private getColorBasedOnDistance(height: number, minHeight: number, maxHeight: number): string {
+
+        const colors = [
+            'rgb(152, 251, 152)',     // pale green
+            'rgb(0, 128, 0)',         // green
+            'rgb(60, 179, 113)',      // medium sea green
+            'rgb(70, 130, 180)',      // steel blue
+            'rgb(100, 149, 237)',     // cornflower blue
+            'rgb(135, 206, 235)'      // sky blue
+        ];
+
+        // Create an interpolation function for colors
+        const interpolateRes = interpolateRgbBasisClosed(colors);
+    
+        // Interpolate the color based on radius
+        const color = interpolateRes((height - minHeight) / (minHeight - maxHeight));
+    
+        return color;
     }
 
     sort(): void {
@@ -84,7 +104,9 @@ export class SimuEngineSort extends SimuEngine {
     do(): void {
         if (!this.ctx) return;
     
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Draw the background with a regular fillRect
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.71)"; // Adjust the background color
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
         // Check if there are moves left to play
         if (this.timer < this.moves.length) {

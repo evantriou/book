@@ -180,12 +180,14 @@ class Walker {
     private getColorBasedOnRadius(radius: number, minRadius: number, maxRadius: number): string {
 
         const colors = [
-            'rgb(0, 128, 0)',     // green
-            'rgb(60, 179, 113)',  // medium sea green
-            'rgb(70, 130, 180)',  // steel blue
-            'rgb(0, 0, 128)',     // navy
-            'rgb(25, 25, 112)'    // midnight blue
+            'rgb(152, 251, 152)',     // pale green
+            'rgb(0, 128, 0)',         // green
+            'rgb(60, 179, 113)',      // medium sea green
+            'rgb(70, 130, 180)',      // steel blue
+            'rgb(100, 149, 237)',     // cornflower blue
+            'rgb(135, 206, 235)'      // sky blue
         ];
+        
 
         // Create an interpolation function for colors
         const interpolateRes = interpolateRgbBasisClosed(colors);

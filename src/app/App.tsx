@@ -79,13 +79,13 @@ function App() {
     },
     {
       tabName: "Perlin Noise",
-      description: "Perlin noise flat simulation in 2D canvas.",
+      description: "Perlin noise flat simulation in 2D canvas (work in progress).",
       onTryClick: () => handleTryClick("Terrain generation"),
       pathImg: perlinImg // Replace 'fractalImg' with the path to your fractal image
     } ,
     {
       tabName: "Blob Simulation",
-      description: "Diffusion-Limited Aggregation in 2D canvas (work in progress).",
+      description: "Diffusion-Limited Aggregation in 2D canvas.",
       onTryClick: () => handleTryClick("Fractal Simulation"),
       pathImg: blobImg // relative path to image
       // Replace 'fractalImg' with the path to your fractal image

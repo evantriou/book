@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { Boid } from "./Boid";
+import { interpolateRgbBasisClosed } from "d3-interpolate";
 
 // Boids Simulation engine
 export class SimuEngineBoids extends SimuEngine {
@@ -61,8 +62,11 @@ export class SimuEngineBoids extends SimuEngine {
     public do(): void {
         // This method is called in an animation loop.
         if (!this.ctx) return;
-        // Clear the canvas before rendering the next frame.
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Draw the background with a regular fillRect
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.71)"; // Adjust the background color
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
         // Update the position and behavior of each boid in the simulation.
         for (const boid of this.boids) {
             // Build an array of other boids (excluding the current boid).
@@ -78,22 +82,8 @@ export class SimuEngineBoids extends SimuEngine {
         if (!this.ctx) return;
         // Map distToFirstNeighbor to a color between red (0) and blue (500).
         const distToFirstNeighbor = boid.distToFirstNeighbor;
-        let r, g, b;
 
-        if (distToFirstNeighbor <= 50) {
-            // Transition from red to green for lower values.
-            r = 255 - (distToFirstNeighbor / 50) * 255;
-            g = (distToFirstNeighbor / 50) * 255;
-            b = 0;
-        } else {
-            // Transition from green to blue for higher values.
-            r = 0;
-            g = 255 - ((distToFirstNeighbor - 50) / 50) * 255;
-            b = ((distToFirstNeighbor - 50) / 50) * 255;
-        }
-
-        // Calculate the color based on distToFirstNeighbor.
-        const color = `rgb(${r}, ${g}, ${b})`;
+        const color = this.getColorBasedOnDistance(distToFirstNeighbor, 25, 200);
 
         // Implement rendering logic for a single boid.
         // You can use this.context to draw the boid on the canvas.
@@ -113,11 +103,29 @@ export class SimuEngineBoids extends SimuEngine {
        
         this.ctx.fillStyle = color;
         this.ctx.fill();
-       
-        this.ctx.fillStyle = color;
-        this.ctx.fill();
 
         this.ctx.restore();
+    }
+
+    // Function to calculate the circle color based on this.r
+    private getColorBasedOnDistance(dist: number, minDist: number, maxDist: number): string {
+
+        const colors = [
+            'rgb(152, 251, 152)',     // pale green
+            'rgb(0, 128, 0)',         // green
+            'rgb(60, 179, 113)',      // medium sea green
+            'rgb(70, 130, 180)',      // steel blue
+            'rgb(100, 149, 237)',     // cornflower blue
+            'rgb(135, 206, 235)'      // sky blue
+        ];
+
+        // Create an interpolation function for colors
+        const interpolateRes = interpolateRgbBasisClosed(colors);
+    
+        // Interpolate the color based on radius
+        const color = interpolateRes((dist - minDist) / (minDist - maxDist));
+    
+        return color;
     }
 
     stop(): void {
