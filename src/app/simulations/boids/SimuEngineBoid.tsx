@@ -64,7 +64,7 @@ export class SimuEngineBoids extends SimuEngine {
         if (!this.ctx) return;
 
         // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.71)"; // Adjust the background color
+        this.ctx.fillStyle = "rgba(25, 25, 25, 1)"; // Adjust the background color
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Update the position and behavior of each boid in the simulation.
@@ -111,13 +111,12 @@ export class SimuEngineBoids extends SimuEngine {
     private getColorBasedOnDistance(dist: number, minDist: number, maxDist: number): string {
 
         const colors = [
-            'rgb(152, 251, 152)',     // pale green
-            'rgb(0, 128, 0)',         // green
-            'rgb(60, 179, 113)',      // medium sea green
-            'rgb(70, 130, 180)',      // steel blue
-            'rgb(100, 149, 237)',     // cornflower blue
-            'rgb(135, 206, 235)'      // sky blue
-        ];
+            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
+            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
+            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
+            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
+            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
+        ];        
 
         // Create an interpolation function for colors
         const interpolateRes = interpolateRgbBasisClosed(colors);

@@ -196,23 +196,31 @@ export class SimuEnginePaths extends SimuEngine {
         const y = cell.y * this.cellSideLength;
 
         // Draw cell border
-        this.ctx.strokeStyle = 'black'; // Border color
+        this.ctx.strokeStyle = 'white'; // Border color
         this.ctx.lineWidth = 1; // Border width
         this.ctx.strokeRect(x, y, this.cellSideLength, this.cellSideLength);
 
+        const colors = [
+            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
+            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
+            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
+            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
+            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
+        ]; 
+
         // Draw cell based on its type
         if (cell.isDeparture) {
-            this.ctx.fillStyle = 'green'; // Departure cell is green
+            this.ctx.fillStyle = colors[0];
         } else if (cell.isArrival) {
-            this.ctx.fillStyle = 'red'; // Arrival cell is red
+            this.ctx.fillStyle = colors[0];
         } else if (cell.isWall) {
-            this.ctx.fillStyle = 'brown'; // Wall cell is brown
+            this.ctx.fillStyle = colors[4];
         } else if (cell.isValidated) {
-            this.ctx.fillStyle = 'green'; // Validated cell is green
+            this.ctx.fillStyle = colors[0];
         } else if (cell.isClosed) {
-            this.ctx.fillStyle = 'blue'; // Closed cell is blue
+            this.ctx.fillStyle = colors[2];
         } else {
-            this.ctx.fillStyle = 'white'; // Normal cell is white
+            this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
         }
 
         // Fill the cell without overlapping the borders
