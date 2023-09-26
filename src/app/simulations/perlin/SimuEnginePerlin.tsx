@@ -1,20 +1,21 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
-import { Context } from "vm";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEnginePerlin extends SimuEngine {
 
     private pixelMatrix: ImageData | null;
     private perm: number[]; // Permutation array
     private gradP: Vec2[];
-
-    private center: { x: number; y: number };
-    private deformedCirclePath: Path2D;
+    private time: number;
+    private scale: number;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
         super(canvas, ctx, canvasRef);
 
         this.pixelMatrix = null;
+        this.time = 0.5;
+        this.scale = 0.05;
 
         // Initialize permutation array
         this.perm = [...Array(512)].map(() => Math.floor(Math.random() * 256));
@@ -30,42 +31,15 @@ export class SimuEnginePerlin extends SimuEngine {
             ).normalize();
         }
 
-        // Calculate the center of the canvas
-        this.center = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
-
-        // Define the path for the deformed and twisted circle
-        this.deformedCirclePath = this.createDeformedCirclePath();
-
-        this.start();
+        this.init();
     }
-
-    // Create a deformed and twisted circle path with larger spikes for a subset of points
-    // WORK IN PROGRESS
-    private createDeformedCirclePath(): Path2D {
-        const path = new Path2D();
-        const numPoints = 100; // Adjust the number of points for smoothness
-        const radius = this.canvas.width / 4; // Adjust the radius
-
-        for (let i = 0; i < numPoints; i++) {
-            const angle = (i / numPoints) * Math.PI * 2;
-            const x = this.center.x + radius * Math.cos(angle);
-            const y = this.center.y + radius * Math.sin(angle);
-
-            // Keep the point unaltered
-            if (i === 0) {
-                path.moveTo(x, y);
-            } else {
-                path.lineTo(x, y);
-            }
-        }
-
-        path.closePath();
-        return path;
-    }
-
 
     // Méthode pour démarrer la simulation
     start(): void {
+
+    }
+
+    init(): void {
         if (!this.ctx) return;
 
         this.pixelMatrix = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -74,58 +48,36 @@ export class SimuEnginePerlin extends SimuEngine {
     do(): void {
         if (!this.ctx || !this.pixelMatrix) return;
 
-        // Scale factor for Perlin noise
-        const scale = 0.04; // You can adjust this value to change the noise scale
+        const colors = DrawingUtils.getColors();
 
-        // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "black"; // Adjust the background color
+        this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Deform and twist the circle path for visual effects (update this.deformedCirclePath)
-        this.deformedCirclePath = this.createDeformedCirclePath()
 
         for (let x = 0; x < this.canvas.width; x++) {
             for (let y = 0; y < this.canvas.height; y++) {
 
-                // const noiseValue = this.perlin2(x * scale, y * scale);
-                const noiseValue = this.perlin2(x * scale, y * scale);
+                const noiseValue = this.perlin2(x * this.scale, y * this.scale);
 
-                let red = 0;
-                let green = 0;
-                let blue = 0;
+                let colorValue = Math.floor((noiseValue + 1) * (colors.length-1));
+                if (colorValue > colors.length-1) colorValue = colors.length-1;
 
-                if (this.ctx.isPointInPath(this.deformedCirclePath, x, y)) {
+                const colorRGB = DrawingUtils.parseRGBA(colors[colorValue]);
 
-                    // Map the noise value to a reddish lava-like color
-                    const colorValue = Math.floor((noiseValue + 1) * 128);
-                    red = Math.min(255, colorValue + 128); // Adjust this to control the redness
-                    green = Math.max(0, colorValue / 3);     // Adjust this to control the brightness
-                    blue = Math.max(0, colorValue);
-
-                    // Set the pixel to the mapped grayscale color
-                    this.setPixel(x, y, new Pixel(red, green, blue, 255));
+                if (colorRGB) {
+                    this.setPixel(x, y, new Pixel(colorRGB.red, colorRGB.green, colorRGB.blue, 255));
                 }
-                else {
-                    // Calculate the distance from the center
-                    const dx = x - this.center.x;
-                    const dy = y - this.center.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    // Adjust the weights for the lava-red and fading components
-                    const redWeight = 0.5;
-                    const fadingWeight = 0.5;
-                    const radius = this.canvas.width / 4 // ugly hard code
-
-                    // Map the noise value to a reddish lava-like color
-                    const colorValue = Math.floor((noiseValue + 1) * 128) + 1 / (distance - radius);
-                    red = Math.min(255, (colorValue + 128)); // Adjust this to control the redness
-                    green = Math.max(0, (colorValue / 3) - 128 + (distance - radius));     // Adjust this to control the brightness
-                    blue = Math.max(0, colorValue - 128 + (distance - radius));
-                }
-                // Set the pixel to the mapped grayscale color
-                this.setPixel(x, y, new Pixel(red, green, blue, 255));
             }
         }
+
+        // Vary the scale over time to create evolving patterns
+        if (this.scale > 0.5) {
+            this.scale -= 0.0001;
+        }
+        else{
+            this.scale += 0.0001;
+        }
+        // Update the time variable
+        //this.time += 0.3;
 
         // Render the modified pixel matrix on the canvas
         this.ctx.putImageData(this.pixelMatrix, 0, 0);

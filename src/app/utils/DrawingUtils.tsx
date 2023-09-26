@@ -37,7 +37,7 @@ export class DrawingUtils {
     
 
     // Colors palette
-    public static getColors(): any[] {
+    public static getColors(): string[] {
         return [
             'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
             'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
@@ -46,6 +46,25 @@ export class DrawingUtils {
             'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
         ];
     }
+
+    public static parseRGBA(rgbaString: string): { red: number; green: number; blue: number } | null {
+        // Split the input string by commas and remove any whitespace
+        const values = rgbaString
+            .replace('rgba(', '')
+            .replace(')', '')
+            .split(',')
+            .map(value => parseInt(value.trim(), 10));
+    
+        // Ensure there are exactly 4 values in the array
+        if (values.length === 4) {
+            const [red, green, blue] = values.slice(0, 3);
+            return { red, green, blue };
+        }
+    
+        // Return null if the input string does not have the expected number of values
+        return null;
+    }
+    
 
     // Color gradient based on min to max.
     public static getColorBasedOnValue(value: number, min: number, max: number): string {
