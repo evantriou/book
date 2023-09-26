@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { interpolateRgbBasisClosed } from "d3-interpolate";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 // Paths Simulation engine
 
@@ -24,22 +25,18 @@ export class SimuEngineSort extends SimuEngine {
         this.sortedBars = [];
         this.moves = [];
         this.timer = 0;
-        this.start();
-    }
-
-    start(): void {
-        if (!this.ctx) return;
         this.init();
-        this.sort(); // Call the sorting algorithm at the end of init
     }
 
     init(): void {
+        if (!this.ctx) return;
         for (let i = 0; i < this.numBars; i++) {
             const value = Math.floor(Math.random() * (this.maxBarValue - 1 + 1)) + 1;
             const bar = new Bar(i, value);
             this.displayedBars.push(bar);
             this.sortedBars.push(bar.clone());
         }
+        this.sort(); // Call the sorting algorithm at the end of init
     }
 
     renderBar(bar: Bar): void {
@@ -48,10 +45,6 @@ export class SimuEngineSort extends SimuEngine {
         const y = this.canvas.height;
         const width = this.barWidth;
         const height = - bar.value * this.valueToHeightRatio;
-        // const borderWidth = 2;
-
-        // this.ctx.fillStyle = 'white';
-        // this.ctx.fillRect(x - borderWidth, y - borderWidth, width + 2 * borderWidth, height + 2 * borderWidth);
 
         this.ctx.fillStyle = this.getColorBasedOnDistance(bar.value, 0, this.maxBarValue);
         this.ctx.fillRect(x, y, width, height);
@@ -60,13 +53,7 @@ export class SimuEngineSort extends SimuEngine {
     // Function to calculate the circle color based on this.r
     private getColorBasedOnDistance(height: number, minHeight: number, maxHeight: number): string {
 
-        const colors = [
-            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
-            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
-            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
-            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
-            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
-        ];        
+        const colors = DrawingUtils.getColors();       
 
         // Create an interpolation function for colors
         const interpolateRes = interpolateRgbBasisClosed(colors);
@@ -138,7 +125,6 @@ export class SimuEngineSort extends SimuEngine {
     }
 
     updateSettings(settings: any): void {
-        // Implement updateSettings logic for Paths Simulation
     }
 }
 

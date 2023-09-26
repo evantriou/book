@@ -22,11 +22,11 @@ export class SimuEngineDLA extends SimuEngine {
         this.minRadius = 5;
         this.maxWalkers = 100;
 
-        this.start();
+        this.init();
     }
 
     // Méthode pour démarrer la simulation
-    start(): void {
+    init(): void {
         this.tree.push(new Walker(this.canvas.width / 2, this.canvas.height / 2, this.maxRadius, true));
         for (let i = 0; i < this.maxWalkers; i++) {
             let rndPoint: { x: number, y: number } = this.pickSmartRndPoint();
@@ -91,14 +91,8 @@ export class SimuEngineDLA extends SimuEngine {
         }
 
         if (this.tree.length === 2000) {
-            this.stop();
+            this.stopLoop();
         }
-    }
-
-    stop(): void {
-        if (!this.ctx) return;
-        this.stopLoop();
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     updateSettings(settings: any): void {

@@ -2,6 +2,7 @@ import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import PoissonDiskSampling from "poisson-disk-sampling";
 import { PriorityQueue } from "../../utils/PriorityQueue";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEngineTSP extends SimuEngine {
 
@@ -45,9 +46,10 @@ export class SimuEngineTSP extends SimuEngine {
         this.tour = [];
         this.finalTour = [];
 
-        this.start();
+        this.init();
     }
-    start(): void {
+
+    init(): void {
         if (!this.ctx) return;
         this.initGraph();
         this.initMST();
@@ -61,8 +63,8 @@ export class SimuEngineTSP extends SimuEngine {
         const marginY = 100;
         const poisson = new PoissonDiskSampling({
             shape: [this.canvas.width - marginX * 2, this.canvas.height - marginY * 2],
-            minDistance: 100, // Adjust the minimum distance between points as needed
-            maxDistance: 200, // Adjust the maximum distance between points as needed
+            minDistance: 100,
+            maxDistance: 200,
         });
 
         // Generate points with Poisson disk sampling (may generate more than needed)
@@ -116,7 +118,7 @@ export class SimuEngineTSP extends SimuEngine {
         if (!this.ctx) return;
 
         // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "rgba(25, 25, 25, 1)"; // Adjust the background color
+        this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (this.computingMST) {
@@ -151,7 +153,6 @@ export class SimuEngineTSP extends SimuEngine {
 
         // Draw the path on top of the canvas
         this.renderPath();
-
 
         // Draw lines to represent the final tour
         this.ctx.strokeStyle = 'purple';
@@ -245,20 +246,14 @@ export class SimuEngineTSP extends SimuEngine {
     private renderCity(city: City): void {
         if (!this.ctx) return;
 
-        const colors = [
-            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
-            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
-            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
-            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
-            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
-        ]; 
+        const colors = DrawingUtils.getColors(); 
 
-        let circleRadius = 3; // Default size for regular points
-        let circleColor = colors[3]; // Default color for regular points
+        let circleRadius = 3;
+        let circleColor = colors[3];
 
         if (city === this.startCity) {
-            circleRadius = 5; // Larger size for the starting point
-            circleColor = colors[0]; // Red color for the starting point
+            circleRadius = 5;
+            circleColor = colors[0];
         }
         else if (city.visited) {
             circleRadius = 8;
@@ -276,10 +271,9 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.fill();
         this.ctx.closePath();
 
-        // Add the city name as a label next to the circle
-        this.ctx.fillStyle = 'white'; // Set the text color to black
-        this.ctx.font = '12px Arial bold'; // Set the font style
-        this.ctx.textAlign = 'center'; // Align the text to the center
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '12px Arial bold';
+        this.ctx.textAlign = 'center';
         this.ctx.fillText(city.name, x + 10, y + 20);
     }
 
@@ -287,20 +281,14 @@ export class SimuEngineTSP extends SimuEngine {
     private renderRoad(road: Road): void {
         if (!this.ctx) return;
 
-        let roadWidth = 1; // Default width for regular roads
-        let roadColor = 'blue'; // Default color for regular roads
+        let roadWidth = 1;
+        let roadColor = 'blue';
 
-        const colors = [
-            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
-            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
-            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
-            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
-            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
-        ]; 
+        const colors = DrawingUtils.getColors(); 
 
         if (road.isMSTRoad(this.predecessors)) {
-            roadWidth = 2; // Larger width for MST edges
-            roadColor = colors[0]; // Red color for MST edges
+            roadWidth = 2;
+            roadColor = colors[0];
         }
         else {
             return;

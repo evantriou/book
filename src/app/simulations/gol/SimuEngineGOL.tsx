@@ -24,11 +24,10 @@ export class SimuEngineGOL extends SimuEngine {
 
         this.eventOn = false;
 
-        this.start();
+        this.init();
     }
 
-    // Méthode pour démarrer la simulation
-    start(): void {
+    init(): void {
         if (!this.ctx) return;
         this.cells = this.createGrid();
 
@@ -56,7 +55,6 @@ export class SimuEngineGOL extends SimuEngine {
             newCells.push(row);
         }
 
-        // Initialisation des voisins pour chaque cellule
         for (let i = 0; i < this.numCols; i++) {
             for (let j = 0; j < this.numRows; j++) {
                 const cell = newCells[i][j];
@@ -67,23 +65,19 @@ export class SimuEngineGOL extends SimuEngine {
         return newCells;
     }
 
-    // Méthode pour initialiser les voisins d'une cellule (Voisinage de Moore)
     private initNeighbors(cell: Cell, cells: Cell[][]): void {
         const { x, y } = cell;
 
-        // Définis les coordonnées relatives des voisins (8 voisins possibles)
         const relativeNeighbors = [
             [-1, -1], [-1, 0], [-1, 1],
-            [0, -1], /*[0, 0],*/ [0, 1],  // Note: Le voisin au centre (0, 0) n'est pas inclus.
+            [0, -1], /*[0, 0],*/ [0, 1],
             [1, -1], [1, 0], [1, 1],
         ];
 
-        // Parcours les coordonnées relatives des voisins et ajoute les cellules voisines à la liste de voisins de cette cellule.
         for (const [dx, dy] of relativeNeighbors) {
             const neighborX = x + dx;
             const neighborY = y + dy;
 
-            // Vérifie si le voisin est dans les limites de la grille
             if (neighborX >= 0 && neighborX < this.numCols && neighborY >= 0 && neighborY < this.numRows) {
                 cell.neighbors.push(cells[neighborX][neighborY]);
             }
@@ -140,12 +134,9 @@ export class SimuEngineGOL extends SimuEngine {
         if (this.eventOn) {
             this.removeEvent();
         }
-        // This method is called in an animation loop.
         if (!this.ctx) return;
-        // Clear the canvas before rendering the next frame.
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Create new grid
         const newCells: Cell[][] = this.createGrid();
 
         // Iterate through all cells and update each one based on the copy of the grid
@@ -183,12 +174,6 @@ export class SimuEngineGOL extends SimuEngine {
                 cell.alive = true;
             }
         }
-    }
-
-    stop(): void {
-        if (!this.ctx) return;
-        this.stopLoop();
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     updateSettings(settings: any): void {

@@ -34,14 +34,8 @@ export class SimuEnginePerlin extends SimuEngine {
         this.init();
     }
 
-    // Méthode pour démarrer la simulation
-    start(): void {
-
-    }
-
     init(): void {
         if (!this.ctx) return;
-
         this.pixelMatrix = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -76,8 +70,6 @@ export class SimuEnginePerlin extends SimuEngine {
         else{
             this.scale += 0.0001;
         }
-        // Update the time variable
-        //this.time += 0.3;
 
         // Render the modified pixel matrix on the canvas
         this.ctx.putImageData(this.pixelMatrix, 0, 0);
@@ -148,16 +140,7 @@ export class SimuEnginePerlin extends SimuEngine {
         return (1 - t) * a + t * b;
     }
 
-    // Méthode pour arrêter la simulation
-    stop(): void {
-        if (!this.ctx) return;
-        this.stopLoop();
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    // Méthode pour mettre à jour les paramètres de la simulation
     updateSettings(settings: any): void {
-        // À implémenter
     }
 }
 

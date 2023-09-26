@@ -2,6 +2,7 @@ import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { PriorityQueue } from "../../utils/PriorityQueue";
 import { Point } from "../../utils/Point";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEnginePaths extends SimuEngine {
 
@@ -23,7 +24,7 @@ export class SimuEnginePaths extends SimuEngine {
         this.numCols = Math.floor(this.canvas.width / this.cellSideLength);
         this.cells = [];
 
-        this.start();
+        this.init();
 
         this.noPathFound = false;
         this.pathFound = false;
@@ -41,7 +42,7 @@ export class SimuEnginePaths extends SimuEngine {
         this.departure.gCost = 0;
     }
 
-    start(): void {
+    init(): void {
         if (!this.ctx) return;
         
         for (let i = 0; i < this.numRows; i++) {
@@ -201,13 +202,7 @@ export class SimuEnginePaths extends SimuEngine {
         this.ctx.lineWidth = 1; // Border width
         this.ctx.strokeRect(x, y, this.cellSideLength, this.cellSideLength);
 
-        const colors = [
-            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
-            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
-            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
-            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
-            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
-        ]; 
+        const colors = DrawingUtils.getColors();
 
         // Draw cell based on its type
         if (cell.isDeparture) {

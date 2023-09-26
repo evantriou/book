@@ -1,21 +1,20 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 import './App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { TabCardProps } from './TabCard';
 import TabCard from './TabCard'; // Import the TabCard component
 import Header from './Header';
-import SimulationPopup from './simulations/SimulationPopup';
-import boidsImg from './pictures/boids.png'; // relative path to image
-import sortImg from './pictures/sort.png'; // relative path to image
-import pathImg from './pictures/path.png'; // relative path to image
-import tspImg from './pictures/tsp.png'; // relative path to image
-import golImg from './pictures/gol.png'; // relative path to image
-import fractalImg from './pictures/fractal.png'; // relative path to image
-import perlinImg from './pictures/perlin.png'; // relative path to image
-import blobImg from './pictures/blob.png'; // relative path to image
-import todoImg from './pictures/todo.png'; // relative path to image
-import { SimuEngine } from './simulations/SimuEngine';
+import SimulationPopup from './../simulations/SimulationPopup';
+import boidsImg from './../pictures/boids.png'; // relative path to image
+import sortImg from './../pictures/sort.png'; // relative path to image
+import pathImg from './../pictures/path.png'; // relative path to image
+import tspImg from './../pictures/tsp.png'; // relative path to image
+import golImg from './../pictures/gol.png'; // relative path to image
+import fractalImg from './../pictures/fractal.png'; // relative path to image
+import perlinImg from './../pictures/perlin.png'; // relative path to image
+import blobImg from './../pictures/blob.png'; // relative path to image
+import { SimuEngine } from './../simulations/SimuEngine';
 
 
 function App() {

@@ -3,11 +3,8 @@ import { SimuEngine } from "../SimuEngine";
 import { Circle, Point } from "../../utils/Point";
 import { Context } from "vm";
 import { DrawingUtils } from "../../utils/DrawingUtils";
-import { Boid } from "../boids/Boid";
 
-
-// Boids Simulation engine
-export class SimuEngineBoids2 extends SimuEngine {
+export class SimuEngineBoids extends SimuEngine {
 
     private populationNbr: number;
     private boids: boid [];
@@ -20,18 +17,13 @@ export class SimuEngineBoids2 extends SimuEngine {
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
         super(canvas, ctx, canvasRef);
         this.boids = [];
-        this.populationNbr = 150;
+        this.populationNbr = 300;
         this.boidSize = 5;
         this.boidMaxForce = 5;
         this.boidMaxSpeed = 5;
         this.perceptionRadius = 100;
         this.separationRadius = 50;
         this.init();
-    }
-
-    // Implement the Boids simulation engine
-    start(): void {
-        if (!this.ctx) return;
     }
 
     // Initializes first state for each boid and render one time.
@@ -48,7 +40,7 @@ export class SimuEngineBoids2 extends SimuEngine {
                 this.boidSize, initialVelocityX, initialVelocityY,
                 this.boidMaxForce, this.boidMaxSpeed,
                 this.perceptionRadius, this.separationRadius);
-            newBoid.render(this.ctx);
+            newBoid.render(this.ctx, this.populationNbr);
             this.boids.push(newBoid);
         }
     }
@@ -62,18 +54,11 @@ export class SimuEngineBoids2 extends SimuEngine {
 
         for (const boid of this.boids) {
             boid.update(this.canvas, this.boids);
-            boid.render(this.ctx);
+            boid.render(this.ctx, this.populationNbr);
         }
     }
 
-    stop(): void {
-        if (!this.ctx) return;
-        this.stopLoop();
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
     updateSettings(settings: any): void {
-        // Implement updateSettings logic for Boids Simulation
     }
 }
 
@@ -85,6 +70,7 @@ export class boid extends Circle {
     private maxSpeed: number; // max resulting speed
     private perceptionRadius: number;
     private separationRadius: number;
+    private neighCount: number;
 
     constructor(x: number, y: number, r: number, velocityX: number, velocityY: number, maxForce: number, maxSpeed: number, perceptionRadius: number, separationRadius: number) {
         super(x,y,r);
@@ -97,15 +83,20 @@ export class boid extends Circle {
         this.perceptionRadius = perceptionRadius;
         this.separationRadius = separationRadius;
         this.heading = Math.atan2(this.velocityY, this.velocityX);
+        this.neighCount = 0;
     }
 
-    public render(ctx: CanvasRenderingContext2D | null): void {
+    public render(ctx: CanvasRenderingContext2D | null, population: number): void {
         if (!ctx) return;
-        DrawingUtils.renderCircle(ctx, this, 'blue');
+
+        const color: string = DrawingUtils.getColorBasedOnValue(this.neighCount, 0, population);
+
+        DrawingUtils.renderCircle(ctx, this, color);
         
         const endpointX = this.x + 2 * this.r * Math.cos(this.heading);
         const endpointY = this.y + 2 * this.r * Math.sin(this.heading);
-        ctx.strokeStyle = 'blue';
+
+        ctx.strokeStyle = color;
         ctx.lineWidth = 2
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
@@ -141,6 +132,8 @@ export class boid extends Circle {
 
     public flock(canvas: HTMLCanvasElement, boids: boid[]): {x: number, y: number} {
 
+        this.neighCount = 0;
+
         const otherBoids: boid[] = boids.filter(other => other != this);
 
         let mass: {x: number, y: number} = {x:0, y:0};
@@ -162,11 +155,13 @@ export class boid extends Circle {
                 alignment.y += neighbor.velocityY;
        
                 neighborsCount ++;
+                this.neighCount ++;
             }
 
             if (distance < this.separationRadius) {
                 separation.x += (this.x - neighbor.x)/distance; // I want to dodge the closest boid first.
                 separation.y += (this.y - neighbor.y)/distance;
+                this.neighCount ++;
             }
         }
 
