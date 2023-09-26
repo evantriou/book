@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { PriorityQueue } from "../../utils/PriorityQueue";
+import { Point } from "../../utils/Point";
 
 export class SimuEnginePaths extends SimuEngine {
 
@@ -210,17 +211,17 @@ export class SimuEnginePaths extends SimuEngine {
 
         // Draw cell based on its type
         if (cell.isDeparture) {
-            this.ctx.fillStyle = colors[0];
-        } else if (cell.isArrival) {
-            this.ctx.fillStyle = colors[0];
-        } else if (cell.isWall) {
             this.ctx.fillStyle = colors[4];
-        } else if (cell.isValidated) {
-            this.ctx.fillStyle = colors[0];
-        } else if (cell.isClosed) {
-            this.ctx.fillStyle = colors[2];
-        } else {
+        } else if (cell.isArrival) {
+            this.ctx.fillStyle = colors[4];
+        } else if (cell.isWall) {
             this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
+        } else if (cell.isValidated) {
+            this.ctx.fillStyle = colors[4];
+        } else if (cell.isClosed) {
+            this.ctx.fillStyle = colors[0];
+        } else {
+            this.ctx.fillStyle =  colors[2];
         }
 
         // Fill the cell without overlapping the borders
@@ -238,26 +239,23 @@ export class SimuEnginePaths extends SimuEngine {
     }
 }
 
-class Cell {
+class Cell extends Point {
     public isWall: boolean;
     public isDeparture: boolean;
     public isArrival: boolean;
     public isObserved: boolean;
     public isValidated: boolean;
-    public x: number;
-    public y: number;
     public fCost: number;
     public gCost: number;
     public isClosed: boolean; // Indicates if the cell is in the closed list
 
     constructor(x: number, y: number) {
+        super(x,y);
         this.isWall = false;
         this.isDeparture = false;
         this.isArrival = false;
         this.isObserved = false;
         this.isValidated = false;
-        this.x = x;
-        this.y = y;
         this.fCost = Infinity;
         this.gCost = Infinity;
         this.isClosed = false;

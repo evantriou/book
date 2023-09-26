@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { Context } from "vm";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEngineFractal extends SimuEngine {
 
@@ -31,11 +32,10 @@ export class SimuEngineFractal extends SimuEngine {
         // Create the initial triangle
         const root = new Triangle(triangleX, triangleY, 600);
     
-        // Clear the canvas
-        this.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
     
         // Render the initial triangle
-        root.render(this.ctx, 'black');
+        root.render(this.ctx, this.canvas);
     
         this.lastLevelTriangles.push(root);
     }
@@ -51,7 +51,7 @@ export class SimuEngineFractal extends SimuEngine {
         // For each triangle in the copy of topLevelTriangle
         for (const triangle of copyOfLastLevel) {
             // Redraw it in white
-            triangle.render(this.ctx, 'white');
+            triangle.render(this.ctx, this.canvas);
 
             // Divide it
             const children = triangle.divide();
@@ -59,7 +59,7 @@ export class SimuEngineFractal extends SimuEngine {
             // Draw each child in black
             for (const child of children) {
                 if (child) {
-                    child.render(this.ctx, 'black');
+                    child.render(this.ctx, this.canvas);
                     this.lastLevelTriangles.push(child);
                 }
             }
@@ -96,8 +96,9 @@ class Triangle {
 
     }
   
-    render(ctx: CanvasRenderingContext2D, color: string) {
-        ctx.fillStyle = color;
+    render(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+
+        ctx.fillStyle = DrawingUtils.getColorBasedOnValue(this.size, 0, canvas.width);
         const halfSize = this.size / 2;
         const height = (Math.sqrt(3) / 2) * this.size; // Height of an equilateral triangle
     

@@ -6,7 +6,7 @@ export abstract class SimuEngine {
     protected ctx: CanvasRenderingContext2D | null;
     protected loopId: any;
     protected loopOn: boolean = false;
-    protected readonly FRAMERATE: number = 15;
+    protected readonly FRAMERATE: number = 40;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
         this.canvas = canvas;

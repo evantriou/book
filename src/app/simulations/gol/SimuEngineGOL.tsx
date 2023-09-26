@@ -1,5 +1,8 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
+import { Point } from "../../utils/Point";
+import { DrawingUtils } from "../../utils/DrawingUtils";
+import { Context } from "vm";
 
 export class SimuEngineGOL extends SimuEngine {
 
@@ -26,14 +29,14 @@ export class SimuEngineGOL extends SimuEngine {
 
     // Méthode pour démarrer la simulation
     start(): void {
-
+        if (!this.ctx) return;
         this.cells = this.createGrid();
 
         // render cells
         for (const row of this.cells) {
             for (const cell of row) {
                 this.updateCell(cell);
-                this.renderCell(cell);
+                cell.renderCell(this.ctx, this.cellSideLength);
             }
         }
 
@@ -104,11 +107,7 @@ export class SimuEngineGOL extends SimuEngine {
     private handleMouseDown = (event: MouseEvent): void => {
         if (!this.ctx) return;
 
-        // Get the mouse coordinates relative to the canvas
         const pos = this.getMousePos(event);
-        // const x = event.clientX - this.canvas.getBoundingClientRect().left;
-        // const y = event.clientY - this.canvas.getBoundingClientRect().top;
-    
         const x = pos.x;
         const y = pos.y;
 
@@ -118,13 +117,9 @@ export class SimuEngineGOL extends SimuEngine {
                 const cellX = cell.x * this.cellSideLength;
                 const cellY = cell.y * this.cellSideLength;
     
-                // Check if the mouse coordinates are inside the current cell
                 if (x >= cellX && x < cellX + this.cellSideLength && y >= cellY && y < cellY + this.cellSideLength) {
-                    // Toggle the 'alive' state of the clicked cell
                     cell.alive = !cell.alive;
-    
-                    // Redraw the cell to reflect the new state
-                    this.renderCell(cell);
+                    cell.renderCell(this.ctx, this.cellSideLength);
                 }
             }
         }
@@ -162,7 +157,7 @@ export class SimuEngineGOL extends SimuEngine {
 
                 // Update the copied cell based on this.cells
                 this.updateCell(copy);
-                this.renderCell(copy);
+                copy.renderCell(this.ctx, this.cellSideLength);
             }
         }
 
@@ -190,54 +185,38 @@ export class SimuEngineGOL extends SimuEngine {
         }
     }
 
-    // Modify the render method to take a cell as an argument
-    private renderCell(cell: Cell): void {
-        if (!this.ctx) return;
-
-        const x = cell.x * this.cellSideLength;
-        const y = cell.y * this.cellSideLength;
-    
-        // Draw cell based on its type
-        if (!cell.alive) {
-            this.ctx.fillStyle = 'white';
-        }
-        else {
-            this.ctx.fillStyle = 'black';
-        }
-    
-        // Fill the cell without overlapping the borders
-        this.ctx.fillRect(x, y, this.cellSideLength, this.cellSideLength);
-    
-        // Draw cell border
-        this.ctx.strokeStyle = 'grey'; // Border color
-        this.ctx.lineWidth = 1; // Border width
-        this.ctx.strokeRect(x, y, this.cellSideLength, this.cellSideLength);
-    }
-
-    // Méthode pour arrêter la simulation
     stop(): void {
         if (!this.ctx) return;
         this.stopLoop();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    // Méthode pour mettre à jour les paramètres de la simulation
     updateSettings(settings: any): void {
-        // À implémenter
     }
 }
 
-class Cell {
+class Cell extends Point {
 
-    public x: number;
-    public y: number;
     public alive: boolean;
     public neighbors: Cell[];
 
     constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
+        super(x,y);
         this.alive = false;
         this.neighbors = [];
+    }
+
+    public renderCell(ctx: Context, side: number): void {
+        if (!ctx) return;
+
+        const colors = DrawingUtils.getColors();
+        let color = "black";
+        if (!this.alive) {
+            color = colors[3];
+        }
+        else {
+            color = colors[4];
+        }
+        DrawingUtils.renderCell(ctx, this, side, color, colors[0]);
     }
 }

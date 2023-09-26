@@ -2,6 +2,7 @@ import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { Boid } from "./Boid";
 import { interpolateRgbBasisClosed } from "d3-interpolate";
+import { DrawingUtils } from "../../utils/DrawingUtils";
 
 // Boids Simulation engine
 export class SimuEngineBoids extends SimuEngine {
@@ -83,7 +84,7 @@ export class SimuEngineBoids extends SimuEngine {
         // Map distToFirstNeighbor to a color between red (0) and blue (500).
         const distToFirstNeighbor = boid.distToFirstNeighbor;
 
-        const color = this.getColorBasedOnDistance(distToFirstNeighbor, 25, 200);
+        const color = DrawingUtils.getColorBasedOnValue(distToFirstNeighbor, 25, 200);
 
         // Implement rendering logic for a single boid.
         // You can use this.context to draw the boid on the canvas.
@@ -105,26 +106,6 @@ export class SimuEngineBoids extends SimuEngine {
         this.ctx.fill();
 
         this.ctx.restore();
-    }
-
-    // Function to calculate the circle color based on this.r
-    private getColorBasedOnDistance(dist: number, minDist: number, maxDist: number): string {
-
-        const colors = [
-            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
-            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
-            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
-            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
-            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
-        ];        
-
-        // Create an interpolation function for colors
-        const interpolateRes = interpolateRgbBasisClosed(colors);
-    
-        // Interpolate the color based on radius
-        const color = interpolateRes((dist - minDist) / (minDist - maxDist));
-    
-        return color;
     }
 
     stop(): void {

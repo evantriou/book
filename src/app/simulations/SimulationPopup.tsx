@@ -19,6 +19,8 @@ import { SimuEnginePerlin } from './perlin/SimuEnginePerlin';
 import { ToolbarPerlin } from './perlin/ToolbarPerlin';
 import { SimuEngineDLA } from './dla/SimuEngineDLA';
 import { ToolbarDLA } from './dla/ToolbarDLA';
+import { SimuEngineBoids2 } from './boids2/SimuEngineBoids2';
+import { ToolbarBoids2 } from './boids2/ToolbarBoids2';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
@@ -74,9 +76,9 @@ function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: Simulat
 
         if (selectedSimulation === 'Boids Simulation') {
             // Create an instance of the Boids simulation canvas class
-            newSimulationCanvas = new SimuEngineBoids(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineBoids2(canvas, ctx, canvasRef);
             // Create an instance of the Boids simulation toolbar class
-            setToolbar(new ToolbarBoids(newSimulationCanvas));
+            setToolbar(new ToolbarBoids2(newSimulationCanvas));
         } else if (selectedSimulation === 'Sorting algorithms') {
             // Create an instance of the Paths simulation canvas class
             newSimulationCanvas = new SimuEngineSort(canvas, ctx, canvasRef);

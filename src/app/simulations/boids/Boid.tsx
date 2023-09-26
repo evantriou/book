@@ -1,14 +1,13 @@
-export class Boid {
-    // Boid properties
-    public x: number; // X-coordinate of the boid's position.
-    public y: number; // Y-coordinate of the boid's position.
+import { Point } from "../../utils/Point";
+
+export class Boid extends Point {
     public velocityX: number; // X-component of the boid's velocity.
     public velocityY: number; // Y-component of the boid's velocity.
     public heading: number; // Boid's current heading angle in radians.
     public distToFirstNeighbor: number;
 
     constructor(x: number, y: number, velocityX: number, velocityY: number) {
-        // Initialize boid properties based on provided arguments.
+        super(x,y);
         this.x = x;
         this.y = y;
         this.velocityX = velocityX;
@@ -19,8 +18,8 @@ export class Boid {
     
 
     public updatePosition(canvas: HTMLCanvasElement, otherBoids: Boid[], alignmentRadius: number, cohesionRadius: number, separationRadius: number): void {
-        // Compute neighborsNb
-        this.computeColor(otherBoids);
+        
+        this.computeDistToFirstNeigh(otherBoids);
         
         // Calculate alignment, cohesion, and separation vectors.
         const alignment = this.calculateAlignment(otherBoids, alignmentRadius);
@@ -28,14 +27,10 @@ export class Boid {
         const separation = this.calculateSeparation(otherBoids, separationRadius);
 
         // Combine the vectors to determine the final heading.
-        // You can adjust the weights of these vectors to control the behavior.
-
         const rndDirX = (Math.random() > 0.5)?(-1):(1);
         const rndMoveX = rndDirX * Math.random();
-
         const rndDirY = (Math.random() > 0.5)?(-1):(1);
         const rndMoveY = rndDirY * Math.random(); 
-
         // Found coefs after different tries
         const totalHeadingX = alignment.x / 20 + cohesion.x / 40 + separation.x / 20 + rndMoveX*0.5;
         const totalHeadingY = alignment.y / 20 + cohesion.y / 40 + separation.y / 20 + rndMoveY*0.5;
@@ -60,18 +55,15 @@ export class Boid {
         this.y += this.velocityY;
     
         // Implement wrapping or boundary checking (as before) to keep boids within the canvas.
-        // Implement wrapping for the x-axis (left-to-right wrapping).
         if (this.x < 0) {
-            this.x = canvas.width; // Wrap to the right edge.
+            this.x = canvas.width;
         } else if (this.x > canvas.width) {
-            this.x = 0; // Wrap to the left edge.
+            this.x = 0;
         }
-
-        // Implement wrapping for the y-axis (top-to-bottom wrapping).
         if (this.y < 0) {
-            this.y = canvas.height; // Wrap to the bottom edge.
+            this.y = canvas.height;
         } else if (this.y > canvas.height) {
-            this.y = 0; // Wrap to the top edge.
+            this.y = 0;
         }
     }
     
@@ -86,7 +78,6 @@ export class Boid {
         // Return a vector representing the alignment adjustment.
         
         if (otherBoids.length === 0) {
-            // No neighbors to align with, return a zero vector.
             return { x: 0, y: 0 };
         }
 
@@ -102,10 +93,8 @@ export class Boid {
             );
     
             if (distance <= radius) {
-                // Calculate the vector pointing from this boid to the neighbor.
                 const headingX = neighbor.x - this.x;
                 const headingY = neighbor.y - this.y;
-                // Add the neighbor's heading to the average.
                 averageHeadingX += headingX;
                 averageHeadingY += headingY;
                 neighborCount++;
@@ -113,7 +102,6 @@ export class Boid {
         }
 
         if (neighborCount === 0) {
-            // No neighbors within the cohesion radius, return a zero vector.
             return { x: 0, y: 0 };
         }
 
@@ -212,7 +200,7 @@ export class Boid {
         return separationAdjustment;
     }
 
-    private computeColor(otherBoids: Boid[]) : void {
+    private computeDistToFirstNeigh(otherBoids: Boid[]) : void {
         this.distToFirstNeighbor = Number.MAX_SAFE_INTEGER;
 
         for (const neighbor of otherBoids) {

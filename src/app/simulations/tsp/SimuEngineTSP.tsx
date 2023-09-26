@@ -114,7 +114,10 @@ export class SimuEngineTSP extends SimuEngine {
 
     do(): void {
         if (!this.ctx) return;
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Draw the background with a regular fillRect
+        this.ctx.fillStyle = "rgba(25, 25, 25, 1)"; // Adjust the background color
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (this.computingMST) {
             if (this.heapMST.length != 0) {
@@ -242,16 +245,24 @@ export class SimuEngineTSP extends SimuEngine {
     private renderCity(city: City): void {
         if (!this.ctx) return;
 
+        const colors = [
+            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
+            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
+            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
+            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
+            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
+        ]; 
+
         let circleRadius = 3; // Default size for regular points
-        let circleColor = 'blue'; // Default color for regular points
+        let circleColor = colors[3]; // Default color for regular points
 
         if (city === this.startCity) {
             circleRadius = 5; // Larger size for the starting point
-            circleColor = 'red'; // Red color for the starting point
+            circleColor = colors[0]; // Red color for the starting point
         }
         else if (city.visited) {
             circleRadius = 8;
-            circleColor = 'green';
+            circleColor = colors[1];
         }
 
         // Calculate the circle position
@@ -266,8 +277,8 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.closePath();
 
         // Add the city name as a label next to the circle
-        this.ctx.fillStyle = 'black'; // Set the text color to black
-        this.ctx.font = '12px Arial'; // Set the font style
+        this.ctx.fillStyle = 'white'; // Set the text color to black
+        this.ctx.font = '12px Arial bold'; // Set the font style
         this.ctx.textAlign = 'center'; // Align the text to the center
         this.ctx.fillText(city.name, x + 10, y + 20);
     }
@@ -279,9 +290,17 @@ export class SimuEngineTSP extends SimuEngine {
         let roadWidth = 1; // Default width for regular roads
         let roadColor = 'blue'; // Default color for regular roads
 
+        const colors = [
+            'rgba(94, 255, 255, 1)',    // RGB (94, 255, 255)
+            'rgba(79, 255, 193, 1)',    // RGB (79, 255, 193)
+            'rgba(160, 214, 180, 1)',  // RGB (160, 214, 180)
+            'rgba(26, 145, 50, 1)',    // RGB (26, 145, 50)
+            'rgba(48, 77, 99, 1)'      // RGB (48, 77, 99)
+        ]; 
+
         if (road.isMSTRoad(this.predecessors)) {
             roadWidth = 2; // Larger width for MST edges
-            roadColor = 'red'; // Red color for MST edges
+            roadColor = colors[0]; // Red color for MST edges
         }
         else {
             return;
@@ -304,8 +323,8 @@ export class SimuEngineTSP extends SimuEngine {
 
         // Draw the path on top of the canvas
         const pathText = this.getPathString();
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = '16px Arial';
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '16px Arial bold';
         this.ctx.textAlign = 'center';
 
         this.ctx.fillText(pathText, this.canvas.width / 2, 30);
