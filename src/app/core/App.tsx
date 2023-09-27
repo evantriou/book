@@ -5,7 +5,7 @@ import Header from './Header';
 import SimulationPopup from './../simulations/SimulationPopup';
 import { SimuEngine } from './../simulations/SimuEngine';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from './mainPage';
+import MainPage from './MainPage';
 
 function App() {
 
@@ -32,12 +32,8 @@ function App() {
 				<Header />
 				<main className="App-main">
 					<Routes>
-						<Route path="\#book">
-							<MainPage/>
-						</Route>
-						<Route path="\#contact">
-							<div>COUCOU</div>
-						</Route>
+						<Route path="\#book" element={<MainPage/>}/>
+						<Route path="\#contact" element={<div>COUCOU</div>}/>
 					</Routes>
 				</main>
 				{/* Render the pop-up conditionally */}
