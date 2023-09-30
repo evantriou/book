@@ -1,3 +1,51 @@
 .App {
   text-align: center;
 }
+
+
+
+/**
+----------------------------> BOOK
+**/
+/**
+----------------------------> CONTACT
+**/
+.Title {
+}
+
+.Contact {
+  margin: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.ContactLogosBar {
+  margin: 5rem;
+  display: flex;
+}
+
+.Show {
+  margin-bottom: 2rem;
+  align-self: center;
+  width: 90%;
+  height: 40em;
+  background-color: #333;
+}
+
+.ShowSlide {
+  display: flex;
+  flex-direction: column;
+  color: antiquewhite;
+}
+
+.Form {
+  width: 100%;
+}
+
+.FormLabel {
+  width: fit-content;
+  justify-content: left;
+}
+/**
+----------------------------> COMING NEXT
+**/

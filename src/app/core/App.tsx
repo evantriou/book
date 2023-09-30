@@ -4,48 +4,24 @@ import './App.css';
 import Header from './Header';
 import SimulationPopup from './../simulations/SimulationPopup';
 import { SimuEngine } from './../simulations/SimuEngine';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from './MainPage';
+import { Route, Routes } from 'react-router-dom';
+import MainPage from './book/MainPage';
+import Contact from './contact/Contact';
+import CommingNext from './commingNext/CommingNext';
 
 function App() {
-
-	const [isPopupVisible, setIsPopupVisible] = useState(false);
-	const [selectedSimulation, setSelectedSimulation] = useState<string | null>(null);
-
-	// Create a ref to hold the simulation engine instance
-	const simuEngineRef = useRef<SimuEngine | null>(null);
-
-
-
-	const closePopup = () => {
-		setSelectedSimulation(null);
-		setIsPopupVisible(false);
-		// Stop the simulation when the pop-up is closed
-		if (simuEngineRef.current) {
-			simuEngineRef.current.stopLoop();
-		}
-	};
-
 	return (
-		<BrowserRouter>
-			<div className="App">
-				<Header />
-				<main className="App-main">
-					<Routes>
-						<Route path="\#book" element={<MainPage/>}/>
-						<Route path="\#contact" element={<div>COUCOU</div>}/>
-					</Routes>
-				</main>
-				{/* Render the pop-up conditionally */}
-				{isPopupVisible && (
-					<SimulationPopup
-						onClose={closePopup}
-						selectedSimulation={selectedSimulation}
-						simuEngineRef={simuEngineRef}
-					/>
-				)}
-			</div>
-		</BrowserRouter>
+		<div className="App">
+			<Header />
+			<main className="App-main">
+				<Routes>
+					<Route path="/" element={<MainPage />} />
+					<Route path="/book" element={<MainPage />} />
+					<Route path="/contact" element={<Contact />} />
+					<Route path="/commingNext" element={<CommingNext />} />
+				</Routes>
+			</main>
+		</div>
 	);
 }
 

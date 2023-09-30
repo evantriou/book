@@ -1,16 +1,29 @@
 import { Col, Container, Row } from "react-bootstrap";
 import TabCard, { TabCardProps } from "./TabCard";
-import { useState } from "react";
-import boidsImg from './../pictures/boids.png'; // relative path to image
-import sortImg from './../pictures/sort.png'; // relative path to image
-import pathImg from './../pictures/path.png'; // relative path to image
-import tspImg from './../pictures/tsp.png'; // relative path to image
-import golImg from './../pictures/gol.png'; // relative path to image
-import fractalImg from './../pictures/fractal.png'; // relative path to image
-import perlinImg from './../pictures/perlin.png'; // relative path to image
-import blobImg from './../pictures/blob.png'; // relative path to image
+import { useRef, useState } from "react";
+import boidsImg from './../../pictures/boids.png'; // relative path to image
+import sortImg from './../../pictures/sort.png'; // relative path to image
+import pathImg from './../../pictures/path.png'; // relative path to image
+import tspImg from './../../pictures/tsp.png'; // relative path to image
+import golImg from './../../pictures/gol.png'; // relative path to image
+import fractalImg from './../../pictures/fractal.png'; // relative path to image
+import perlinImg from './../../pictures/perlin.png'; // relative path to image
+import blobImg from './../../pictures/blob.png'; // relative path to image
+import { SimuEngine } from "../../simulations/SimuEngine";
+import SimulationPopup from "../../simulations/SimulationPopup";
 
 function MainPage() {
+	// Create a ref to hold the simulation engine instance
+	const simuEngineRef = useRef<SimuEngine | null>(null);
+
+	const closePopup = () => {
+		setSelectedSimulation(null);
+		setIsPopupVisible(false);
+		// Stop the simulation when the pop-up is closed
+		if (simuEngineRef.current) {
+			simuEngineRef.current.stopLoop();
+		}
+	};
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 	const [selectedSimulation, setSelectedSimulation] = useState<string | null>(null);
@@ -55,38 +68,44 @@ function MainPage() {
 			tabName: "Fractal Simulation",
 			description: "Sierpinsky triangle simulation in 2D canvas.",
 			onTryClick: () => handleTryClick("Fractal Simulation"),
-			pathImg: fractalImg // Replace 'fractalImg' with the path to your fractal image
+			pathImg: fractalImg
 		},
 		{
 			tabName: "Perlin Noise",
 			description: "Perlin noise flat simulation in 2D canvas (work in progress).",
 			onTryClick: () => handleTryClick("Terrain generation"),
-			pathImg: perlinImg // Replace 'fractalImg' with the path to your fractal image
+			pathImg: perlinImg
 		},
 		{
 			tabName: "Blob Simulation",
 			description: "Diffusion-Limited Aggregation in 2D canvas.",
 			onTryClick: () => handleTryClick("Fractal Simulation"),
-			pathImg: blobImg // relative path to image
-			// Replace 'fractalImg' with the path to your fractal image
+			pathImg: blobImg
 		}
 	];
 
     return (
-        <Container>
-            <Row xs={1} md={4}>
-                {tabsProps.map((tab, index) => (
-                    <Col key={index} style={{ margin: '1rem 0' }}>
-                        <TabCard
-                            tabName={tab.tabName}
-                            description={tab.description}
-                            onTryClick={() => handleTryClick(tab.tabName)}
-                            pathImg={tab.pathImg}
-                        />
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+		<Container>
+			<Row xs={1} md={4}>
+				{tabsProps.map((tab, index) => (
+					<Col key={index} style={{ margin: '1rem 0' }}>
+						<TabCard
+							tabName={tab.tabName}
+							description={tab.description}
+							onTryClick={() => handleTryClick(tab.tabName)}
+							pathImg={tab.pathImg}
+						/>
+					</Col>
+				))}
+			</Row>
+			{isPopupVisible && (
+				<SimulationPopup
+					onClose={closePopup}
+					selectedSimulation={selectedSimulation}
+					simuEngineRef={simuEngineRef}
+				/>
+			)}
+		</Container>
     );
 }
 
