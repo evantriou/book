@@ -128,7 +128,7 @@ export class SimuEngineTSP extends SimuEngine {
         DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         if (this.computingMST) {
-            if (this.heapMST.length != 0) {
+            if (this.heapMST.length !== 0) {
                 this.doMSTStep();
             }
             else {
@@ -218,7 +218,7 @@ export class SimuEngineTSP extends SimuEngine {
     }
 
     private doTSPStep(city: City) : void {
-        if (city.childrenMST.length == 0) {
+        if (city.childrenMST.length === 0) {
             const backwards = this.predecessors.get(city);
             if (backwards) {
                 this.tour.push(backwards);
@@ -378,7 +378,7 @@ class Road {
     public isMSTRoad(predecessors: Map<City,City>): boolean {
         const end: City | undefined = predecessors.get(this.cityA);
         if (!end) return false;
-        if (end != this.cityB) return false;
+        if (end !== this.cityB) return false;
         return true;
     }
 }

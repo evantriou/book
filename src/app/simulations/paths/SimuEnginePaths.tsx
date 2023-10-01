@@ -50,10 +50,10 @@ export class SimuEnginePaths extends SimuEngine {
             for (let j = 0; j < this.numCols; j++) {
                 const cell = new Cell(j, i);
 
-                if (i == 0 && j == 0) {
+                if (i === 0 && j === 0) {
                     cell.isDeparture = true;
                 }
-                else if (i == this.numRows - 1 && j == this.numCols - 1) {
+                else if (i === this.numRows - 1 && j === this.numCols - 1) {
                     cell.isArrival = true;
                 }
                 else if (Math.random() < 0.1) {
@@ -90,7 +90,7 @@ export class SimuEnginePaths extends SimuEngine {
         currentCell.isObserved = false;
         currentCell.isClosed = true;
 
-        if (currentCell == this.arrival) {
+        if (currentCell === this.arrival) {
             this.constructPath(currentCell);
             return;
         }
@@ -116,7 +116,7 @@ export class SimuEnginePaths extends SimuEngine {
             }
         }
         // If the open list is empty, no path is found
-        if (this.openQueue.length == 0) {
+        if (this.openQueue.length === 0) {
             this.noPathFound = true;
             return;
         }
@@ -158,7 +158,7 @@ export class SimuEnginePaths extends SimuEngine {
 
         let currentCell: Cell = neighbor;
 
-        while (currentCell.gCost != 0) {
+        while (currentCell.gCost !== 0) {
             let min: number = Infinity;
             let minCell: Cell | null = null;
             for (const neighbor of this.getNeighbors(currentCell, true)) {

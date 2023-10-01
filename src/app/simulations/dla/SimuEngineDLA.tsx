@@ -1,6 +1,5 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
-import interpolateRgbBasis, { interpolateRgbBasisClosed } from "d3-interpolate";
 import { Circle } from "../../utils/Point";
 import { DrawingUtils } from "../../utils/DrawingUtils";
 

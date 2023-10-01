@@ -7,14 +7,14 @@ export class DrawingUtils {
     public static distance(x1: number, y1: number, x2: number, y2: number) {
         const dx = x1 - x2;
         const dy = y1 - y2;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     // To avoid root computations when possible
     public static distanceSquared(x1: number, y1: number, x2: number, y2: number) {
         const dx = x1 - x2;
         const dy = y1 - y2;
-        const distance = (dx * dx + dy * dy);
+        return (dx * dx + dy * dy);
     }
 
     public static getRandintInInterval(a: number, b: number): number {

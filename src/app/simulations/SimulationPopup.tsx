@@ -1,11 +1,11 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import 'rc-slider/assets/index.css'; // Import the CSS for the slider
 import { SimuEngine } from './SimuEngine';
 import { Toolbar } from './Toolbar';
 import { SimuEngineSort } from './sort/SimuEngineSort';
 import { ToolbarSort } from './sort/ToolbarSort';
-import { SimuEnginePaths as SimuEnginePaths } from './paths/SimuEnginePaths';
+import { SimuEnginePaths } from './paths/SimuEnginePaths';
 import { ToolbarPaths } from './paths/ToolbarPaths';
 import { SimuEngineTSP } from './tsp/SimuEngineTSP';
 import { ToolbarTSP } from './tsp/ToolbarTSP';

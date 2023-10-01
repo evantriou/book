@@ -1,7 +1,6 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
-import { Circle, Point } from "../../utils/Point";
-import { Context } from "vm";
+import { Circle } from "../../utils/Point";
 import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEngineBoids extends SimuEngine {
@@ -131,7 +130,7 @@ export class boid extends Circle {
 
         this.neighCount = 0;
 
-        const otherBoids: boid[] = boids.filter(other => other != this);
+        const otherBoids: boid[] = boids.filter(other => other !== this);
 
         let mass: {x: number, y: number} = {x:0, y:0};
         let separation: {x: number, y: number} = {x:0, y:0};
@@ -162,13 +161,13 @@ export class boid extends Circle {
             }
         }
 
-        if (neighborsCount == 0) return {x: 0, y: 0};
+        if (neighborsCount === 0) return {x: 0, y: 0};
 
         mass.x = (mass.x / neighborsCount) - this.x;
         mass.y = (mass.y / neighborsCount) - this.y;
         //Set magnetude
         let massSteering = Math.sqrt(mass.x ** 2 + mass.y ** 2);
-        if (massSteering != 0) {
+        if (massSteering !== 0) {
             mass.x = (mass.x / massSteering) * this.maxForce;
             mass.y = (mass.y / massSteering) * this.maxForce
         }
@@ -177,16 +176,14 @@ export class boid extends Circle {
         alignment.y =  (alignment.y / neighborsCount);
         //Set magnetude
         let alignSteering = Math.sqrt(alignment.x ** 2 + alignment.y ** 2);
-        if (alignSteering != 0) {
+        if (alignSteering !== 0) {
             alignment.x = (alignment.x / alignSteering) * this.maxForce
             alignment.y = (alignment.y / alignSteering) * this.maxForce
         }
 
-        separation.x =  separation.x;
-        separation.y =  separation.y;
         //Set magnetude
         let separSteering = Math.sqrt(separation.x ** 2 + separation.y ** 2);
-        if (separSteering != 0) {
+        if (separSteering !== 0) {
             separation.x = (separation.x / separSteering) * this.maxForce
             separation.y = (separation.y / separSteering) * this.maxForce
         }
