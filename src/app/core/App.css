@@ -95,6 +95,8 @@
   display: flex;
   flex-direction: column;
   color: antiquewhite;
+  font-size: large;
+  line-height: 1.5;
   hyphens: auto;
   text-align: start;
   word-break: break-word;

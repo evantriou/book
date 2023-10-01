@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { Card, Carousel, Form } from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
+import linkedin from './../../pictures/linkedin.png';
+import github from './../../pictures/github.png';
+import gmail from './../../pictures/gmail.png';
 
 function Show() {
 
@@ -22,10 +25,10 @@ function Show() {
 						<span>Today I would define my self as fullstack and open for discussion about any engineer to development position: details of the position matter more than the title.</span>
 						<span>But the most important thing is... I want to travel the world and find a full remote job !</span>
 					</div>
-				<Carousel.Caption className='ShowSlideCaption'>
-					<h3>Triou Evan</h3>
-					<p>Fullstack developer and engineer around the world.</p>
-				</Carousel.Caption>
+					<Carousel.Caption className='ShowSlideCaption'>
+						<h3>Triou Evan</h3>
+						<p>Fullstack developer and engineer around the world.</p>
+					</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 			<Carousel.Item>
@@ -38,10 +41,45 @@ function Show() {
 						<span>The below input box is linked to my personal email, feel free to use it to contact me.</span>
 						<span>If you prefer do it yourself, you can find my socials at the end of the page, see you soon !</span>
 					</div>
-				<Carousel.Caption className='ShowSlideCaption'>
-					<h3>Click below</h3>
-					<p>Linkedin.</p><p>GitHub.</p><p>Gmail.</p>
-				</Carousel.Caption>
+					<Carousel.Caption className='ShowSlideCaption'>
+						<h3>Click below</h3>
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+							<img
+								src={linkedin}
+								alt="LinkedIn"
+								style={{
+									width: '3rem',
+									height: '3rem',
+									margin: '0.5rem',
+									objectFit: 'cover',
+								}}
+							/>
+						</a>
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+							<img
+								src={github}
+								alt="GitHub"
+								style={{
+									width: '3.8rem',
+									height: '3.8rem',
+									margin: '0.5rem',
+									objectFit: 'cover',
+								}}
+							/>
+						</a>
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+							<img
+								src={gmail}
+								alt="Gmail"
+								style={{
+									width: '2.7rem',
+									height: '2.7rem',
+									margin: '0.5rem',
+									objectFit: 'cover',
+								}}
+							/>
+						</a>
+					</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 			<Carousel.Item>
@@ -56,10 +94,10 @@ function Show() {
 						<span>     - Allow user to fill the GOL grid with predefined famous patterns.</span>
 						<span> - Try some 3D for Perlin noise terrain generation.</span>
 					</div>
-				<Carousel.Caption className='ShowSlideCaption'>
-					<h3>Next developments</h3>
-					<p>Can not wait to see 3D boids to be honest.</p>
-				</Carousel.Caption>
+					<Carousel.Caption className='ShowSlideCaption'>
+						<h3>Next developments</h3>
+						<p>Can not wait to see 3D boids to be honest.</p>
+					</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 		</Carousel>

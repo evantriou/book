@@ -1,15 +1,14 @@
 import { Col, Container, Row } from "react-bootstrap";
 import TabCard, { TabCardProps } from "./TabCard";
 import { useRef, useState } from "react";
-import boidsImg from './../../pictures/boids.png'; // relative path to image
-import sortImg from './../../pictures/sort.png'; // relative path to image
-import pathImg from './../../pictures/path.png'; // relative path to image
-import tspImg from './../../pictures/tsp.png'; // relative path to image
-import golImg from './../../pictures/gol.png'; // relative path to image
-import fractalImg from './../../pictures/fractal.png'; // relative path to image
-import perlinImg from './../../pictures/perlin.png'; // relative path to image
-import blobImg from './../../pictures/blob.png'; // relative path to image
-import { SimuEngine } from "../../simulations/SimuEngine";
+import boidsImg from './../../pictures/boids.png';
+import sortImg from './../../pictures/sort.png';
+import pathImg from './../../pictures/path.png';
+import tspImg from './../../pictures/tsp.png';
+import golImg from './../../pictures/gol.png';
+import fractalImg from './../../pictures/fractal.png';
+import perlinImg from './../../pictures/perlin.png';
+import blobImg from './../../pictures/blob.png';
 import SimulationPopup from "../../simulations/SimulationPopup";
 
 function MainPage() {
