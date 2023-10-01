@@ -79,7 +79,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a target="_blank"  rel="noreferrer" onClick={copyToClipboard}>
+						<a onClick={copyToClipboard}>
 							<img
 								src={gmail}
 								alt="Gmail"
