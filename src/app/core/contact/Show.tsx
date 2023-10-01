@@ -86,13 +86,20 @@ function Show() {
 				<div className='ShowSlide'>
 					<div className='ShowSlideText'>
 						<span>COMMING NEXT ?</span>
-						<span> - Relook TSP simulation to make it nicer.</span>
-						<span> - Add user interactions through toolbar at the bottom of each simulation popup:</span>
-						<span>     - Change boid number and steering rules.</span>
-						<span>     - Add different sorting algorithm so user can choose the one he prefers.</span>
-						<span>     - Enable zoom for the Sierpinsky triangle.</span>
-						<span>     - Allow user to fill the GOL grid with predefined famous patterns.</span>
-						<span> - Try some 3D for Perlin noise terrain generation.</span>
+						<ul>
+							<li>Relook TSP simulation to make it nicer. Find a new way to display oredered city list.</li>
+							<li>Add simulation toolbars to enable user interactions.</li>
+							<ul>
+								<li>Boids: allow to change steering behavior on the run.</li>
+								<li>Sort: add different sorting algorithm user can select with a dropdown.</li>
+								<li>Paths: add different shortest paths algorithm user can select with a dropdown (Dijsktra).</li>
+								<li>TSP: allow user to ajust the number of cities on the tour.</li>
+								<li>GOL: allow user to fill the grid with premade famous patterns.</li>
+								<li>Fractal: allow user to zoom in the Sierpinsky triangle.</li>
+								<li>Perlin noise: allow user to change the smoothness of the noise</li>
+								<li>DLA: allow user to modify the number of random walkers.</li>
+							</ul>
+						</ul>
 					</div>
 					<Carousel.Caption className='ShowSlideCaption'>
 						<h3>Next developments</h3>
