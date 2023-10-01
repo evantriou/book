@@ -13,25 +13,18 @@ import { SimuEngine } from "../../simulations/SimuEngine";
 import SimulationPopup from "../../simulations/SimulationPopup";
 
 function MainPage() {
-	// Create a ref to hold the simulation engine instance
-	const simuEngineRef = useRef<SimuEngine | null>(null);
-
-	const closePopup = () => {
-		setSelectedSimulation(null);
-		setIsPopupVisible(false);
-		// Stop the simulation when the pop-up is closed
-		if (simuEngineRef.current) {
-			simuEngineRef.current.stopLoop();
-		}
-	};
-
+	
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 	const [selectedSimulation, setSelectedSimulation] = useState<string | null>(null);
-
+	
     const handleTryClick = (tabName: string) => {
 		setSelectedSimulation(tabName);
 		setIsPopupVisible(true);
 	};
+
+	const closePopup = () => {
+		setIsPopupVisible(false);
+	}
 
     const tabsProps: TabCardProps[] = [
 		{
@@ -100,9 +93,8 @@ function MainPage() {
 			</Row>
 			{isPopupVisible && (
 				<SimulationPopup
-					onClose={closePopup}
 					selectedSimulation={selectedSimulation}
-					simuEngineRef={simuEngineRef}
+					closePopup={closePopup}
 				/>
 			)}
 		</Container>

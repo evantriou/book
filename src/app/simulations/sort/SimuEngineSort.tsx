@@ -36,6 +36,13 @@ export class SimuEngineSort extends SimuEngine {
             this.displayedBars.push(bar);
             this.sortedBars.push(bar.clone());
         }
+            
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
+            
+        // Loop through the bars and render each one
+        for (const bar of this.displayedBars) {
+            this.renderBar(bar);
+        }
         this.sort(); // Call the sorting algorithm at the end of init
     }
 
@@ -89,10 +96,7 @@ export class SimuEngineSort extends SimuEngine {
 
     do(): void {
         if (!this.ctx) return;
-    
-        // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "rgba(25, 25, 25, 0.71)"; // Adjust the background color
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
     
         // Check if there are moves left to play
         if (this.timer < this.moves.length) {

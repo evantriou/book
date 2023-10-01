@@ -57,7 +57,7 @@ function Email() {
 					onChange={handleTextAreaChange}
 				/>
 			</Form.Group>
-			<Button variant="primary" type="button" onClick={handleClick}>
+			<Button variant="primary" type="button" onClick={handleClick} className ="ButtonPrimary">
 				Send
 			</Button>
 		</Form>

@@ -29,8 +29,7 @@ export class SimuEngineBoids extends SimuEngine {
     // Initializes first state for each boid and render one time.
     init(): void {
         if (!this.ctx) return;
-        this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
         for (let i = 0; i < this.populationNbr; i++) {
             const initialX = Math.random() * this.canvas.width;
             const initialY = Math.random() * this.canvas.height;
@@ -48,9 +47,7 @@ export class SimuEngineBoids extends SimuEngine {
     public do(): void {
         if (!this.ctx) return;
 
-        // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "rgba(25, 25, 25, 1)"; // Adjust the background color
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         for (const boid of this.boids) {
             boid.update(this.canvas, this.boids);

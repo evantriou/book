@@ -27,10 +27,15 @@ export class SimuEngineDLA extends SimuEngine {
 
     // Méthode pour démarrer la simulation
     init(): void {
+        if (!this.ctx) return;
         this.tree.push(new Walker(this.canvas.width / 2, this.canvas.height / 2, this.maxRadius, true));
         for (let i = 0; i < this.maxWalkers; i++) {
             let rndPoint: { x: number, y: number } = this.pickSmartRndPoint();
             this.walkers.push(new Walker(rndPoint.x, rndPoint.y, this.maxRadius, false));
+        }
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
+        for (const walker of this.tree) {
+            DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);
         }
     }
 
@@ -67,8 +72,7 @@ export class SimuEngineDLA extends SimuEngine {
     do(): void {
         if (!this.ctx) return;
 
-        this.ctx.fillStyle = "rgba(0, 0, 0, 0.71)";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         for (const walker of this.tree) {
             DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);

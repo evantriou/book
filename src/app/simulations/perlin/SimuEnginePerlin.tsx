@@ -31,11 +31,12 @@ export class SimuEnginePerlin extends SimuEngine {
             ).normalize();
         }
 
-        this.init();
+        this.init();   
     }
 
     init(): void {
         if (!this.ctx) return;
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
         this.pixelMatrix = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
     }
 
@@ -43,9 +44,8 @@ export class SimuEnginePerlin extends SimuEngine {
         if (!this.ctx || !this.pixelMatrix) return;
 
         const colors = DrawingUtils.getColors();
-
-        this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         for (let x = 0; x < this.canvas.width; x++) {
             for (let y = 0; y < this.canvas.height; y++) {

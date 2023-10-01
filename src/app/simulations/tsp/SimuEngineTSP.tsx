@@ -54,6 +54,14 @@ export class SimuEngineTSP extends SimuEngine {
         this.initGraph();
         this.initMST();
         this.initTSP();
+
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
+        for (const road of this.roads) {
+            this.renderRoad(road);
+        }
+        for (const city of this.cities) {
+            this.renderCity(city);
+        }
     }
 
     private initGraph(): void {
@@ -117,9 +125,7 @@ export class SimuEngineTSP extends SimuEngine {
     do(): void {
         if (!this.ctx) return;
 
-        // Draw the background with a regular fillRect
-        this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         if (this.computingMST) {
             if (this.heapMST.length != 0) {

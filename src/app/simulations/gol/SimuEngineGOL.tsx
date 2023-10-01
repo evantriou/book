@@ -194,10 +194,10 @@ class Cell extends Point {
     public renderCell(ctx: Context, side: number): void {
         if (!ctx) return;
 
-        let color = "black";
+        let color = "rgb(250, 235, 215)";
         if (!this.alive) {
-            color = "white";
+            color = "rgba(51, 51, 51, 1)";
         }
-        DrawingUtils.renderCell(ctx, this, side, color, "grey");
+        DrawingUtils.renderCell(ctx, this, side, color, "rgba(21, 21, 21, 1)");
     }
 }

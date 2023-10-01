@@ -5,15 +5,28 @@
   text-align: center;
 }
 
+.ButtonPrimary {
+  color: rgb(51, 51, 51);
+  background-color: rgb(149, 213, 172);
+  --bs-btn-bg: #333;
+  --bs-btn-border-color: rgb(149, 213, 172);;
+  --bs-btn-hover-bg: #333;
+  --bs-btn-hover-border-color: rgb(149, 213, 172);
+  --bs-btn-active-bg: #333;
+  --bs-btn-active-border-color: #333;
+  --bs-btn-disabled-bg: #333;
+  --bs-btn-disabled-border-color: #333;
+}
+
 .Header {
   box-shadow: 0px 0px 15px rgba(85, 76, 65, 0.5);
-  background-color: #333;
+  background-color: rgb(51, 51, 51)
 }
 
 .AppMain {
   width: 100%;
   color: antiquewhite;
-  background-color: #555;
+  background-color: #555555;
 }
 
 
@@ -21,17 +34,26 @@
   color: rgb(250, 235, 215);
   justify-self: left;
   margin-right: 3rem;
+  --bs-navbar-brand-hover-color: rgb(149, 213, 172);
 }
 
 .HeaderEntryName {
   flex-grow: 1;
   color: antiquewhite;
   text-align: end;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 /**
 ----------------------------> BOOK
 **/
+
+.Card {
+  background-color: rgb(51, 51, 51);
+  color: antiquewhite;
+}
+
 /**
 ----------------------------> CONTACT
 **/

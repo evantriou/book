@@ -31,7 +31,7 @@ export class DrawingUtils {
     }
 
     public static clearCanvas(ctx: Context, canvas: HTMLCanvasElement): void {
-        ctx.fillStyle = "rgba(25, 25, 25, 1)";
+        ctx.fillStyle = "rgba(51, 51, 51, 1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
     

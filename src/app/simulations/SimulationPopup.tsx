@@ -22,19 +22,29 @@ import { SimuEngineBoids } from './boids/SimuEngineBoids';
 
 interface SimulationPopupProps {
     selectedSimulation: string | null;
-    onClose: () => void;
-    simuEngineRef:  RefObject<SimuEngine | null>;
+    closePopup: () => void
 }
 
 
 type SimulationCanvasType = SimuEngine | null;
 type ToolbarType = Toolbar | null;
 
-function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: SimulationPopupProps) {
+function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProps) {
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const [simulationCanvas, setSimulationCanvas] = useState<SimulationCanvasType | null>(null);
     const [toolbar, setToolbar] = useState<ToolbarType | null>(null);
+
+    	
+	const close = () => {
+        closePopup()
+		setSimulationCanvas(null);
+		// Stop the simulation when the pop-up is closed
+		if (simulationCanvas) {
+			simulationCanvas.stopLoop();
+		}
+	};
 
     useEffect(() => {
 
@@ -106,11 +116,11 @@ function SimulationPopup({ selectedSimulation, onClose, simuEngineRef }: Simulat
         setSimulationCanvas(newSimulationCanvas);
 
         return () => {};
-    }, [selectedSimulation, simuEngineRef]);
+    }, [selectedSimulation]);
 
     return (
         <Modal show={!!selectedSimulation} centered className="modal-xl">
-            <Modal.Header closeButton onHide={onClose}>
+            <Modal.Header closeButton onClick={close}>
                 <Modal.Title>{selectedSimulation}</Modal.Title>
             </Modal.Header>
             <Modal.Body id="CanvasContainer">

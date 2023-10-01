@@ -63,6 +63,8 @@ export class SimuEnginePaths extends SimuEngine {
             }
             this.cells.push(row);
         }
+
+        this.renderAllCells();
     }
 
     do(): void {
@@ -198,7 +200,7 @@ export class SimuEnginePaths extends SimuEngine {
         const y = cell.y * this.cellSideLength;
 
         // Draw cell border
-        this.ctx.strokeStyle = 'white'; // Border color
+        this.ctx.strokeStyle = 'rgba(21, 21, 21, 1)'; // Border color
         this.ctx.lineWidth = 1; // Border width
         this.ctx.strokeRect(x, y, this.cellSideLength, this.cellSideLength);
 
@@ -206,17 +208,17 @@ export class SimuEnginePaths extends SimuEngine {
 
         // Draw cell based on its type
         if (cell.isDeparture) {
-            this.ctx.fillStyle = colors[4];
-        } else if (cell.isArrival) {
-            this.ctx.fillStyle = colors[4];
-        } else if (cell.isWall) {
-            this.ctx.fillStyle = "rgba(25, 25, 25, 1)";
-        } else if (cell.isValidated) {
-            this.ctx.fillStyle = colors[4];
-        } else if (cell.isClosed) {
             this.ctx.fillStyle = colors[0];
+        } else if (cell.isArrival) {
+            this.ctx.fillStyle = colors[0];
+        } else if (cell.isWall) {
+            this.ctx.fillStyle = colors[4];
+        } else if (cell.isValidated) {
+            this.ctx.fillStyle = colors[0];
+        } else if (cell.isClosed) {
+            this.ctx.fillStyle = colors[2];
         } else {
-            this.ctx.fillStyle =  colors[2];
+            this.ctx.fillStyle =  "rgba(51, 51, 51, 1)";
         }
 
         // Fill the cell without overlapping the borders
