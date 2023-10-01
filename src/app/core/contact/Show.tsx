@@ -12,6 +12,18 @@ function Show() {
 		setIndex(selectedIndex);
 	};
 
+	const [isCopied, setIsCopied] = useState(false);
+
+	const copyToClipboard = () => {
+	  const email = 'triouevan@gmail.com';
+	  navigator.clipboard.writeText(email).then(() => {
+		setIsCopied(true);
+		setTimeout(() => {
+		  setIsCopied(false);
+		}, 3000);
+	  });
+	};
+
 	return (
 		<Carousel activeIndex={index} onSelect={handleSelect} interval={null} className='Show'>
 			<Carousel.Item>
@@ -43,7 +55,7 @@ function Show() {
 					</div>
 					<Carousel.Caption className='ShowSlideCaption'>
 						<h3>Click below</h3>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
+						<a href="https://www.linkedin.com/in/evan-triou/" target="_blank"  rel="noreferrer">
 							<img
 								src={linkedin}
 								alt="LinkedIn"
@@ -55,7 +67,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
+						<a href="https://github.com/evantriou/book" target="_blank"  rel="noreferrer">
 							<img
 								src={github}
 								alt="GitHub"
@@ -67,7 +79,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
+						<a target="_blank"  rel="noreferrer" onClick={copyToClipboard}>
 							<img
 								src={gmail}
 								alt="Gmail"
@@ -79,6 +91,7 @@ function Show() {
 								}}
 							/>
 						</a>
+						{isCopied && <div>Mail copied to clipboard</div>}
 					</Carousel.Caption>
 				</div>
 			</Carousel.Item>
