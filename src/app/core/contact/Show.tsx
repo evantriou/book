@@ -79,7 +79,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a onClick={copyToClipboard}>
+						<div onClick={copyToClipboard}>
 							<img
 								src={gmail}
 								alt="Gmail"
@@ -90,7 +90,7 @@ function Show() {
 									objectFit: 'cover',
 								}}
 							/>
-						</a>
+						</div>
 						{isCopied && <div>Mail copied to clipboard</div>}
 					</Carousel.Caption>
 				</div>
