@@ -1,6 +1,5 @@
 import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
-import { Context } from "vm";
 import { DrawingUtils } from "../../utils/DrawingUtils";
 
 export class SimuEngineFractal extends SimuEngine {

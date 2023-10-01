@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import TabCard, { TabCardProps } from "./TabCard";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import boidsImg from './../../pictures/boids.png';
 import sortImg from './../../pictures/sort.png';
 import pathImg from './../../pictures/path.png';

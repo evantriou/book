@@ -43,7 +43,7 @@ function Show() {
 					</div>
 					<Carousel.Caption className='ShowSlideCaption'>
 						<h3>Click below</h3>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
 							<img
 								src={linkedin}
 								alt="LinkedIn"
@@ -55,7 +55,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
 							<img
 								src={github}
 								alt="GitHub"
@@ -67,7 +67,7 @@ function Show() {
 								}}
 							/>
 						</a>
-						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank">
+						<a href="https://www.youtube.com/watch?v=v-OdY_lO_sM&list=RDv-OdY_lO_sM&index=1" target="_blank"  rel="noreferrer">
 							<img
 								src={gmail}
 								alt="Gmail"

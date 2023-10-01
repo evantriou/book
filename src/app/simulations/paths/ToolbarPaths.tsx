@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
+import { ButtonGroup } from "react-bootstrap";
 import { Toolbar } from "../Toolbar";
 
 // Toolbar for Paths Simulation
