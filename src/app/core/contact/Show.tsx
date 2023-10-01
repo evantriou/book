@@ -13,7 +13,7 @@ function Show() {
 	};
 
 	return (
-		<Carousel activeIndex={index} onSelect={handleSelect} className='Show'>
+		<Carousel activeIndex={index} onSelect={handleSelect} interval={null} className='Show'>
 			<Carousel.Item>
 				<div className='ShowSlide'>
 					<div className='ShowSlideText'>
