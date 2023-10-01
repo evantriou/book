@@ -1,4 +1,3 @@
-import Slider from "rc-slider";
 import { Toolbar } from "../Toolbar";
 import { ButtonGroup } from "react-bootstrap";
 
