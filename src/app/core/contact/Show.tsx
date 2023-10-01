@@ -22,6 +22,10 @@ function Show() {
 						<span>Today I would define my self as fullstack and open for discussion about any engineer to development position: details of the position matter more than the title.</span>
 						<span>But the most important thing is... I want to travel the world and find a full remote job !</span>
 					</div>
+				<Carousel.Caption className='ShowSlideCaption'>
+					<h3>Triou Evan</h3>
+					<p>Fullstack developer and engineer around the world.</p>
+				</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 			<Carousel.Item>
@@ -34,6 +38,10 @@ function Show() {
 						<span>The below input box is linked to my personal email, feel free to use it to contact me.</span>
 						<span>If you prefer do it yourself, you can find my socials at the end of the page, see you soon !</span>
 					</div>
+				<Carousel.Caption className='ShowSlideCaption'>
+					<h3>Click below</h3>
+					<p>Linkedin.</p><p>GitHub.</p><p>Gmail.</p>
+				</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 			<Carousel.Item>
@@ -48,6 +56,10 @@ function Show() {
 						<span>     - Allow user to fill the GOL grid with predefined famous patterns.</span>
 						<span> - Try some 3D for Perlin noise terrain generation.</span>
 					</div>
+				<Carousel.Caption className='ShowSlideCaption'>
+					<h3>Next developments</h3>
+					<p>Can not wait to see 3D boids to be honest.</p>
+				</Carousel.Caption>
 				</div>
 			</Carousel.Item>
 		</Carousel>

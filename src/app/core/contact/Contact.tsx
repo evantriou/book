@@ -9,17 +9,6 @@ function Contact() {
         <Show/>
         <Email/>
       </div>
-      <div className = 'ContactLogosBar'>
-        <div>
-          LINKEDIN
-        </div>
-        <div>
-          GIT
-        </div>
-        <div>
-          GMAIL
-        </div>
-      </div>
     </>
   );
 }

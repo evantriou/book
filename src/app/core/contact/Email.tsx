@@ -46,6 +46,7 @@ function Email() {
 					placeholder="Enter email"
 					value={mailAdress}
 					onChange={handleMailAdressAreaChange}
+					className="Input"
 				/>
 			</Form.Group>
 			<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -55,6 +56,7 @@ function Email() {
 					placeholder="Your message"
 					value={message}
 					onChange={handleTextAreaChange}
+					className="Input"
 				/>
 			</Form.Group>
 			<Button variant="primary" type="button" onClick={handleClick} className ="ButtonPrimary">
