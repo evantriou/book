@@ -97,7 +97,8 @@ export class SimuEngineSort extends SimuEngine {
     do(): void {
         if (!this.ctx) return;
 
-    
+        DrawingUtils.clearCanvas(this.ctx, this.canvas);
+
         // Check if there are moves left to play
         if (this.timer < this.moves.length) {
             const move = this.moves[this.timer];
