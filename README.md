@@ -1,3 +1,11 @@
+# Welcome to my portfolio !
+
+Here is a simple react app used to launch few visual simulations of known models and patterns.\
+Each simulation is help in an HTMLCanvas element.\
+The contact page is made... to contact me, do not hesitate !\
+If you have ideas to improve one or another, or just suggestions feel free to write me.\
+Know I let the automatic create-react-app readme file continue for the beginners reading these lines.  
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
