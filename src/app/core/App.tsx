@@ -7,7 +7,6 @@ import { SimuEngine } from './../simulations/SimuEngine';
 import { Route, Routes } from 'react-router-dom';
 import MainPage from './book/MainPage';
 import Contact from './contact/Contact';
-import CommingNext from './commingNext/CommingNext';
 
 function App() {
 	return (
@@ -18,7 +17,6 @@ function App() {
 					<Route path="/" element={<MainPage />} />
 					<Route path="/book" element={<MainPage />} />
 					<Route path="/contact" element={<Contact />} />
-					<Route path="/commingNext" element={<CommingNext />} />
 				</Routes>
 			</main>
 		</div>

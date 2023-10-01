@@ -14,6 +14,9 @@ function Email() {
 			text: message
 		};
 
+		if (templateParams.name.length === 0) return;
+		if (templateParams.text.length === 0) return;
+
 		emailjs.send('service_xkqa5hu', 'template_8d7eb2h', templateParams, 'A5wqQGaaVAoe6Kpjq')
 		  .then((result) => {
 			  console.log(result.text);

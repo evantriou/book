@@ -33,9 +33,23 @@
 }
 
 .ShowSlide {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+
+.ShowSlideText {
+  width: 70%;
+  height: 70%;
+  justify-self: center;
   display: flex;
   flex-direction: column;
   color: antiquewhite;
+  hyphens: auto;
+  text-align: start;
+  word-break: break-word;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .Form {
