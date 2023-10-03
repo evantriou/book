@@ -17,12 +17,14 @@ export class SimuEngineBoids extends SimuEngine {
         super(canvas, ctx, canvasRef);
         this.boids = [];
         this.populationNbr = 300;
-        this.boidSize = 5;
+        this.boidSize = 3;
         this.boidMaxForce = 5;
         this.boidMaxSpeed = 5;
         this.perceptionRadius = 100;
         this.separationRadius = 50;
         this.init();
+        console.log("w ", this.canvas.width)
+        console.log("h ", this.canvas.height)
     }
 
     // Initializes first state for each boid and render one time.
@@ -93,7 +95,7 @@ export class boid extends Circle {
         const endpointY = this.y + 2 * this.r * Math.sin(this.heading);
 
         ctx.strokeStyle = color;
-        ctx.lineWidth = 2
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(endpointX, endpointY);
@@ -121,9 +123,6 @@ export class boid extends Circle {
         // Uncomment the one you prefer:
         this.clampToPacmanWorld(canvas);
         // this.bouncingBorders(canvas);
-        
-        console.log("x ", this.x)
-        console.log("y ", this.y)
     }
 
     public flock(canvas: HTMLCanvasElement, boids: boid[]): {x: number, y: number} {
