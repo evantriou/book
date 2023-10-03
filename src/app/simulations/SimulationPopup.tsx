@@ -52,7 +52,8 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
         const canvasContainer = document.getElementById("CanvasContainer");
         if (!canvas) return;
         if (!canvasContainer) return;
-        adaptCanvas(canvas, canvasContainer);
+
+        //adaptCanvas(canvas, canvasContainer);
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
