@@ -23,8 +23,8 @@ export class SimuEngineTSP extends SimuEngine {
     private tour: City[];
     private finalTour: City[];
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
+        super(canvas, ctx, canvasRef, aspectRatio);
 
         this.cityNbr = 50;
 

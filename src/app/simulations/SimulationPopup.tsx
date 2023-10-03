@@ -53,7 +53,7 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
         if (!canvas) return;
         if (!canvasContainer) return;
 
-        adaptCanvas(canvas, canvasContainer);
+        const aspectRatio: number = adaptCanvas(canvas, canvasContainer);
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -63,54 +63,54 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
 
         if (selectedSimulation === 'Boids Simulation') {
 
-            newSimulationCanvas = new SimuEngineBoids(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineBoids(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarBoids(newSimulationCanvas));
 
         } else if (selectedSimulation === 'Sorting algorithms') {
 
-            newSimulationCanvas = new SimuEngineSort(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineSort(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarSort(newSimulationCanvas));
 
         }
         else if (selectedSimulation === 'Shortest Paths') {
 
-            newSimulationCanvas = new SimuEnginePaths(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEnginePaths(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarPaths(newSimulationCanvas));
 
         }
         else if (selectedSimulation === 'TSP') {
 
-            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarTSP(newSimulationCanvas));
 
         }
         else if (selectedSimulation === "Conway's Game of Life") {
 
-            newSimulationCanvas = new SimuEngineGOL(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineGOL(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarGOL(newSimulationCanvas));
 
         }
         else if (selectedSimulation === "Fractal Simulation") {
 
-            newSimulationCanvas = new SimuEngineFractal(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineFractal(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarFractal(newSimulationCanvas));
 
         }
         else if (selectedSimulation === "Perlin Noise") {
 
-            newSimulationCanvas = new SimuEnginePerlin(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEnginePerlin(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarPerlin(newSimulationCanvas));
 
         }
         else if (selectedSimulation === "Blob Simulation") {
 
-            newSimulationCanvas = new SimuEngineDLA(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineDLA(canvas, ctx, canvasRef, aspectRatio);
             setToolbar(new ToolbarDLA(newSimulationCanvas));
 
         }
         else {
             // Should never happen.
-            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef);
+            newSimulationCanvas = new SimuEngineTSP(canvas, ctx, canvasRef, aspectRatio);
         }
 
         // Set the local simulation canvas object
@@ -134,7 +134,7 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
     );
 }
 
-function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): void {
+function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): number {
     // Calculate the canvas dimensions based on the parent's dimensions
     const containerWidth = canvasContainer.clientWidth;
     const containerHeight = canvasContainer.clientHeight;
@@ -153,6 +153,11 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): v
         canvas.height = containerHeight;
         canvas.width = containerHeight * aspectRatio;
     }
+
+    const sizeRatio: number = ((canvas.width*canvas.width)+(canvas.height*canvas.height))/1618805;
+    // All drawing size have been chosen for a canvas with hypothenus length 1618805, rescale it to fit all screen sizes.
+
+    return sizeRatio;
 }
 
 export default SimulationPopup;

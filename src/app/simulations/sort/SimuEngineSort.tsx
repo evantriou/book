@@ -15,8 +15,8 @@ export class SimuEngineSort extends SimuEngine {
     private moves: Move[];
     private timer: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
+        super(canvas, ctx, canvasRef, aspectRatio);
         this.numBars = 50;
         this.maxBarValue = 50;
         this.valueToHeightRatio = this.canvas.height / this.maxBarValue;

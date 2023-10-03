@@ -7,12 +7,13 @@ export abstract class SimuEngine {
     protected loopId: any;
     protected loopOn: boolean = false;
     protected readonly FRAMERATE: number = 20;
-    protected readonly PIXELRATION_DRAWINGRATE = 3/2;
+    protected readonly aspectRatio;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.canvasRef = canvasRef;
+        this.aspectRatio = aspectRatio;
     }
 
     public startLoop(): void {
