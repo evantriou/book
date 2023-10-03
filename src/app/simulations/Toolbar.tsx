@@ -14,7 +14,7 @@ export abstract class Toolbar {
                     {this && this.getButtons()}
                 </ButtonGroup>
                 <ButtonGroup>
-                    <Button variant="primary" onClick={() => this.simuEngine.startLoop()}>Start</Button>
+                    <Button className="ButtonPrimary" onClick={() => this.simuEngine.startLoop()}>Start</Button>
                     <Button variant="secondary" onClick={() => this.simuEngine.stopLoop()}>Stop</Button>        
                 </ButtonGroup>
             </ButtonGroup>

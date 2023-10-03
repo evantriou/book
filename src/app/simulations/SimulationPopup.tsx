@@ -121,13 +121,13 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
 
     return (
         <Modal show={!!selectedSimulation} centered className="modal-xl">
-            <Modal.Header closeButton onClick={close}>
+            <Modal.Header closeButton onClick={close} style={{backgroundColor:'#555', color:'antiquewhite'}}>
                 <Modal.Title>{selectedSimulation}</Modal.Title>
             </Modal.Header>
-            <Modal.Body id="CanvasContainer">
+            <Modal.Body id="CanvasContainer" style={{backgroundColor:'#555', color:'antiquewhite'}}>
                 <canvas ref={canvasRef} style={{flex: '1', objectPosition: 'center'}}></canvas>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer style={{backgroundColor:'#555', color:'antiquewhite'}}>
                 {toolbar && toolbar.getToolbar()}
             </Modal.Footer>
         </Modal>
