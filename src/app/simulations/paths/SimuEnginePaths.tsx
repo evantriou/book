@@ -16,8 +16,8 @@ export class SimuEnginePaths extends SimuEngine {
     private noPathFound: boolean;
     private pathFound: boolean;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
-        super(canvas, ctx, canvasRef, aspectRatio);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+        super(canvas, ctx, canvasRef);
 
         this.cellSideLength = 23;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);

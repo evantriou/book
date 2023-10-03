@@ -12,8 +12,8 @@ export class SimuEngineDLA extends SimuEngine {
     private minRadius: number;
     private maxWalkers: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
-        super(canvas, ctx, canvasRef, aspectRatio);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+        super(canvas, ctx, canvasRef);
 
         this.tree = [];
         this.walkers = [];

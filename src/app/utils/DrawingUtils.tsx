@@ -100,17 +100,17 @@ export class DrawingUtils {
         ctx.closePath();
     }
 
-    public static renderCell(ctx: Context, point: Point, sideLength: number, color: any, colorBorders: any, ratio: number): void {
+    public static renderCell(ctx: Context, point: Point, sideLength: number, color: any, colorBorders: any): void {
         if (!ctx) return;
 
-        const x = point.x * sideLength * ratio;
-        const y = point.y * sideLength * ratio;
+        const x = point.x * sideLength;
+        const y = point.y * sideLength;
 
         ctx.fillStyle = color;
         ctx.fillRect(x, y, sideLength, sideLength);
     
         ctx.strokeStyle = colorBorders;
-        ctx.lineWidth = 1 * ratio;
+        ctx.lineWidth = 1;
         ctx.strokeRect(x, y, sideLength, sideLength);
     }
 

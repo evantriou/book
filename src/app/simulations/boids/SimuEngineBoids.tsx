@@ -13,8 +13,8 @@ export class SimuEngineBoids extends SimuEngine {
     private perceptionRadius: number;
     private separationRadius: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
-        super(canvas, ctx, canvasRef, aspectRatio);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+        super(canvas, ctx, canvasRef);
         this.boids = [];
         this.populationNbr = 300;
         this.boidSize = 3;

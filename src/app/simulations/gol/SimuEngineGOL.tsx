@@ -13,8 +13,8 @@ export class SimuEngineGOL extends SimuEngine {
 
     private eventOn: boolean;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
-        super(canvas, ctx, canvasRef, aspectRatio);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+        super(canvas, ctx, canvasRef);
 
         this.cellSideLength = 15;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
@@ -35,7 +35,7 @@ export class SimuEngineGOL extends SimuEngine {
         for (const row of this.cells) {
             for (const cell of row) {
                 this.updateCell(cell);
-                cell.renderCell(this.ctx, this.cellSideLength, this.aspectRatio);
+                cell.renderCell(this.ctx, this.cellSideLength);
             }
         }
 
@@ -113,7 +113,7 @@ export class SimuEngineGOL extends SimuEngine {
     
                 if (x >= cellX && x < cellX + this.cellSideLength && y >= cellY && y < cellY + this.cellSideLength) {
                     cell.alive = !cell.alive;
-                    cell.renderCell(this.ctx, this.cellSideLength, this.aspectRatio);
+                    cell.renderCell(this.ctx, this.cellSideLength);
                 }
             }
         }
@@ -148,7 +148,7 @@ export class SimuEngineGOL extends SimuEngine {
 
                 // Update the copied cell based on this.cells
                 this.updateCell(copy);
-                copy.renderCell(this.ctx, this.cellSideLength, this.aspectRatio);
+                copy.renderCell(this.ctx, this.cellSideLength);
             }
         }
 
@@ -191,13 +191,13 @@ class Cell extends Point {
         this.neighbors = [];
     }
 
-    public renderCell(ctx: Context, side: number, ratio: number): void {
+    public renderCell(ctx: Context, side: number): void {
         if (!ctx) return;
 
         let color = "rgb(250, 235, 215)";
         if (!this.alive) {
             color = "rgba(51, 51, 51, 1)";
         }
-        DrawingUtils.renderCell(ctx, this, side, color, "rgba(21, 21, 21, 1)", ratio);
+        DrawingUtils.renderCell(ctx, this, side, color, "rgba(21, 21, 21, 1)");
     }
 }

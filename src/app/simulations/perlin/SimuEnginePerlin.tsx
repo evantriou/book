@@ -10,8 +10,8 @@ export class SimuEnginePerlin extends SimuEngine {
     private time: number;
     private scale: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, aspectRatio: number) {
-        super(canvas, ctx, canvasRef, aspectRatio);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+        super(canvas, ctx, canvasRef);
 
         this.pixelMatrix = null;
         this.time = 0.5;
