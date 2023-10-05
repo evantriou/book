@@ -13,18 +13,16 @@ export class SimuEngineBoids extends SimuEngine {
     private perceptionRadius: number;
     private separationRadius: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
+        super(canvas, ctx, canvasRef, diagLength);
         this.boids = [];
-        this.populationNbr = 300;
-        this.boidSize = 3;
-        this.boidMaxForce = 5;
-        this.boidMaxSpeed = 5;
-        this.perceptionRadius = 100;
-        this.separationRadius = 50;
+        this.populationNbr = 0.3*this.diagLength;
+        this.boidSize = 0.003*this.diagLength;
+        this.boidMaxForce = 0.005*this.diagLength;
+        this.boidMaxSpeed = 0.005*this.diagLength;
+        this.perceptionRadius = 0.1*this.diagLength;
+        this.separationRadius = 0.05*this.diagLength;
         this.init();
-        console.log("w ", this.canvas.width)
-        console.log("h ", this.canvas.height)
     }
 
     // Initializes first state for each boid and render one time.
@@ -40,7 +38,7 @@ export class SimuEngineBoids extends SimuEngine {
                 this.boidSize, initialVelocityX, initialVelocityY,
                 this.boidMaxForce, this.boidMaxSpeed,
                 this.perceptionRadius, this.separationRadius);
-            newBoid.render(this.ctx, this.populationNbr);
+            newBoid.render(this.ctx, this.populationNbr, this.diagLength);
             this.boids.push(newBoid);
         }
     }
@@ -52,7 +50,7 @@ export class SimuEngineBoids extends SimuEngine {
 
         for (const boid of this.boids) {
             boid.update(this.canvas, this.boids);
-            boid.render(this.ctx, this.populationNbr);
+            boid.render(this.ctx, this.populationNbr, this.diagLength);
         }
     }
 
@@ -84,18 +82,18 @@ export class boid extends Circle {
         this.neighCount = 0;
     }
 
-    public render(ctx: CanvasRenderingContext2D | null, population: number): void {
+    public render(ctx: CanvasRenderingContext2D | null, population: number, diagLength: number): void {
         if (!ctx) return;
 
         const color: string = DrawingUtils.getColorBasedOnValue(this.neighCount, 0, population);
 
         DrawingUtils.renderCircle(ctx, this, color);
         
-        const endpointX = this.x + 2 * this.r * Math.cos(this.heading);
-        const endpointY = this.y + 2 * this.r * Math.sin(this.heading);
+        const endpointX = this.x + 0.002*diagLength * this.r * Math.cos(this.heading);
+        const endpointY = this.y + 0.002*diagLength * this.r * Math.sin(this.heading);
 
         ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 0.002*diagLength;
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(endpointX, endpointY);

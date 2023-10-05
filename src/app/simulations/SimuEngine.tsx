@@ -6,12 +6,14 @@ export abstract class SimuEngine {
     protected ctx: CanvasRenderingContext2D | null;
     protected loopId: any;
     protected loopOn: boolean = false;
-    protected readonly FRAMERATE: number = 20;
+    protected FRAMERATE: number = 20;
+    protected readonly diagLength: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.canvasRef = canvasRef;
+        this.diagLength = diagLength;
     }
 
     public startLoop(): void {

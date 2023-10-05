@@ -15,8 +15,9 @@ export class SimuEngineSort extends SimuEngine {
     private moves: Move[];
     private timer: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
+        super(canvas, ctx, canvasRef, diagLength);
+        this.FRAMERATE = 15;
         this.numBars = 50;
         this.maxBarValue = 50;
         this.valueToHeightRatio = this.canvas.height / this.maxBarValue;
@@ -31,7 +32,7 @@ export class SimuEngineSort extends SimuEngine {
     init(): void {
         if (!this.ctx) return;
         for (let i = 0; i < this.numBars; i++) {
-            const value = Math.floor(Math.random() * (this.maxBarValue - 1 + 1)) + 1;
+            const value = Math.floor(Math.random() * (this.maxBarValue)) + Math.floor(0.001*this.diagLength);
             const bar = new Bar(i, value);
             this.displayedBars.push(bar);
             this.sortedBars.push(bar.clone());

@@ -16,10 +16,10 @@ export class SimuEnginePaths extends SimuEngine {
     private noPathFound: boolean;
     private pathFound: boolean;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
+        super(canvas, ctx, canvasRef, diagLength);
 
-        this.cellSideLength = 23;
+        this.cellSideLength = 0.023*this.diagLength;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
         this.numCols = Math.floor(this.canvas.width / this.cellSideLength);
         this.cells = [];
@@ -222,7 +222,7 @@ export class SimuEnginePaths extends SimuEngine {
         }
 
         // Fill the cell without overlapping the borders
-        this.ctx.fillRect(x + 1, y + 1, this.cellSideLength - 2, this.cellSideLength - 2);
+        this.ctx.fillRect(x + 0.001*this.diagLength, y + 0.001*this.diagLength, this.cellSideLength - 0.002*this.diagLength, this.cellSideLength - 0.002*this.diagLength);
     }
 
     stop(): void {

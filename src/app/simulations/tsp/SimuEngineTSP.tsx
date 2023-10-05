@@ -23,10 +23,10 @@ export class SimuEngineTSP extends SimuEngine {
     private tour: City[];
     private finalTour: City[];
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
+        super(canvas, ctx, canvasRef, diagLength);
 
-        this.cityNbr = 50;
+        this.cityNbr = 0.05*this.diagLength;
 
         this.cities = [];
         this.roads = [];
@@ -67,12 +67,12 @@ export class SimuEngineTSP extends SimuEngine {
     private initGraph(): void {
 
         // Initialize the Poisson disk sampling with margins
-        const marginX = 100;
-        const marginY = 100;
+        const marginX = 0.1*this.diagLength;
+        const marginY = 0.1*this.diagLength;
         const poisson = new PoissonDiskSampling({
             shape: [this.canvas.width - marginX * 2, this.canvas.height - marginY * 2],
-            minDistance: 100,
-            maxDistance: 200,
+            minDistance: 0.1*this.diagLength,
+            maxDistance: 0.2*this.diagLength,
         });
 
         // Generate points with Poisson disk sampling (may generate more than needed)
@@ -135,7 +135,6 @@ export class SimuEngineTSP extends SimuEngine {
                 this.finishMST();
                 this.computingMST = false;
                 this.computingTSP = true;
-                debugger
             }
         }
         else if (this.computingTSP) {
@@ -162,7 +161,7 @@ export class SimuEngineTSP extends SimuEngine {
 
         // Draw lines to represent the final tour
         this.ctx.strokeStyle = 'purple';
-        this.ctx.lineWidth = 2;
+        this.ctx.lineWidth = 0.002*this.diagLength;;
 
         for (let i = 0; i < this.finalTour.length - 1; i++) {
             const cityA = this.finalTour[i];
@@ -254,15 +253,15 @@ export class SimuEngineTSP extends SimuEngine {
 
         const colors = DrawingUtils.getColors(); 
 
-        let circleRadius = 3;
+        let circleRadius = 0.003*this.diagLength;
         let circleColor = colors[3];
 
         if (city === this.startCity) {
-            circleRadius = 5;
+            circleRadius = 0.005*this.diagLength;;
             circleColor = colors[0];
         }
         else if (city.visited) {
-            circleRadius = 8;
+            circleRadius = 0.008*this.diagLength;
             circleColor = colors[1];
         }
 
@@ -278,22 +277,22 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.closePath();
 
         this.ctx.fillStyle = 'white';
-        this.ctx.font = '12px Arial bold';
+        this.ctx.font = 0.012*this.diagLength+'px Arial bold';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(city.name, x + 10, y + 20);
+        this.ctx.fillText(city.name, x + 0.01*this.diagLength, y + 0.02*this.diagLength);
     }
 
     // Render a road segment with different colors and sizes based on their properties
     private renderRoad(road: Road): void {
         if (!this.ctx) return;
 
-        let roadWidth = 1;
+        let roadWidth = 0.001*this.diagLength;
         let roadColor = 'blue';
 
         const colors = DrawingUtils.getColors(); 
 
         if (road.isMSTRoad(this.predecessors)) {
-            roadWidth = 2;
+            roadWidth = 0.002*this.diagLength;
             roadColor = colors[0];
         }
         else {
@@ -318,10 +317,10 @@ export class SimuEngineTSP extends SimuEngine {
         // Draw the path on top of the canvas
         const pathText = this.getPathString();
         this.ctx.fillStyle = 'white';
-        this.ctx.font = '16px Arial bold';
+        this.ctx.font = 0.016*this.diagLength+'px Arial bold';
         this.ctx.textAlign = 'center';
 
-        this.ctx.fillText(pathText, this.canvas.width / 2, 30);
+        this.ctx.fillText(pathText, this.canvas.width / 2, 0.03*this.diagLength);
     }
 
     private getPathString(): string {

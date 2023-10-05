@@ -12,14 +12,14 @@ export class SimuEngineDLA extends SimuEngine {
     private minRadius: number;
     private maxWalkers: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>) {
-        super(canvas, ctx, canvasRef);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
+        super(canvas, ctx, canvasRef, diagLength);
 
         this.tree = [];
         this.walkers = [];
-        this.maxRadius = 10;
-        this.minRadius = 5;
-        this.maxWalkers = 100;
+        this.maxRadius = 0.01*this.diagLength;
+        this.minRadius = 0.005*this.diagLength;
+        this.maxWalkers = 0.1*this.diagLength;
 
         this.init();
     }
@@ -78,7 +78,7 @@ export class SimuEngineDLA extends SimuEngine {
         }
         for (let n = 0; n < 75; n++) {
             for (let i = 0; i < this.walkers.length; i++) {
-                this.walkers[i].walk(this.canvas);
+                this.walkers[i].walk(this.canvas, this.diagLength);
                 if (this.walkers[i].checkSticky(this.tree)) { // WARN: removing while looping on the same data structure
                     const currRadius = this.walkers[i].r;
                     this.tree.push(this.walkers[i]);
@@ -93,7 +93,11 @@ export class SimuEngineDLA extends SimuEngine {
             DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);
         }
 
-        if (this.tree.length === 2000) {
+        if (this.tree.length >= 800) {
+            DrawingUtils.clearCanvas(this.ctx, this.canvas);
+            for (const walker of this.tree) {
+                DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);
+            }
             this.stopLoop();
         }
     }
@@ -110,8 +114,8 @@ class Walker extends Circle {
         this.stuck = stuck;
     }
 
-    public walk(canvas: HTMLCanvasElement): void {
-        const moveAmplitude = 10;
+    public walk(canvas: HTMLCanvasElement, diagLength: number): void {
+        const moveAmplitude = 0.01*diagLength;
         this.x += (Math.random() * moveAmplitude) - (moveAmplitude / 2);
         this.y += (Math.random() * moveAmplitude) - (moveAmplitude / 2);
 
