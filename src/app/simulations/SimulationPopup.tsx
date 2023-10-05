@@ -179,8 +179,8 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
-    let newWidth: number = canvas.clientWidth;
-    let newHeight: number = canvas.clientHeight;
+    let newWidth: number = canvas.clientWidth * window.devicePixelRatio;
+    let newHeight: number = canvas.clientHeight * window.devicePixelRatio;
 
     console.log("canvas.clientWidth ", canvas.clientWidth)
     console.log("canvas.clientHeight ", canvas.clientHeight)
