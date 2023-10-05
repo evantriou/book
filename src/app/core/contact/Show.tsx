@@ -30,21 +30,13 @@ function Show() {
 				<div className='ShowSlide'>
 					<div className='ShowSlideText'>
 
-						<span>WHO AM I ?</span>
-						<span className="passion">Currently ahead of a new personal project I am looking after a new job to fit my <span className="important">passion</span>.</span>
-						<span className="">After years dedicated to maths, economics and <span className="passion">optimization algorithms</span>, I also made my way into coding.</span>
-						<span className="">First with research oriented scripts, I ended up working with <span className="passion">complex web app code base (Typescript and Java)</span>.</span>
-						<span className="">In all projects I carried, I always started by learning new technologies, thus I am not afraid of starting something brand new for me.</span>
-						<span className="">Today I would define my self as <span className="passion">fullstack</span> and open for discussion about any engineer to development position: details of the position matter more than the title.</span>
-						<span className="passion">But the most important thing is... I want to travel the world and find a full remote job !</span>
+						<span className="title">WHO AM I ?</span>
+						<span className="">A math and coding lover, let's say a <span className="passion">fullstack</span> engineer from France !</span>
+						<span className="">Currently ahead of a new personal and professional project : <span className="passion">coding & traveling</span>.</span>
+						<span className="">After years dedicated to maths, economics and <span className="passion">optimization algorithms</span>,
+						I also made my way into coding with <span className="passion">complex web app code base (Typescript and Java)</span>.</span>
+						<span className="">In all projects I carried, I always started by learning new technologies, thus, I am not afraid of starting something brand new for me.</span>
 
-						{/* <span>WHO AM I ?</span>
-						<span>Currently ahead of a new personal project I am looking after a new job to fit my passion.</span>
-						<span>After years dedicated to maths, economics and optimization algorithms, I also made my way into coding.</span>
-						<span>First with research oriented scripts, I ended up working with complex web app code base (Typescript and Java).</span>
-						<span>In all projects I carried, I always started by learning new technologies, thus I am not afraid of starting something brand new for me.</span>
-						<span>Today I would define my self as fullstack and open for discussion about any engineer to development position: details of the position matter more than the title.</span>
-						<span>But the most important thing is... I want to travel the world and find a full remote job !</span> */}
 					</div>
 					<Carousel.Caption className='ShowSlideCaption'>
 						<h3>Triou Evan</h3>
@@ -55,10 +47,12 @@ function Show() {
 			<Carousel.Item>
 				<div className='ShowSlide'>
 					<div className='ShowSlideText'>
-						<span>CONTACT ME !</span>
+						<span className="title">CONTACT ME !</span>
 						<span>Why should you contact me ? </span>
-						<span> - To offer me a super cool job ?</span>
-						<span> - To talk about simulations and how to improve them ?</span>
+						<ul>
+							<li><span>To offer me a super cool job ?</span></li>
+							<li><span>To talk about simulations and how to improve them ?</span></li>
+						</ul>
 						<span>The below input box is linked to my personal email, feel free to use it to contact me.</span>
 						<span>If you prefer do it yourself, you can find my socials right below, see you soon !</span>
 					</div>
@@ -107,14 +101,13 @@ function Show() {
 			<Carousel.Item>
 				<div className='ShowSlide'>
 					<div className='ShowSlideText'>
-						<span>COMMING NEXT ?</span>
+						<span className="title">COMMING NEXT ?</span>
 						<ul>
-							<li>Relook TSP simulation to make it nicer. Find a new way to display oredered city list.</li>
 							<li>Add simulation toolbars to enable user interactions.</li>
 							<ul>
 								<li>Boids: allow to change steering behavior on the run.</li>
-								<li>Sort: add different sorting algorithm user can select with a dropdown.</li>
-								<li>Paths: add different shortest paths algorithm user can select with a dropdown (Dijsktra).</li>
+								<li>Sort: allow user to choose quicksort or bubblesort.</li>
+								<li>Paths: allow user to draw walls.</li>
 								<li>TSP: allow user to ajust the number of cities on the tour.</li>
 								<li>GOL: allow user to fill the grid with premade famous patterns.</li>
 								<li>Fractal: allow user to zoom in the Sierpinsky triangle.</li>

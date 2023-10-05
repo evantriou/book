@@ -104,6 +104,11 @@
   overflow: overlay;
 }
 
+.title {
+  font-weight: bold;
+  margin: 1em;
+}
+
 .passion {
   color: rgba(79, 255, 193, 1);
   /* RGB (79, 255, 193) - Light Green */
