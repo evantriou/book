@@ -79,12 +79,14 @@ export class SimuEngineTSP extends SimuEngine {
         const generatedPoints = poisson.fill();
 
         // Shift the points to center them on the canvas with margins
-        const points = generatedPoints.map(point => [point[0] + marginX, point[1] + marginY]).slice(0, this.cityNbr);
+        const points = generatedPoints.map(point => [point[0] + marginX, point[1] + marginY]).slice(0, this.cityNbr).slice(0,26);
+
+        const cityNames = 'abcdefghijklmnopqrstuvwxyz';
 
         // Convert generated points to cities
         for (let i = 0; i < points.length; i++) {
             const [x, y] = points[i];
-            const cityName = `City ${i + 1}`;
+            const cityName = `City ${cityNames.charAt(i)}`;
             const city = new City(cityName, x, y);
             this.cities.push(city);
         }
@@ -150,29 +152,30 @@ export class SimuEngineTSP extends SimuEngine {
         for (const road of this.roads) {
             this.renderRoad(road);
         }
+
+        if (this.completedTSP) {
+            this.ctx.strokeStyle = 'purple';
+            this.ctx.lineWidth = 0.003*this.diagLength;;
+    
+            for (let i = 0; i < this.finalTour.length - 1; i++) {
+                const cityA = this.finalTour[i];
+                const cityB = this.finalTour[i + 1];
+    
+                this.ctx.beginPath();
+                this.ctx.moveTo(cityA.x, cityA.y);
+                this.ctx.lineTo(cityB.x, cityB.y);
+                this.ctx.stroke();
+                this.ctx.closePath();
+            }         
+        };
+
         for (const city of this.cities) {
             this.renderCity(city);
         }
 
-        if (!this.completedTSP) return;
 
         // Draw the path on top of the canvas
-        this.renderPath();
-
-        // Draw lines to represent the final tour
-        this.ctx.strokeStyle = 'purple';
-        this.ctx.lineWidth = 0.002*this.diagLength;;
-
-        for (let i = 0; i < this.finalTour.length - 1; i++) {
-            const cityA = this.finalTour[i];
-            const cityB = this.finalTour[i + 1];
-
-            this.ctx.beginPath();
-            this.ctx.moveTo(cityA.x, cityA.y);
-            this.ctx.lineTo(cityB.x, cityB.y);
-            this.ctx.stroke();
-            this.ctx.closePath();
-        }
+        // this.renderPath();
     }
 
     private doMSTStep(): void {
@@ -276,10 +279,43 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.fill();
         this.ctx.closePath();
 
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = 0.012*this.diagLength+'px Arial bold';
+        // this.ctx.fillStyle = 'white';
+        // this.ctx.font = 0.012*this.diagLength+'px Arial bold';
+        // this.ctx.textAlign = 'center';
+        // this.ctx.fillText(city.name +": "+this.finalTour.indexOf(city), x + 0.01*this.diagLength, y + 0.02*this.diagLength);
+
+        let pushX: number = 0;
+        let pushY: number = 0;
+
+        if (x < this.canvas.width / 2) {
+            pushX -= 0.05*this.diagLength;
+        }
+        else{
+            pushX += 0.05*this.diagLength;
+        }
+        if (y < this.canvas.height / 2) {
+            pushY -= 0.05*this.diagLength;
+        }
+        else{
+            pushY += 0.05*this.diagLength;
+        }
+
+        let nameX = x + pushX;
+        let nameY = y + pushY;
+
+        this.ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        // Define the position and dimensions of the panel
+        const panelX = nameX - 0.03 * this.diagLength; // Adjust the X position as needed
+        const panelY = nameY - 0.015 * this.diagLength; // Adjust the Y position as needed
+        const panelWidth = 0.06 * this.diagLength; // Adjust the width as needed
+        const panelHeight = 0.02 * this.diagLength; // Adjust the height as needed
+
+        this.ctx.fillRect(panelX, panelY, panelWidth, panelHeight);
+
+        this.ctx.font = 0.012 * this.diagLength + 'px Arial bold';
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(city.name, x + 0.01*this.diagLength, y + 0.02*this.diagLength);
+        this.ctx.fillStyle = 'purple'; // Set text color to black (or any desired color)
+        this.ctx.fillText(city.name + ": " + this.finalTour.indexOf(city), nameX, nameY);
     }
 
     // Render a road segment with different colors and sizes based on their properties
