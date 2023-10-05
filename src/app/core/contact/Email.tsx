@@ -6,6 +6,7 @@ function Email() {
 
 	const [message, setMessage] = useState('');
 	const [mailAdress, setMailAdress] = useState('');
+	const [isSent, setIsSent] = useState(false);
 
 	const handleClick = async () => {
 
@@ -18,14 +19,18 @@ function Email() {
 		if (templateParams.text.length === 0) return;
 
 		emailjs.send('service_xkqa5hu', 'template_8d7eb2h', templateParams, 'A5wqQGaaVAoe6Kpjq')
-		  .then((result) => {
-			  console.log(result.text);
-		  }, (error) => {
-			  console.log(error.text);
-		  });
-	  };
+			.then((result) => {
+				console.log(result.text);
+				setIsSent(true);
+				setTimeout(() => {
+					setIsSent(false);
+				}, 3000);
+			}, (error) => {
+				console.log(error.text);
+			});
+	};
 
-	const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleMessageAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setMessage(event.target.value);
 	};
 	const handleMailAdressAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -41,8 +46,8 @@ function Email() {
 						We'll never share your email with anyone else.
 					</Form.Text>
 				</div>
-				<Form.Control 
-					type="email" 
+				<Form.Control
+					type="email"
 					placeholder="Enter email"
 					value={mailAdress}
 					onChange={handleMailAdressAreaChange}
@@ -55,13 +60,14 @@ function Email() {
 					rows={3}
 					placeholder="Your message"
 					value={message}
-					onChange={handleTextAreaChange}
+					onChange={handleMessageAreaChange}
 					className="Input"
 				/>
 			</Form.Group>
-			<Button variant="primary" type="button" onClick={handleClick} className ="ButtonPrimary">
+			<Button variant="primary" type="button" onClick={handleClick} className="ButtonPrimary">
 				Send
 			</Button>
+			{isSent && <div>Mail sent with succes !</div>}
 		</Form>
 	);
 }
