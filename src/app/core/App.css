@@ -1,3 +1,22 @@
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #777777;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: #555555;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333;
+  outline: 0.03em solid #777777;
+  border-radius: 0.3em;
+}
+
 .App {
   min-height: 100vh;
   display: grid;
@@ -120,16 +139,17 @@
 }
 
 .ShowSlideText::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px antiquewhite;
+  box-shadow: inset 0 0 6px #777777;
 }
 
 .ShowSlideText::-webkit-scrollbar {
   width: 0.5em;
+  background-color: #555555;
 }
 
 .ShowSlideText::-webkit-scrollbar-thumb {
   background-color: #333;
-  outline: 0.03em solid whitesmoke;
+  outline: 0.03em solid #777777;
   border-radius: 0.3em;
 }
 
