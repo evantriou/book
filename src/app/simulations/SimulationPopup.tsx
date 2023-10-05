@@ -179,11 +179,22 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
-    let newWidth: number = canvas.clientWidth * window.devicePixelRatio;
-    let newHeight: number = canvas.clientHeight * window.devicePixelRatio;
+    let newWidth: number = canvas.clientWidth;
+    let newHeight: number = canvas.clientHeight;
 
     console.log("canvas.clientWidth ", canvas.clientWidth)
     console.log("canvas.clientHeight ", canvas.clientHeight)
+
+    const aspectRatio = newWidth / newHeight;
+    if (newWidth / aspectRatio <= newHeight) {
+        // Fit based on width
+        newWidth = newWidth;
+        newHeight = newWidth / aspectRatio;
+    } else {
+        // Fit based on height
+        newHeight = newHeight;
+        newWidth = newHeight * aspectRatio;
+    }
 
     canvas.width = newWidth;
     canvas.height = newHeight;
