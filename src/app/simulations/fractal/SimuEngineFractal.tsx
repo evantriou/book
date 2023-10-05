@@ -12,7 +12,7 @@ export class SimuEngineFractal extends SimuEngine {
         super(canvas, ctx, canvasRef, diagLength);
 
         this.lastLevelTriangles = [];
-        this.maxIteration = 0.007*this.diagLength; // Set your desired maximum iterations
+        this.maxIteration = 0.0075*this.diagLength; // Set your desired maximum iterations
         this.currentIteration = 0;
 
         this.init();

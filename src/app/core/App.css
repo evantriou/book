@@ -25,7 +25,7 @@
 
 .Input:focus {
   outline: none !important;
-  border:1px solid #333;
+  border: 1px solid #333;
   box-shadow: 0 0 5px #719ECE;
 }
 
@@ -39,7 +39,6 @@
   color: antiquewhite;
   background-color: #555555;
 }
-
 
 .HeaderEntry {
   color: rgb(250, 235, 215);
@@ -64,6 +63,7 @@
   background-color: rgb(51, 51, 51);
   color: antiquewhite;
 }
+
 /**
 ----------------------------> CONTACT
 **/
@@ -104,10 +104,16 @@
   overflow: overlay;
 }
 
+.passion {
+  color: rgba(79, 255, 193, 1);
+  /* RGB (79, 255, 193) - Light Green */
+  font-weight: bold;
+}
+
 .ShowSlideText::-webkit-scrollbar {
   width: 1em;
 }
- 
+
 .ShowSlideText::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px antiquewhite;
 }
@@ -115,7 +121,7 @@
 .ShowSlideText::-webkit-scrollbar {
   width: 0.5em;
 }
- 
+
 .ShowSlideText::-webkit-scrollbar-thumb {
   background-color: #333;
   outline: 0.03em solid whitesmoke;
