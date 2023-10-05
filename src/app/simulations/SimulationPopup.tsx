@@ -143,25 +143,25 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
     canvas.style.height = "100%";
 
     // Set the canvas dimensions to fit the container while maintaining the aspect ratio
-    // const aspectRatio = canvas.width / canvas.height;
-    // if (containerWidth / aspectRatio <= containerHeight) {
-    //     // Fit based on width
-    //     canvas.width = containerWidth;
-    //     canvas.height = containerWidth / aspectRatio;
-    // } else {
-    //     // Fit based on height
-    //     canvas.height = containerHeight;
-    //     canvas.width = containerHeight * aspectRatio;
-    // }
+    const aspectRatio = canvas.width / canvas.height;
+    if (containerWidth / aspectRatio <= containerHeight) {
+        // Fit based on width
+        canvas.width = containerWidth;
+        canvas.height = containerWidth / aspectRatio;
+    } else {
+        // Fit based on height
+        canvas.height = containerHeight;
+        canvas.width = containerHeight * aspectRatio;
+    }
 
     // ------------------------------
     // Set actual size in memory (scaled to account for extra pixel density).
-    var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-    canvas.width = containerWidth * scale;
-    canvas.height = containerHeight * scale;
+    // var scale = window.devicePixelRatio;
+    // canvas.width = containerWidth * scale;
+    // canvas.height = containerHeight * scale;
 
     // Normalize coordinate system to use css pixels.
-    ctx.scale(scale, scale);
+    ctx.scale(aspectRatio, aspectRatio);
 
     return;
 }
