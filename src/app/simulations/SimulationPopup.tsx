@@ -53,10 +53,10 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
         if (!canvas) return;
         if (!canvasContainer) return;
 
-        adaptCanvas(canvas, canvasContainer);
-
+        
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+        adaptCanvas(canvas, canvasContainer, ctx);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         let newSimulationCanvas: SimuEngine;
@@ -134,7 +134,7 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
     );
 }
 
-function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): void {
+function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ctx: CanvasRenderingContext2D): void {
     // Calculate the canvas dimensions based on the parent's dimensions
     const containerWidth = canvasContainer.clientWidth;
     const containerHeight = canvasContainer.clientHeight;
@@ -143,16 +143,26 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): v
     canvas.style.height = "100%";
 
     // Set the canvas dimensions to fit the container while maintaining the aspect ratio
-    const aspectRatio = canvas.width / canvas.height;
-    if (containerWidth / aspectRatio <= containerHeight) {
-        // Fit based on width
-        canvas.width = containerWidth;
-        canvas.height = containerWidth / aspectRatio;
-    } else {
-        // Fit based on height
-        canvas.height = containerHeight;
-        canvas.width = containerHeight * aspectRatio;
-    }
+    // const aspectRatio = canvas.width / canvas.height;
+    // if (containerWidth / aspectRatio <= containerHeight) {
+    //     // Fit based on width
+    //     canvas.width = containerWidth;
+    //     canvas.height = containerWidth / aspectRatio;
+    // } else {
+    //     // Fit based on height
+    //     canvas.height = containerHeight;
+    //     canvas.width = containerHeight * aspectRatio;
+    // }
+
+    // ------------------------------
+    // Set actual size in memory (scaled to account for extra pixel density).
+    var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+    canvas.width = containerWidth * scale;
+    canvas.height = containerHeight * scale;
+
+    // Normalize coordinate system to use css pixels.
+    ctx.scale(scale, scale);
+
     return;
 }
 
