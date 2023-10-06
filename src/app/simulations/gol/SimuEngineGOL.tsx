@@ -13,6 +13,15 @@ export class SimuEngineGOL extends SimuEngine {
 
     private eventOn: boolean;
 
+    // hardcoded RLE file translated into js object.
+    // We do it this way for the first one, automate .rle file parsing for the following ones.
+    private p30GliderGunRLE = {
+        x:37, // pattern width
+        y:27, // pattern length
+        rule: 'B3/S23', // original conway rule
+        core:'2o$bo$bobo6bo13bo$2b2o6b4o8bobo$11b4o6bobo$11bo2bo5bo2bo$11b4o6bobo$10b4o8bobo8b2o$10bo13bo8bobo$35bo$35b2o2$16b3o$15b2ob2o$15b2ob2o$15b5o$14b2o3b2o7$14b2o$15bo$12b3o$12bo!'
+    }
+
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
         super(canvas, ctx, canvasRef, diagLength);
         this.FRAMERATE = 150;
@@ -178,6 +187,52 @@ export class SimuEngineGOL extends SimuEngine {
 
     updateSettings(settings: any): void {
     }
+
+    // Thanks to https://gist.github.com/semibran/005a9defcec54ea4060cdadf3dc03d83
+    decodeRLE(rle: string) {
+        var cells = []
+        var ignore = false
+        var step = 1
+        var x = 0
+        var y = 0
+        var match, number
+        for (var i = 0; i < rle.length; i++) {
+          if (ignore) {
+            if (rle[i] === "\n") {
+              ignore = false
+            }
+            continue
+          }
+          switch (rle[i]) {
+            case "#":
+            case "x":
+            case "!":
+              ignore = true
+              continue
+            case "$":
+              x = 0
+              y += step
+              continue
+            case "b":
+              x += step
+              step = 1
+              continue
+            case "o":
+              for (var j = 0; j < step; j++) {
+                cells.push(x++, y)
+              }
+              step = 1
+              continue
+          }
+          match = rle.slice(i).match(/[0-9]+/)
+          if (match && !match.index) {
+            number = match[0]
+            step = parseInt(number)
+            i += number.length - 1
+          }
+        }
+        return cells
+      }
 }
 
 class Cell extends Point {

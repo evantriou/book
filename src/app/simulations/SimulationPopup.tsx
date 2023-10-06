@@ -145,6 +145,9 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
+    const oldWidth = canvas.width;
+    const oldHeight = canvas.height;
+
     const aspectRatio = canvas.width / canvas.height;
     if (containerWidth / aspectRatio <= containerHeight) {
         // Fit based on width
@@ -155,6 +158,8 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
         canvas.height = containerHeight;
         canvas.width = containerHeight * aspectRatio;
     }
+    
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
     console.log("diag length ", Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width)))
     return Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
