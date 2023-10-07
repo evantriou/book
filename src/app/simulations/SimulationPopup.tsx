@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, ModalBody } from 'react-bootstrap';
 import 'rc-slider/assets/index.css'; // Import the CSS for the slider
 import { SimuEngine } from './SimuEngine';
 import { Toolbar } from './Toolbar';
@@ -158,11 +158,14 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
         canvas.height = containerHeight;
         canvas.width = containerHeight * aspectRatio;
     }
+
+    const diag = Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
     
+    if (window.screen.height > 1.5 * window.screen.width) return diag;
+
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-    console.log("diag length ", Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width)))
-    return Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
+    return diag;
 }
 
 export default SimulationPopup;
