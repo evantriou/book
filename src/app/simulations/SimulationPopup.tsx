@@ -158,8 +158,6 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
 
     const diag = Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
     
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
     return diag;
 }
 
