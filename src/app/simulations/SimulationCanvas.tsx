@@ -91,7 +91,6 @@ function SimulationCanvas(canvasProps: CanvasProps) {
         canvasProps.getSimuEngineCallBack(newSimuEngine);
         canvasProps.getSimuToolbarCallBack(newSimuToolbar);
 
-        return () => {};
     }, []);
 
     // style={{ flex: '1', objectPosition: 'center' }}
@@ -122,6 +121,8 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): n
     }
 
     const diag = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width));
+
+    console.log("truc")
 
     return diag;
 }
