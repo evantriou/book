@@ -92,7 +92,7 @@ export class SimuEngineDLA extends SimuEngine {
             DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);
         }
 
-        if (this.tree.length >= 800) {
+        if (this.tree.length >= 700) {
             DrawingUtils.clearCanvas(this.ctx, this.canvas);
             for (const walker of this.tree) {
                 DrawingUtils.renderCircleOnValue(this.ctx, walker, walker.r, this.minRadius, this.maxRadius);
