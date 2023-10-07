@@ -45,7 +45,7 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
         const canvas: HTMLCanvasElement = canvasRef.current!;
         const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
         const container: HTMLElement = document.getElementById("CanvasContainer")!;
-        const diagLength = adaptCanvas(canvas, container);
+        const diagLength = adaptCanvas(canvas, context, container);
         let newSimuEngine: SimuEngine;
         let newSimuToolbar: Toolbar;
     
@@ -124,7 +124,7 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
     );
 }
 
-function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): number {
+function adaptCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasContainer: HTMLElement): number {
 
     const containerWidth = canvasContainer.clientWidth;
     const containerHeight = canvasContainer.clientHeight;
@@ -139,6 +139,8 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement): n
         canvas.height = containerHeight;
         canvas.width = containerHeight * aspectRatio;
     }
+
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
     const diag = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width));
 
