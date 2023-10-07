@@ -161,7 +161,7 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
 
     const diag = Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
     
-    if (window.screen.height > 1.5 * window.screen.width) return diag;
+    //if (window.screen.height > 1.5 * window.screen.width) return diag;
 
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
