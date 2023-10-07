@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { DrawingUtils } from "../../utils/DrawingUtils";
 

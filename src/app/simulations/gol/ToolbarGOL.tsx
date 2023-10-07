@@ -42,10 +42,6 @@ export class ToolbarGOL extends Toolbar {
             }
         ];
 
-    constructor(simuEngine: SimuEngine) {
-        super(simuEngine);
-    }
-
     getButtons(): JSX.Element {
         return (
             <ButtonGroup>
@@ -95,7 +91,7 @@ export class ToolbarGOL extends Toolbar {
 
         const xToYAliveCorrected = new Map<string, {i:number, j:number}>();
 
-        for (const [key,ij] of xToYAlive) {
+        for (const ij of xToYAlive.values()) {
             const newI = ij.i + padX;
             const newJ = ij.j + padY;
             xToYAliveCorrected.set(newI+'-'+newJ, {i:newI, j:newJ});
