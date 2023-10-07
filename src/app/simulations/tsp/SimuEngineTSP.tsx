@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import PoissonDiskSampling from "poisson-disk-sampling";
 import { PriorityQueue } from "../../utils/PriorityQueue";
@@ -23,8 +22,8 @@ export class SimuEngineTSP extends SimuEngine {
     private tour: City[];
     private finalTour: City[];
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
 
         this.cityNbr = 0.05*this.diagLength;
 

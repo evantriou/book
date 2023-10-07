@@ -14,67 +14,67 @@ import SimulationPopup from "../../simulations/SimulationPopup";
 function MainPage() {
 	
     const [isPopupVisible, setIsPopupVisible] = useState(false);
-	const [selectedSimulation, setSelectedSimulation] = useState<string | null>(null);
+	const [selectedSimulation, setSelectedSimulation] = useState<string>("");
 	
     const handleTryClick = (tabName: string) => {
 		setSelectedSimulation(tabName);
 		setIsPopupVisible(true);
 	};
 
-	const closePopup = () => {
-		setIsPopupVisible(false);
-	}
-
     const tabsProps: TabCardProps[] = [
 		{
 			tabName: "Boids Simulation",
 			description: "Simulates birds flight or fishes moves in 2D Canvas.",
-			onTryClick: () => handleTryClick("Boids Simulation"),
+			handleTryClick: () => handleTryClick("Boids Simulation"),
 			pathImg: boidsImg
 		},
 		{
 			tabName: "Sorting algorithms",
 			description: "Different sorting algorithms visualization 2D Canvas.",
-			onTryClick: () => handleTryClick("Sorting algorithms"),
+			handleTryClick: () => handleTryClick("Sorting algorithms"),
 			pathImg: sortImg
 		},
 		{
 			tabName: "Shortest Paths",
 			description: "Simulates different shortest paths algorithms in 2D Canvas.",
-			onTryClick: () => handleTryClick("Shortest Paths"),
+			handleTryClick: () => handleTryClick("Shortest Paths"),
 			pathImg: pathImg
 		},
 		{
 			tabName: "TSP",
 			description: "Travelling salesman problem simulation in 2D Canvas.",
-			onTryClick: () => handleTryClick("TSP"),
+			handleTryClick: () => handleTryClick("TSP"),
 			pathImg: tspImg
 		},
 		{
 			tabName: "Conway's Game of Life",
 			description: "Simulation of Conway's Game of Life in 2D canvas.",
-			onTryClick: () => handleTryClick("Conway's Game of Life"),
+			handleTryClick: () => handleTryClick("Conway's Game of Life"),
 			pathImg: golImg
 		},
 		{
 			tabName: "Fractal Simulation",
 			description: "Sierpinsky triangle simulation in 2D canvas.",
-			onTryClick: () => handleTryClick("Fractal Simulation"),
+			handleTryClick: () => handleTryClick("Fractal Simulation"),
 			pathImg: fractalImg
 		},
 		{
 			tabName: "Perlin Noise",
 			description: "Perlin noise flat simulation in 2D canvas (work in progress).",
-			onTryClick: () => handleTryClick("Terrain generation"),
+			handleTryClick: () => handleTryClick("Terrain generation"),
 			pathImg: perlinImg
 		},
 		{
 			tabName: "Blob Simulation",
 			description: "Diffusion-Limited Aggregation in 2D canvas.",
-			onTryClick: () => handleTryClick("Fractal Simulation"),
+			handleTryClick: () => handleTryClick("Fractal Simulation"),
 			pathImg: blobImg
 		}
 	];
+
+	const closePopup = () => {
+		setIsPopupVisible(false);
+	}
 
     return (
 		<Container>
@@ -84,7 +84,7 @@ function MainPage() {
 						<TabCard
 							tabName={tab.tabName}
 							description={tab.description}
-							onTryClick={() => handleTryClick(tab.tabName)}
+							handleTryClick={() => handleTryClick(tab.tabName)}
 							pathImg={tab.pathImg}
 						/>
 					</Col>

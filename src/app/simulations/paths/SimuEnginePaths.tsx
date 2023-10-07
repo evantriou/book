@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { PriorityQueue } from "../../utils/PriorityQueue";
 import { Point } from "../../utils/Point";
@@ -16,8 +15,8 @@ export class SimuEnginePaths extends SimuEngine {
     private noPathFound: boolean;
     private pathFound: boolean;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
 
         this.cellSideLength = 0.023*this.diagLength;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);

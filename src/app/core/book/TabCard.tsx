@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 export interface TabCardProps {
   tabName: string;
   description: string;
-  onTryClick: () => void;
+  handleTryClick: () => void;
   pathImg: string;
 }
 
@@ -24,7 +24,7 @@ function TabCard(props: TabCardProps) {
           }}
         />
         <Card.Text>{props.description}</Card.Text>
-        <Button variant="primary" onClick={props.onTryClick} className="ButtonPrimary">
+        <Button variant="primary" onClick={props.handleTryClick} className="ButtonPrimary">
           Try
         </Button>
       </Card.Body>

@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { interpolateRgbBasisClosed } from "d3-interpolate";
 import { DrawingUtils } from "../../utils/DrawingUtils";
@@ -15,8 +14,8 @@ export class SimuEngineSort extends SimuEngine {
     private moves: Move[];
     private timer: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
         this.FRAMERATE = 15;
         this.numBars = 50;
         this.maxBarValue = 50;

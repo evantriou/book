@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { DrawingUtils } from "../../utils/DrawingUtils";
 
@@ -10,8 +9,8 @@ export class SimuEnginePerlin extends SimuEngine {
     private time: number;
     private scale: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
 
         this.pixelMatrix = null;
         this.time = 0.5;

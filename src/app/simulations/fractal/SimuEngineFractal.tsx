@@ -8,8 +8,8 @@ export class SimuEngineFractal extends SimuEngine {
     private maxIteration: number;
     private currentIteration: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
 
         this.lastLevelTriangles = [];
         this.maxIteration = 0.0075*this.diagLength; // Set your desired maximum iterations

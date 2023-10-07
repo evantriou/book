@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { Point } from "../../utils/Point";
 import { DrawingUtils } from "../../utils/DrawingUtils";
@@ -22,8 +21,8 @@ export class SimuEngineGOL extends SimuEngine {
         core:'2o$bo$bobo6bo13bo$2b2o6b4o8bobo$11b4o6bobo$11bo2bo5bo2bo$11b4o6bobo$10b4o8bobo8b2o$10bo13bo8bobo$35bo$35b2o2$16b3o$15b2ob2o$15b2ob2o$15b5o$14b2o3b2o7$14b2o$15bo$12b3o$12bo!'
     }
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
         this.FRAMERATE = 150;
         this.cellSideLength = 15;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
@@ -94,16 +93,16 @@ export class SimuEngineGOL extends SimuEngine {
     }
 
     private addEvent(): void {
-        if (this.canvasRef.current) {
+        if (this.canvas) {
             this.eventOn = true;
-            this.canvasRef.current.addEventListener('mousedown', this.handleMouseDown);
+            this.canvas.addEventListener('mousedown', this.handleMouseDown);
         }
     }
     
     private removeEvent(): void {
-        if (this.canvasRef.current) {
+        if (this.canvas) {
             this.eventOn = false;
-            this.canvasRef.current.removeEventListener('mousedown', this.handleMouseDown);
+            this.canvas.removeEventListener('mousedown', this.handleMouseDown);
         }
     }
     

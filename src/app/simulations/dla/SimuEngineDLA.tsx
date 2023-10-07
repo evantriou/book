@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import { SimuEngine } from "../SimuEngine";
 import { Circle } from "../../utils/Point";
 import { DrawingUtils } from "../../utils/DrawingUtils";
@@ -12,8 +11,8 @@ export class SimuEngineDLA extends SimuEngine {
     private minRadius: number;
     private maxWalkers: number;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, canvasRef: RefObject<HTMLCanvasElement>, diagLength: number) {
-        super(canvas, ctx, canvasRef, diagLength);
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
+        super(canvas, ctx, diagLength);
 
         this.tree = [];
         this.walkers = [];
