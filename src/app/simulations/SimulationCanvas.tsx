@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { SimuEngine } from "./SimuEngine";
 import { Toolbar } from "./Toolbar";
 import { SimuEngineBoids } from "./boids/SimuEngineBoids";
@@ -91,7 +91,7 @@ function SimulationCanvas(canvasProps: CanvasProps) {
         canvasProps.getSimuEngineCallBack(newSimuEngine);
         canvasProps.getSimuToolbarCallBack(newSimuToolbar);
 
-    }, []);
+    }, [canvasProps]);
 
     // style={{ flex: '1', objectPosition: 'center' }}
     return (
