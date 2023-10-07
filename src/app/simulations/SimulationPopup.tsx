@@ -129,17 +129,6 @@ function adaptCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, c
     const containerWidth = canvasContainer.clientWidth;
     const containerHeight = canvasContainer.clientHeight;
 
-    // const aspectRatio = canvas.width / canvas.height;
-    // if (containerWidth / aspectRatio <= containerHeight) {
-    //     // Fit based on width
-    //     canvas.width = containerWidth;
-    //     canvas.height = containerWidth / aspectRatio;
-    // } else {
-    //     // Fit based on height
-    //     canvas.height = containerHeight;
-    //     canvas.width = containerHeight * aspectRatio;
-    // }
-
     canvas.width = containerWidth * devicePixelRatio;
     canvas.height = containerHeight * devicePixelRatio;
 

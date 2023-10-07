@@ -12,19 +12,10 @@ export class SimuEngineGOL extends SimuEngine {
 
     private eventOn: boolean;
 
-    // hardcoded RLE file translated into js object.
-    // We do it this way for the first one, automate .rle file parsing for the following ones.
-    private p30GliderGunRLE = {
-        x:37, // pattern width
-        y:27, // pattern length
-        rule: 'B3/S23', // original conway rule
-        core:'2o$bo$bobo6bo13bo$2b2o6b4o8bobo$11b4o6bobo$11bo2bo5bo2bo$11b4o6bobo$10b4o8bobo8b2o$10bo13bo8bobo$35bo$35b2o2$16b3o$15b2ob2o$15b2ob2o$15b5o$14b2o3b2o7$14b2o$15bo$12b3o$12bo!'
-    }
-
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
-        this.FRAMERATE = 150;
-        this.cellSideLength = 15;
+        this.FRAMERATE = 80;
+        this.cellSideLength = 10;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
         this.numCols = Math.floor(this.canvas.width / this.cellSideLength);
 
@@ -35,14 +26,17 @@ export class SimuEngineGOL extends SimuEngine {
         this.init();
     }
 
-    init(): void {
+    public getCellsDim(): {width: number, height: number} {
+        return {width: this.cells.length, height: this.cells[0].length}
+    }
+
+    init(xToYAlive?: Map<string, {i:number, j:number}>): void {
         if (!this.ctx) return;
-        this.cells = this.createGrid();
+        this.cells = this.createGrid(xToYAlive);
 
         // render cells
         for (const row of this.cells) {
             for (const cell of row) {
-                this.updateCell(cell);
                 cell.renderCell(this.ctx, this.cellSideLength);
             }
         }
@@ -50,17 +44,23 @@ export class SimuEngineGOL extends SimuEngine {
         this.addEvent();
     }
 
-    private createGrid(): Cell[][] {
+    private createGrid(xToYAlive?: Map<string, {i:number, j:number}>): Cell[][] {
 
         const newCells: Cell[][] = [];
 
         for (let i = 0; i < this.numCols; i++) {
-            const row = [];
+            const col = [];
             for (let j = 0; j < this.numRows; j++) {
                 const cell = new Cell(i, j);
-                row.push(cell);
+                col.push(cell);
+                if (xToYAlive === undefined) continue;
+                const coord = xToYAlive.get(i+'-'+j);
+                if (coord === null || coord === undefined) continue;
+                if (coord.i !== i) continue;
+                if (coord.j !== j) continue; 
+                cell.alive = true;
             }
-            newCells.push(row);
+            newCells.push(col);
         }
 
         for (let i = 0; i < this.numCols; i++) {
@@ -185,53 +185,14 @@ export class SimuEngineGOL extends SimuEngine {
     }
 
     updateSettings(settings: any): void {
+        if (!this.ctx) return;
+        if (!this.canvas) return;
+        this.stopLoop();
+        this.removeEvent();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const xToYAlive: Map<string, {i:number, j:number}> = settings;
+        this.init(xToYAlive)
     }
-
-    // Thanks to https://gist.github.com/semibran/005a9defcec54ea4060cdadf3dc03d83
-    decodeRLE(rle: string) {
-        var cells = []
-        var ignore = false
-        var step = 1
-        var x = 0
-        var y = 0
-        var match, number
-        for (var i = 0; i < rle.length; i++) {
-          if (ignore) {
-            if (rle[i] === "\n") {
-              ignore = false
-            }
-            continue
-          }
-          switch (rle[i]) {
-            case "#":
-            case "x":
-            case "!":
-              ignore = true
-              continue
-            case "$":
-              x = 0
-              y += step
-              continue
-            case "b":
-              x += step
-              step = 1
-              continue
-            case "o":
-              for (var j = 0; j < step; j++) {
-                cells.push(x++, y)
-              }
-              step = 1
-              continue
-          }
-          match = rle.slice(i).match(/[0-9]+/)
-          if (match && !match.index) {
-            number = match[0]
-            step = parseInt(number)
-            i += number.length - 1
-          }
-        }
-        return cells
-      }
 }
 
 class Cell extends Point {
