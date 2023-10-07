@@ -145,9 +145,6 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
-    const oldWidth = canvas.width;
-    const oldHeight = canvas.height;
-
     const aspectRatio = canvas.width / canvas.height;
     if (containerWidth / aspectRatio <= containerHeight) {
         // Fit based on width
