@@ -62,13 +62,14 @@ export class SimuEnginePerlin extends SimuEngine {
             }
         }
 
+        // Not user friendly with the slider toolbar
         // Vary the scale over time to create evolving patterns
-        if (this.scale > 0.5) {
-            this.scale -= 0.0001;
-        }
-        else{
-            this.scale += 0.0001;
-        }
+        // if (this.scale > 0.5) {
+        //     this.scale -= 0.0001;
+        // }
+        // else{
+        //     this.scale += 0.0001;
+        // }
 
         // Render the modified pixel matrix on the canvas
         this.ctx.putImageData(this.pixelMatrix, 0, 0);
@@ -140,6 +141,7 @@ export class SimuEnginePerlin extends SimuEngine {
     }
 
     updateSettings(settings: any): void {
+        this.scale = settings;
     }
 }
 
