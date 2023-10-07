@@ -41,7 +41,7 @@ export class ToolbarGOL extends Toolbar {
                 +"......................................O\n"
             },
             {
-                name: "Wing (spaceship)",
+                name: "Wing (spaceship) - BUGGED",
                 content: 
                 +"....OO\n"
                 +"....O.O\n"
