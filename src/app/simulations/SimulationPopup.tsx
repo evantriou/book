@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modal, ModalBody } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import 'rc-slider/assets/index.css'; // Import the CSS for the slider
 import { SimuEngine } from './SimuEngine';
 import { Toolbar } from './Toolbar';
@@ -126,9 +126,6 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
             </Modal.Header>
             <Modal.Body id="CanvasContainer" style={{backgroundColor:'#555', color:'antiquewhite'}}>
                     <canvas ref={canvasRef} style={{flex: '1', objectPosition: 'center'}}></canvas>
-                {/* <div id="CanvasContainer" style={{flex: '-1', objectPosition: 'center'}}>
-                    <canvas ref={canvasRef}></canvas>
-                </div> */}
             </Modal.Body>
             <Modal.Footer style={{backgroundColor:'#555', color:'antiquewhite'}}>
                 {toolbar && toolbar.getToolbar()}
