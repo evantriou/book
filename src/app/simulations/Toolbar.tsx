@@ -9,8 +9,8 @@ export abstract class Toolbar {
     }
     public getToolbar(): JSX.Element {
         return (
-            <ButtonGroup>
-                <ButtonGroup style={{ marginRight: '2em' }}>
+            <ButtonGroup style={{width: '100%',justifyContent: 'space-between'}}>
+                <ButtonGroup style={{ marginRight: '2em', width: '100%',justifyContent: 'space-between'}}>
                     {this && this.getButtons()}
                 </ButtonGroup>
                 <ButtonGroup>

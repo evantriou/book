@@ -11,6 +11,7 @@ export class SimuEngineBoids extends SimuEngine {
     private boidMaxSpeed: number;
     private perceptionRadius: number;
     private separationRadius: number;
+    private userCoefs: {mass:number, separation:number, alignement:number};
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
@@ -21,6 +22,7 @@ export class SimuEngineBoids extends SimuEngine {
         this.boidMaxSpeed = 0.005*this.diagLength;
         this.perceptionRadius = 0.1*this.diagLength;
         this.separationRadius = 0.05*this.diagLength;
+        this.userCoefs = {mass:1, separation:1, alignement:1};
         this.init();
     }
 
@@ -48,12 +50,13 @@ export class SimuEngineBoids extends SimuEngine {
         DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
         for (const boid of this.boids) {
-            boid.update(this.canvas, this.boids);
+            boid.update(this.canvas, this.boids, this.userCoefs);
             boid.render(this.ctx, this.populationNbr, this.diagLength);
         }
     }
 
     updateSettings(settings: any): void {
+        this.userCoefs = settings;
     }
 }
 
@@ -99,9 +102,9 @@ export class boid extends Circle {
         ctx.stroke();
     }
 
-    public update(canvas: HTMLCanvasElement, boids: boid[]): void {
+    public update(canvas: HTMLCanvasElement, boids: boid[], userCoefs: {mass:number, separation:number, alignement:number}): void {
 
-        const acceleration = this.flock(canvas, boids);
+        const acceleration = this.flock(boids, userCoefs);
         
         this.velocityX += acceleration.x;
         this.velocityY += acceleration.y;
@@ -122,7 +125,7 @@ export class boid extends Circle {
         // this.bouncingBorders(canvas);
     }
 
-    public flock(canvas: HTMLCanvasElement, boids: boid[]): {x: number, y: number} {
+    public flock(boids: boid[], userCoefs: {mass:number, separation:number, alignement:number}): {x: number, y: number} {
 
         this.neighCount = 0;
 
@@ -184,8 +187,8 @@ export class boid extends Circle {
             separation.y = (separation.y / separSteering) * this.maxForce
         }
 
-        let updateX: number =  mass.x + alignment.x + separation.x;
-        let updateY: number =  mass.y + alignment.y + separation.y;
+        let updateX: number =  userCoefs.mass * mass.x + userCoefs.alignement * alignment.x + userCoefs.separation * separation.x;
+        let updateY: number =  userCoefs.mass * mass.y + userCoefs.alignement * alignment.y + userCoefs.separation * separation.y;
 
         return {x: updateX, y: updateY}
     }

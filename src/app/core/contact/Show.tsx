@@ -105,11 +105,9 @@ function Show() {
 						<ul>
 							<li>Add simulation toolbars to enable user interactions.</li>
 							<ul>
-								<li>Boids: allow to change steering behavior on the run.</li>
 								<li>Sort: allow user to choose quicksort or bubblesort.</li>
 								<li>Paths: allow user to draw walls.</li>
 								<li>TSP: allow user to ajust the number of cities on the tour.</li>
-								<li>GOL: allow user to fill the grid with premade famous patterns.</li>
 								<li>Fractal: allow user to zoom in the Sierpinsky triangle.</li>
 								<li>Perlin noise: allow user to change the smoothness of the noise</li>
 								<li>DLA: allow user to modify the number of random walkers.</li>
