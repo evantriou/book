@@ -140,6 +140,9 @@ function adaptCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, c
         canvas.width = containerHeight * aspectRatio;
     }
 
+    canvas.style.width = canvas.width +"px";
+    canvas.style.height = canvas.height +"px";
+
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
     const diag = Math.sqrt((canvas.height * canvas.height) + (canvas.width * canvas.width));
