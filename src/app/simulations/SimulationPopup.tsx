@@ -153,6 +153,9 @@ function adaptCanvas(canvas: HTMLCanvasElement, canvasContainer: HTMLElement, ct
         canvas.width = containerHeight * aspectRatio;
     }
 
+    console.log(canvas.height)
+    console.log(canvas.width)
+
     const diag = Math.sqrt((canvas.height*canvas.height)+(canvas.width*canvas.width));
     
     return diag;
