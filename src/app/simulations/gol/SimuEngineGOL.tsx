@@ -14,7 +14,7 @@ export class SimuEngineGOL extends SimuEngine {
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
-        this.FRAMERATE = 80;
+        this.FRAMERATE = 0.06*this.diagLength;
         this.cellSideLength = 10;
         this.numRows = Math.floor(this.canvas.height / this.cellSideLength);
         this.numCols = Math.floor(this.canvas.width / this.cellSideLength);

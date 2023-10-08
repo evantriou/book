@@ -14,6 +14,7 @@ export class SimuEnginePaths extends SimuEngine {
     private departure: Cell;
     private noPathFound: boolean;
     private pathFound: boolean;
+    private heuristicCoef: number;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
@@ -39,6 +40,7 @@ export class SimuEnginePaths extends SimuEngine {
         this.departure.isObserved = true;
         this.departure.fCost = 0;
         this.departure.gCost = 0;
+        this.heuristicCoef = 1;
     }
 
     init(): void {
@@ -103,7 +105,7 @@ export class SimuEnginePaths extends SimuEngine {
             if (tentativeGCost < neighbor.gCost) {
 
                 neighbor.gCost = tentativeGCost;
-                neighbor.fCost = neighbor.gCost + this.heuristic(neighbor);
+                neighbor.fCost = neighbor.gCost + this.heuristicCoef*this.heuristic(neighbor);
 
                 if (neighbor.isObserved) {
                     this.openQueue.sort();
@@ -231,7 +233,24 @@ export class SimuEnginePaths extends SimuEngine {
     }
 
     updateSettings(settings: any): void {
-        // Implement updateSettings logic for Paths Simulation
+        this.heuristicCoef = settings;
+        this.stop();
+        this.cells = [];
+        this.init();
+            this.noPathFound = false;
+        this.pathFound = false;
+
+        this.arrival = this.cells[this.numRows - 1][this.numCols - 1]
+        this.departure = this.cells[0][0]
+
+        this.openQueue = new PriorityQueue<Cell>((c1, c2) => {
+            if (c1.fCost > c2.fCost) return 1;
+            return -1;
+        });
+        this.openQueue.enqueue(this.departure);
+        this.departure.isObserved = true;
+        this.departure.fCost = 0;
+        this.departure.gCost = 0;
     }
 }
 

@@ -8,6 +8,7 @@ export class SimuEnginePerlin extends SimuEngine {
     private gradP: Vec2[];
     private time: number;
     private scale: number;
+    private colors: { red: number; green: number; blue: number } [];
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
@@ -31,6 +32,13 @@ export class SimuEnginePerlin extends SimuEngine {
         }
 
         this.init();   
+
+        this.colors = [];
+        for (const color of DrawingUtils.getColors()) {
+            const colorObj = DrawingUtils.parseRGBA(color);
+            if (!colorObj) continue;
+            this.colors.push(colorObj);
+        }
     }
 
     init(): void {
@@ -54,7 +62,7 @@ export class SimuEnginePerlin extends SimuEngine {
                 let colorValue = Math.floor((noiseValue + 1) * (colors.length-1));
                 if (colorValue > colors.length-1) colorValue = colors.length-1;
 
-                const colorRGB = DrawingUtils.parseRGBA(colors[colorValue]);
+                const colorRGB = this.colors[colorValue];
 
                 if (colorRGB) {
                     this.setPixel(x, y, new Pixel(colorRGB.red, colorRGB.green, colorRGB.blue, 255));

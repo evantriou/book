@@ -16,7 +16,7 @@ export class ToolbarPerlin extends Toolbar {
     getButtons(): JSX.Element {
         return (
             <ButtonGroup style={{width:'100%', justifyContent:'space-between'}}>
-                <Slider style={{margin:'0.5rem'}} marks={{0.00 : <div style={{color:'antiquewhite'}}>SMOOTH</div>}} min={-1.0} max={1.0} step={0.001} defaultValue={this.userCoef} onChange={(evt)=>{this.exportToEngine(evt)}}></Slider>
+                <Slider style={{margin:'0.5rem'}} marks={{0.00 : <div style={{color:'antiquewhite'}}>SMOOTH</div>}} min={-0.5} max={0.5} step={0.001} defaultValue={this.userCoef} onChange={(evt)=>{this.exportToEngine(evt)}}></Slider>
             </ButtonGroup>
         );
     }
