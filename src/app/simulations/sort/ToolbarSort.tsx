@@ -1,15 +1,25 @@
-import { ButtonGroup } from "react-bootstrap";
+import { ButtonGroup, Dropdown } from "react-bootstrap";
 import { Toolbar } from "../Toolbar";
 
-// Toolbar for Paths Simulation
 export class ToolbarSort extends Toolbar {
 
     getButtons(): JSX.Element {
-        // Implement the toolbar for Paths Simulation
         return (
-            // JSX elements for the toolbar in Paths Simulation
             <ButtonGroup>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Algos
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => this.choose('Bubble')}>Bubble</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.choose('Fusion')}>Fusion</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </ButtonGroup>
         );
+    }
+
+    choose(algo: string) {
+        this.simuEngine.updateSettings(algo);
     }
 }

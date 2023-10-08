@@ -13,6 +13,7 @@ export class SimuEngineSort extends SimuEngine {
     private sortedBars: Bar[];
     private moves: Move[];
     private timer: number;
+    private algoName: string;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
@@ -21,6 +22,7 @@ export class SimuEngineSort extends SimuEngine {
         this.maxBarValue = 50;
         this.valueToHeightRatio = this.canvas.height / this.maxBarValue;
         this.barWidth = this.canvas.width / this.numBars;
+        this.algoName = 'Bubble';
         this.displayedBars = [];
         this.sortedBars = [];
         this.moves = [];
@@ -31,14 +33,14 @@ export class SimuEngineSort extends SimuEngine {
     init(): void {
         if (!this.ctx) return;
         for (let i = 0; i < this.numBars; i++) {
-            const value = Math.floor(Math.random() * (this.maxBarValue)) + Math.floor(0.001*this.diagLength);
+            const value = Math.floor(Math.random() * (this.maxBarValue)) + Math.floor(0.001 * this.diagLength);
             const bar = new Bar(i, value);
             this.displayedBars.push(bar);
             this.sortedBars.push(bar.clone());
         }
-            
+
         DrawingUtils.clearCanvas(this.ctx, this.canvas);
-            
+
         // Loop through the bars and render each one
         for (const bar of this.displayedBars) {
             this.renderBar(bar);
@@ -60,18 +62,38 @@ export class SimuEngineSort extends SimuEngine {
     // Function to calculate the circle color based on this.r
     private getColorBasedOnDistance(height: number, minHeight: number, maxHeight: number): string {
 
-        const colors = DrawingUtils.getColors();       
+        const colors = DrawingUtils.getColors();
 
         // Create an interpolation function for colors
         const interpolateRes = interpolateRgbBasisClosed(colors);
-    
+
         // Interpolate the color based on radius
         const color = interpolateRes((height - minHeight) / (minHeight - maxHeight));
-    
+
         return color;
     }
 
     sort(): void {
+        if (this.algoName === 'Bubble') {
+            this.bubbleSort();
+        }
+        else {
+            this.fusionSort(0, this.sortedBars.length - 1);
+            const toRmv: Set<Move> = new Set();
+            for (let i = 1; i < this.moves.length; i ++) {
+                const move = this.moves[i-1];
+                const nextMove = this.moves[i];
+                if (move.sourceIndex === nextMove.targetIndex && move.targetIndex === nextMove.sourceIndex) {
+                    toRmv.add(nextMove);
+                }
+            }
+            for (const nextMove of toRmv) {
+                this.moves.splice(this.moves.indexOf(nextMove),1);
+            }
+        }
+    }
+
+    bubbleSort(): void {
         // Implement your sorting algorithm here (e.g., bubble sort)
         const n = this.sortedBars.length;
         for (let i = 0; i < n - 1; i++) {
@@ -79,18 +101,92 @@ export class SimuEngineSort extends SimuEngine {
                 if (this.sortedBars[j].value > this.sortedBars[j + 1].value) {
 
                     const movingBar = this.sortedBars[j];
-                    const targetedBar = this.sortedBars[j+1];
+                    const targetedBar = this.sortedBars[j + 1];
 
-                    this.sortedBars[j+1] = movingBar;
-                    movingBar.index = j+1;
-        
+                    this.sortedBars[j + 1] = movingBar;
+
                     this.sortedBars[j] = targetedBar;
-                    targetedBar.index = j;
-                   
+
                     // Record the move
                     this.moves.push(new Move(j, j + 1));
                 }
             }
+        }
+    }
+
+    private fusionSort(left: number, right: number): void {
+        if (left < right) {
+            const mid = Math.floor(left + ((right - left) / 2));
+
+            this.fusionSort(left, mid);
+            this.fusionSort(mid + 1, right);
+
+            this.merge(left, mid, right);
+        }
+    }
+
+    // TODO re think to avoid all n to n comparisons.
+    private merge(left: number, mid: number, right: number): void {
+        const n1 = mid - left + 1;
+        const n2 = right - mid;
+
+        const leftArray: Bar[] = this.sortedBars.slice(left, left + n1);
+        const rightArray: Bar[] = this.sortedBars.slice(mid + 1, mid + 1 + n2);
+
+        let i = 0;
+        let j = 0;
+        let k = left;
+
+        while (i < n1 && j < n2) {
+            let source: Bar;
+            let target: Bar;
+            if (leftArray[i].value <= rightArray[j].value) {
+                source = leftArray[i];
+                target = this.sortedBars[k];
+                i++;
+            } else {
+                source = rightArray[j];
+                target = this.sortedBars[k];
+                j++;
+            }
+            this.sortedBars[source.index] = target;
+            this.sortedBars[source.index].index = source.index;
+
+            this.sortedBars[k] = source;
+            this.sortedBars[k].index = k;
+
+            this.moves.push(new Move(target.index, k));
+            k++;
+        }
+
+        while (i < n1) {
+            const source = leftArray[i];
+            const target = this.sortedBars[k];
+
+            this.sortedBars[source.index] = target;
+            this.sortedBars[source.index].index = source.index;
+
+            this.sortedBars[k] = source;
+            this.sortedBars[k].index = k;
+
+            this.moves.push(new Move(target.index, k));
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            const source = rightArray[j];
+            const target = this.sortedBars[k];
+
+            this.sortedBars[source.index] = target;
+            this.sortedBars[source.index].index = source.index;
+
+            this.sortedBars[k] = source;
+            this.sortedBars[k].index = k;
+
+            this.moves.push(new Move(target.index, k));
+            j++;
+            k++;
         }
     }
 
@@ -116,7 +212,7 @@ export class SimuEngineSort extends SimuEngine {
 
             this.timer++;
         }
-    
+
         // Loop through the bars and render each one
         for (const bar of this.displayedBars) {
             this.renderBar(bar);
@@ -130,6 +226,12 @@ export class SimuEngineSort extends SimuEngine {
     }
 
     updateSettings(settings: any): void {
+        this.algoName = settings;
+        this.displayedBars = [];
+        this.sortedBars = [];
+        this.moves = [];
+        this.timer = 0;
+        this.init();
     }
 }
 
@@ -148,5 +250,5 @@ class Bar {
 }
 
 class Move {
-    constructor(public sourceIndex: number, public targetIndex: number) {}
+    constructor(public sourceIndex: number, public targetIndex: number) { }
 }
