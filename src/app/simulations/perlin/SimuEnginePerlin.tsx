@@ -15,7 +15,7 @@ export class SimuEnginePerlin extends SimuEngine {
 
         this.pixelMatrix = null;
         this.time = 0.5;
-        this.scale = 0.05;
+        this.scale = 0.02;
 
         // Initialize permutation array
         this.perm = [...Array(512)].map(() => Math.floor(Math.random() * 256));
@@ -34,8 +34,9 @@ export class SimuEnginePerlin extends SimuEngine {
         this.init();   
 
         this.colors = [];
-        for (const color of DrawingUtils.getColors()) {
-            const colorObj = DrawingUtils.parseRGBA(color);
+        const offiColors = DrawingUtils.getColors();
+        for (let i = 0; i < offiColors.length; i ++) {
+            const colorObj = DrawingUtils.parseRGBA(offiColors[i]);
             if (!colorObj) continue;
             this.colors.push(colorObj);
         }
@@ -49,24 +50,37 @@ export class SimuEnginePerlin extends SimuEngine {
 
     do(): void {
         if (!this.ctx || !this.pixelMatrix) return;
-
-        const colors = DrawingUtils.getColors();
         
         DrawingUtils.clearCanvas(this.ctx, this.canvas);
 
+        const layerNbr = 5;
         for (let x = 0; x < this.canvas.width; x++) {
             for (let y = 0; y < this.canvas.height; y++) {
 
-                const noiseValue = this.perlin2(x * this.scale, y * this.scale);
-
-                let colorValue = Math.floor((noiseValue + 1) * (colors.length-1));
-                if (colorValue > colors.length-1) colorValue = colors.length-1;
-
-                const colorRGB = this.colors[colorValue];
-
-                if (colorRGB) {
-                    this.setPixel(x, y, new Pixel(colorRGB.red, colorRGB.green, colorRGB.blue, 255));
+                let avgRed = 0;
+                let avgGreen = 0;
+                let avgBlue = 0;
+                let avgAlpha = 0;
+                for (let i = 0; i < layerNbr; i++) {
+                    let currScale = i*this.scale;
+                    const noiseValue = this.perlin2(x * currScale, y * currScale);
+                    let colorValue = Math.floor((noiseValue + 1) * (this.colors.length-1));
+                    if (colorValue > this.colors.length-1) colorValue = this.colors.length-1;
+                    const colorRGB = this.colors[colorValue];
+                    avgRed += colorRGB.red;
+                    avgGreen += colorRGB.green;
+                    avgBlue += colorRGB.blue;
+                    avgAlpha += 255 - i*50;
                 }
+
+                avgRed /= layerNbr;
+                avgGreen /= layerNbr;
+                avgBlue /= layerNbr;
+                avgAlpha /= layerNbr;
+
+                const averagePx: Pixel = new Pixel(avgRed, avgGreen, avgBlue, avgAlpha);
+                this.setPixel(x, y, averagePx);
+
             }
         }
 

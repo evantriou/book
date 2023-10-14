@@ -103,15 +103,10 @@ function Show() {
 					<div className='ShowSlideText'>
 						<span className="title">COMMING NEXT ?</span>
 						<ul>
-							<li>Add simulation toolbars to enable user interactions.</li>
-							<ul>
-								<li>Sort: allow user to choose quicksort or bubblesort.</li>
-								<li>Paths: allow user to draw walls.</li>
-								<li>TSP: allow user to ajust the number of cities on the tour.</li>
-								<li>Fractal: allow user to zoom in the Sierpinsky triangle.</li>
-								<li>Perlin noise: allow user to change the smoothness of the noise</li>
-								<li>DLA: allow user to modify the number of random walkers.</li>
-							</ul>
+							<li>Ant colony optimization visualization.</li>
+							<li>Fluid simulation.</li>
+							<li>Simple neural network apprentissage visualization.</li>
+							<li>DNA Driven life evolution simulation.</li>
 						</ul>
 					</div>
 					<Carousel.Caption className='ShowSlideCaption'>

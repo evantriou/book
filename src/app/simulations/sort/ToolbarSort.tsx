@@ -1,9 +1,11 @@
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 import { Toolbar } from "../Toolbar";
+import { SimuEngine } from "../SimuEngine";
 
 export class ToolbarSort extends Toolbar {
 
     getButtons(): JSX.Element {
+
         return (
             <ButtonGroup>
                 <Dropdown>

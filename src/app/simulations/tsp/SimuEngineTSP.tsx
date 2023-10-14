@@ -171,10 +171,6 @@ export class SimuEngineTSP extends SimuEngine {
         for (const city of this.cities) {
             this.renderCity(city);
         }
-
-
-        // Draw the path on top of the canvas
-        // this.renderPath();
     }
 
     private doMSTStep(): void {
@@ -278,11 +274,6 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.fill();
         this.ctx.closePath();
 
-        // this.ctx.fillStyle = 'white';
-        // this.ctx.font = 0.012*this.diagLength+'px Arial bold';
-        // this.ctx.textAlign = 'center';
-        // this.ctx.fillText(city.name +": "+this.finalTour.indexOf(city), x + 0.01*this.diagLength, y + 0.02*this.diagLength);
-
         let pushX: number = 0;
         let pushY: number = 0;
 
@@ -344,29 +335,6 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.lineTo(road.cityB.x, road.cityB.y);
         this.ctx.stroke();
         this.ctx.closePath();
-    }
-
-    private renderPath(): void {
-        if (!this.ctx) return;
-
-        // Draw the path on top of the canvas
-        const pathText = this.getPathString();
-        this.ctx.fillStyle = 'white';
-        this.ctx.font = 0.016*this.diagLength+'px Arial bold';
-        this.ctx.textAlign = 'center';
-
-        this.ctx.fillText(pathText, this.canvas.width / 2, 0.03*this.diagLength);
-    }
-
-    private getPathString(): string {
-        let path = "Path: ";
-        for (let i = 0; i < this.finalTour.length; i++) {
-            path += this.finalTour[i].name;
-            if (i < this.finalTour.length - 1) {
-                path += " - ";
-            }
-        }
-        return path;
     }
 
     stop(): void {
