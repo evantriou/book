@@ -4,6 +4,14 @@ import { Circle, Point } from "./Point";
 
 export class DrawingUtils {
 
+    public static getRndNbrBetween(min: number, max: number): number {
+        return (Math.random() * (max - min)) + min;
+    }
+
+    public static getRndInteger(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min) ) + min;
+    }
+
     public static distance(x1: number, y1: number, x2: number, y2: number) {
         const dx = x1 - x2;
         const dy = y1 - y2;
@@ -34,7 +42,7 @@ export class DrawingUtils {
         ctx.fillStyle = "rgba(51, 51, 51, 1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
-    
+
 
     // Colors palette
     public static getColors(): string[] {
@@ -54,17 +62,17 @@ export class DrawingUtils {
             .replace(')', '')
             .split(',')
             .map(value => parseInt(value.trim(), 10));
-    
+
         // Ensure there are exactly 4 values in the array
         if (values.length === 4) {
             const [red, green, blue] = values.slice(0, 3);
             return { red, green, blue };
         }
-    
+
         // Return null if the input string does not have the expected number of values
         return null;
     }
-    
+
 
     // Color gradient based on min to max.
     public static getColorBasedOnValue(value: number, min: number, max: number): string {
@@ -108,7 +116,7 @@ export class DrawingUtils {
 
         ctx.fillStyle = color;
         ctx.fillRect(x, y, sideLength, sideLength);
-    
+
         ctx.strokeStyle = colorBorders;
         ctx.lineWidth = 1;
         ctx.strokeRect(x, y, sideLength, sideLength);
@@ -128,5 +136,51 @@ export class DrawingUtils {
             y = 0;
         }
         return { x: x, y: y };
+    }
+
+    public static noise1D(amplitude: number, scale: number): Simple1DNoise  {
+        return new Simple1DNoise(amplitude, scale);
+    }
+
+
+}
+
+// From https://www.michaelbromley.co.uk/blog/simple-1d-noise-in-javascript/
+export class Simple1DNoise {
+    private MAX_VERTICES = 256;
+    private MAX_VERTICES_MASK = this.MAX_VERTICES - 1;
+    private amplitude = 1;
+    private scale = 1;
+    private r: number[] = [];
+
+    constructor(amplitude: number, scale: number) {
+        this.amplitude = amplitude;
+        this.scale = scale;
+        for (var i = 0; i < this.MAX_VERTICES; ++i) {
+            this.r.push(Math.random());
+        }
+    }
+
+    public getVal(x: number): number {
+        var scaledX = x * this.scale;
+        var xFloor = Math.floor(scaledX);
+        var t = scaledX - xFloor;
+        var tRemapSmoothstep = t * t * (3 - 2 * t);
+
+        /// Modulo using &#038;
+        var xMin = xFloor % this.MAX_VERTICES_MASK;
+        var xMax = (xMin + 1) % this.MAX_VERTICES_MASK;
+
+        var y = this.lerp(this.r[xMin], this.r[xMax], tRemapSmoothstep);
+
+        return y * this.amplitude;
+    }
+
+    private lerp(a: number, b: number, t: number): number {
+        return a * (1 - t) + b * t;
+    }
+
+    public setScale(scale: number): void {
+        this.scale = scale;
     }
 }

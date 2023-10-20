@@ -20,6 +20,8 @@ import { SimuEngineSort } from "./sort/SimuEngineSort";
 import { ToolbarSort } from "./sort/ToolbarSort";
 import { SimuEngineTSP } from "./tsp/SimuEngineTSP";
 import { ToolbarTSP } from "./tsp/ToolbarTSP";
+import { ToolbarAnts } from './ants/ToolbarAnts';
+import { SimuEngineAnts } from './ants/SimuEngineAnts';
 
 interface SimulationPopupProps {
     selectedSimulation: string;
@@ -90,6 +92,12 @@ function SimulationPopup({ selectedSimulation, closePopup }: SimulationPopupProp
     
         }
         else if (selectedSimulation === "Blob Simulation") {
+    
+            newSimuEngine = new SimuEngineDLA(canvas, context, diagLength);
+            newSimuToolbar = new ToolbarDLA(newSimuEngine);
+    
+        }
+        else if (selectedSimulation === "Ant Colony Simulation") {
     
             newSimuEngine = new SimuEngineDLA(canvas, context, diagLength);
             newSimuToolbar = new ToolbarDLA(newSimuEngine);

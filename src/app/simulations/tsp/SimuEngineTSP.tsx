@@ -8,11 +8,12 @@ export class SimuEngineTSP extends SimuEngine {
     private cityNbr: number;
 
     private cities: City[];
-    private roads: Road[];
+    private roads: Map<{a:City, b:City}, Road>;
 
     private computingMST: boolean;
     private computingTSP: boolean;
     private completedTSP: boolean;
+    private computingImprovements: boolean;
 
     private startCity: City | null;
 
@@ -25,14 +26,15 @@ export class SimuEngineTSP extends SimuEngine {
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, diagLength: number) {
         super(canvas, ctx, diagLength);
 
-        this.cityNbr = 0.05*this.diagLength;
+        this.cityNbr = 0.9*this.diagLength;
 
         this.cities = [];
-        this.roads = [];
+        this.roads = new Map();
 
         this.computingMST = false;
         this.computingTSP = false;
         this.completedTSP = false;
+        this.computingImprovements = false;
 
         this.startCity = null;
 
@@ -55,7 +57,7 @@ export class SimuEngineTSP extends SimuEngine {
         this.initTSP();
 
         DrawingUtils.clearCanvas(this.ctx, this.canvas);
-        for (const road of this.roads) {
+        for (const road of this.roads.values()) {
             this.renderRoad(road);
         }
         for (const city of this.cities) {
@@ -70,23 +72,20 @@ export class SimuEngineTSP extends SimuEngine {
         const marginY = 0.1*this.diagLength;
         const poisson = new PoissonDiskSampling({
             shape: [this.canvas.width - marginX * 2, this.canvas.height - marginY * 2],
-            minDistance: 0.1*this.diagLength,
-            maxDistance: 0.2*this.diagLength,
+            minDistance: 0.06*this.diagLength,
+            maxDistance: 0.01*this.diagLength,
         });
 
         // Generate points with Poisson disk sampling (may generate more than needed)
         const generatedPoints = poisson.fill();
 
         // Shift the points to center them on the canvas with margins
-        const points = generatedPoints.map(point => [point[0] + marginX, point[1] + marginY]).slice(0, this.cityNbr).slice(0,26);
-
-        const cityNames = 'abcdefghijklmnopqrstuvwxyz';
+        const points = generatedPoints.map(point => [point[0] + marginX, point[1] + marginY]).slice(0, this.cityNbr)
 
         // Convert generated points to cities
         for (let i = 0; i < points.length; i++) {
             const [x, y] = points[i];
-            const cityName = `City ${cityNames.charAt(i)}`;
-            const city = new City(cityName, x, y);
+            const city = new City(x, y);
             this.cities.push(city);
         }
 
@@ -102,9 +101,9 @@ export class SimuEngineTSP extends SimuEngine {
                 const roadJI = new Road(roadCost, this.cities[j], this.cities[i]);
 
                 this.cities[i].connectedRoads.add(roadIJ);
-                this.roads.push(roadIJ);
+                this.roads.set({a:this.cities[i], b:this.cities[j]},roadIJ);
                 this.cities[j].connectedRoads.add(roadJI);
-                this.roads.push(roadJI);   
+                this.roads.set({a:this.cities[j], b:this.cities[i]},roadJI);
             }
         }
     }
@@ -145,10 +144,14 @@ export class SimuEngineTSP extends SimuEngine {
                 // All cities have been visited in TSP, complete the tour
                 this.finishTSP();
                 this.computingTSP = false;
+                this.computingImprovements = true;
             }
         }
+        else if (this.computingImprovements) {
+            this.doImprovementStep();
+        }
 
-        for (const road of this.roads) {
+        for (const road of this.roads.values()) {
             this.renderRoad(road);
         }
 
@@ -245,6 +248,85 @@ export class SimuEngineTSP extends SimuEngine {
         }
     }
 
+    private doImprovementStep(): void {
+
+        let rndInxA = Math.floor(Math.random() * (this.finalTour.length - 2)) + 1;
+        let rndInxB = Math.floor(Math.random() * (this.finalTour.length - 2)) + 1;
+
+        if (rndInxA === rndInxB) return;
+        if (Math.abs(rndInxA - rndInxB) === 1) return;
+
+        if (rndInxA > rndInxB) {
+            let temp = rndInxA;
+            rndInxA = rndInxB;
+            rndInxB = temp;
+        }
+
+        this.finalTour = this.changeTourStart(this.finalTour, this.finalTour[rndInxA]);
+
+        rndInxA = 0;
+        const rndInxANext = 1;
+        const rndInxBNext = (rndInxB === this.finalTour.length - 1)?0:rndInxB+1;
+
+        const roadCostA =
+            Math.pow(this.finalTour[rndInxA].x - this.finalTour[rndInxANext].x, 2) +
+            Math.pow(this.finalTour[rndInxA].y - this.finalTour[rndInxANext].y, 2)
+        const roadCostB =
+            Math.pow(this.finalTour[rndInxB].x - this.finalTour[rndInxBNext].x, 2) +
+            Math.pow(this.finalTour[rndInxB].y -this.finalTour[rndInxBNext].y, 2)
+        
+        const roadCostNewA =
+            Math.pow(this.finalTour[rndInxA].x - this.finalTour[rndInxB].x, 2) +
+            Math.pow(this.finalTour[rndInxA].y -this.finalTour[rndInxB].y, 2)
+        const roadCostNewB =
+            Math.pow(this.finalTour[rndInxANext].x - this.finalTour[rndInxBNext].x, 2) +
+            Math.pow(this.finalTour[rndInxANext].y -this.finalTour[rndInxBNext].y, 2)        
+            
+        if (roadCostA + roadCostB < roadCostNewA + roadCostNewB) {
+            return;
+        }
+
+        // 2opt search, exchange two edges.
+        let tentativeTour: City [] = [];
+        tentativeTour.push(this.finalTour[0]);
+        for (let i = rndInxB; i >= 1; i --) {
+            tentativeTour.push(this.finalTour[i]);
+        }
+        for (let i = rndInxB+1; i < this.finalTour.length; i ++) {
+            tentativeTour.push(this.finalTour[i]);
+        }
+
+        this.finalTour = tentativeTour;
+
+        this.checkConsistency();
+    }
+
+    private checkConsistency(): void {
+        const cities: Set<City> = new Set();
+        for (const city of this.finalTour) {
+            if (cities.has(city)) {
+                if (city !== this.startCity) {
+                    this.ctx.fillStyle = "rgba(255, 0, 0, 1)";
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                }
+            }
+            else {
+                cities.add(city);
+            }
+        }
+    }
+
+    private changeTourStart(tour: City [], newStart: City): City [] {
+        this.startCity = newStart;
+        tour.splice(-1)
+        const index = tour.indexOf(newStart);
+        const part = tour.slice(0, index);
+        tour = tour.slice(index);
+        tour = tour.concat(part);
+        tour.push(newStart);
+        return tour;
+    }
+
     // Render a city as a circle with different colors and sizes based on their properties
     private renderCity(city: City): void {
         if (!this.ctx) return;
@@ -255,7 +337,7 @@ export class SimuEngineTSP extends SimuEngine {
         let circleColor = colors[3];
 
         if (city === this.startCity) {
-            circleRadius = 0.005*this.diagLength;;
+            circleRadius = 0.008*this.diagLength;
             circleColor = colors[0];
         }
         else if (city.visited) {
@@ -274,38 +356,38 @@ export class SimuEngineTSP extends SimuEngine {
         this.ctx.fill();
         this.ctx.closePath();
 
-        let pushX: number = 0;
-        let pushY: number = 0;
+        // let pushX: number = 0;
+        // let pushY: number = 0;
 
-        if (x < this.canvas.width / 2) {
-            pushX -= 0.05*this.diagLength;
-        }
-        else{
-            pushX += 0.05*this.diagLength;
-        }
-        if (y < this.canvas.height / 2) {
-            pushY -= 0.05*this.diagLength;
-        }
-        else{
-            pushY += 0.05*this.diagLength;
-        }
+        // if (x < this.canvas.width / 2) {
+        //     pushX -= 0.05*this.diagLength;
+        // }
+        // else{
+        //     pushX += 0.05*this.diagLength;
+        // }
+        // if (y < this.canvas.height / 2) {
+        //     pushY -= 0.05*this.diagLength;
+        // }
+        // else{
+        //     pushY += 0.05*this.diagLength;
+        // }
 
-        let nameX = x + pushX;
-        let nameY = y + pushY;
+        // let nameX = x + pushX;
+        // let nameY = y + pushY;
 
-        this.ctx.fillStyle = 'rgba(255,255,255,0.75)';
-        // Define the position and dimensions of the panel
-        const panelX = nameX - 0.03 * this.diagLength; // Adjust the X position as needed
-        const panelY = nameY - 0.015 * this.diagLength; // Adjust the Y position as needed
-        const panelWidth = 0.06 * this.diagLength; // Adjust the width as needed
-        const panelHeight = 0.02 * this.diagLength; // Adjust the height as needed
+        // this.ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        // // Define the position and dimensions of the panel
+        // const panelX = nameX - 0.03 * this.diagLength; // Adjust the X position as needed
+        // const panelY = nameY - 0.015 * this.diagLength; // Adjust the Y position as needed
+        // const panelWidth = 0.06 * this.diagLength; // Adjust the width as needed
+        // const panelHeight = 0.02 * this.diagLength; // Adjust the height as needed
 
-        this.ctx.fillRect(panelX, panelY, panelWidth, panelHeight);
+        // this.ctx.fillRect(panelX, panelY, panelWidth, panelHeight);
 
-        this.ctx.font = 0.012 * this.diagLength + 'px Arial bold';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillStyle = 'purple'; // Set text color to black (or any desired color)
-        this.ctx.fillText(city.name + ": " + this.finalTour.indexOf(city), nameX, nameY);
+        // this.ctx.font = 0.012 * this.diagLength + 'px Arial bold';
+        // this.ctx.textAlign = 'center';
+        // this.ctx.fillStyle = 'purple'; // Set text color to black (or any desired color)
+        // this.ctx.fillText(city.name + ": " + this.finalTour.indexOf(city), nameX, nameY);
     }
 
     // Render a road segment with different colors and sizes based on their properties
@@ -347,7 +429,6 @@ export class SimuEngineTSP extends SimuEngine {
 }
 
 class City {
-    public name: string;
     public x: number;
     public y: number;
     public connectedRoads: Set<Road>;
@@ -355,8 +436,7 @@ class City {
     public visited: boolean;
     public childrenMST: City[];
 
-    constructor(name: string, x: number, y: number) {
-        this.name = name;
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.connectedRoads = new Set();

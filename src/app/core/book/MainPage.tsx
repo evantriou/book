@@ -69,6 +69,18 @@ function MainPage() {
 			description: "Diffusion-Limited Aggregation in 2D canvas.",
 			handleTryClick: () => handleTryClick("Fractal Simulation"),
 			pathImg: blobImg
+		},
+		{
+			tabName: "Fluid Simulation",
+			description: "Comming soon.",
+			handleTryClick: () => handleTryClick("Fluid Simulation"),
+			pathImg: blobImg
+		},
+		{
+			tabName: "Ant Colony Simulation",
+			description: "Comming soon.",
+			handleTryClick: () => handleTryClick("Ant colony Simulation"),
+			pathImg: blobImg
 		}
 	];
 
